@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:spentall_mobile/pages/analytics_page.dart';
-import 'package:spentall_mobile/pages/home_page.dart';
-import 'package:spentall_mobile/pages/list_page.dart';
-import 'package:spentall_mobile/pages/settings_page.dart';
+
+import './analytics_page.dart';
+import './home_page.dart';
+import './list_page.dart';
+import './settings_page.dart';
+
+import '../assets/spent_all_icons.dart';
 
 class TabsPage extends StatefulWidget {
   @override
@@ -11,10 +14,18 @@ class TabsPage extends StatefulWidget {
 
 class _TabsPageState extends State<TabsPage> {
   final List<Map<String, Object>> _pages = [
-    {'page': HomePage(), 'title': 'Home', 'icon': Icons.home},
-    {'page': ListPage(), 'title': 'List', 'icon': Icons.list},
-    {'page': AnalyticsPage(), 'title': 'Analytics', 'icon': Icons.pie_chart},
-    {'page': SettingsPage(), 'title': 'Settings', 'icon': Icons.settings}
+    {'page': HomePage(), 'title': 'Home', 'icon': SpentAllIcons.home},
+    {'page': ListPage(), 'title': 'List', 'icon': SpentAllIcons.list},
+    {
+      'page': AnalyticsPage(),
+      'title': 'Analytics',
+      'icon': SpentAllIcons.analytics
+    },
+    {
+      'page': SettingsPage(),
+      'title': 'Settings',
+      'icon': SpentAllIcons.settings
+    }
   ];
 
   int _selectedPageIndex = 0;
