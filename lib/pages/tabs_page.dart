@@ -58,6 +58,21 @@ class _TabsPageState extends State<TabsPage> {
               icon: Icon(tab['icon']), title: Text(tab['title']));
         }).toList(),
       ),
+      // bottomNavigationBar: BottomAppBar(
+      //   child: new Row(
+      //       mainAxisSize: MainAxisSize.max,
+      //       mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //       children: _pages.map((tab) {
+      //         return Container(
+      //           height: 60,
+      //           child: Column(
+      //             crossAxisAlignment: CrossAxisAlignment.center,
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             children: <Widget>[Icon(tab['icon']), Text(tab['title'])],
+      //           ),
+      //         );
+      //       }).toList()),
+      // ),
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.add,
