@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import './providers/expenses_provider.dart';
+import 'providers/expenses.dart';
 
 import './pages/tabs_page.dart';
 
@@ -28,12 +28,29 @@ class MyApp extends StatelessWidget {
             accentColor: Color.fromRGBO(255, 185, 246, 1),
             fontFamily: 'Karla',
             textTheme: TextTheme(
-                // bodyText1: TextStyle(color: Color.fromRGBO(247, 249, 252, 1)),
-                headline1: TextStyle(
-                    color: Color.fromRGBO(255, 185, 246, 1),
-                    fontSize: 22,
-                    fontFamily: 'Rubik',
-                    fontWeight: FontWeight.normal))),
+              bodyText1: TextStyle(color: Color.fromRGBO(247, 249, 252, 1)),
+              subtitle1: TextStyle(
+                  color: Color.fromRGBO(102, 114, 228, 1),
+                  fontWeight: FontWeight.w900),
+              subtitle2: TextStyle(
+                  color: Color.fromRGBO(247, 249, 252, 1),
+                  fontWeight: FontWeight.w500,
+                  fontSize: 14),
+              headline1: TextStyle(
+                  color: Color.fromRGBO(255, 185, 246, 1),
+                  fontSize: 22,
+                  fontFamily: 'Rubik',
+                  fontWeight: FontWeight.normal),
+              headline2: TextStyle(
+                  color: Color.fromRGBO(247, 249, 252, 1),
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+              headline3: TextStyle(
+                  color: Color.fromRGBO(102, 114, 228, 1),
+                  fontSize: 22,
+                  fontFamily: 'Rubik',
+                  fontWeight: FontWeight.bold),
+            )),
         home: TabsPage(),
         routes: {
           // CategoryMealsPage.routeName: (ctx) => CategoryMealsPage(),

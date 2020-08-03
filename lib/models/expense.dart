@@ -6,7 +6,7 @@ class Expense {
   final String currency;
   final String type;
   final String notes;
-  final int amount;
+  final double amount;
   final DateTime timestamp;
 
   Expense(
