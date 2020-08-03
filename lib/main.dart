@@ -30,14 +30,14 @@ class MyApp extends StatelessWidget {
             textTheme: TextTheme(
               bodyText1: TextStyle(color: Color.fromRGBO(247, 249, 252, 1)),
               bodyText2: TextStyle(
-                  color: Color.fromRGBO(102, 114, 228, 1), fontSize: 14),
+                  color: Color.fromRGBO(102, 114, 228, 1), fontSize: 16),
               subtitle1: TextStyle(
                   color: Color.fromRGBO(102, 114, 228, 1),
                   fontWeight: FontWeight.w900),
               subtitle2: TextStyle(
                   color: Color.fromRGBO(247, 249, 252, 1),
                   fontWeight: FontWeight.w500,
-                  fontSize: 14),
+                  fontSize: 16),
               headline1: TextStyle(
                   color: Color.fromRGBO(255, 185, 246, 1),
                   fontSize: 22,

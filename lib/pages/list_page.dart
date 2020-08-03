@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:spentall_mobile/assets/spent_all_icons.dart';
 
 import '../providers/expenses.dart';
 
@@ -27,25 +28,55 @@ class ListPage extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyText2,
             ),
             trailing: IconButton(
-              icon: Icon(Icons.calendar_today),
+              icon: Icon(
+                SpentAllIcons.filter,
+                color: Theme.of(context).canvasColor,
+              ),
               onPressed: () {},
             ),
           ),
         ),
-        Container(
-          width: double.infinity,
-          height: 300,
-          child: ListView.builder(
-            itemBuilder: (ctx, i) {
-              return ExpenseItem(
-                id: _expenseData.filteredExpenses.values.toList()[i].id,
-                amount: _expenseData.filteredExpenses.values.toList()[i].amount,
-                type: _expenseData.filteredExpenses.values.toList()[i].type,
-                timestamp:
-                    _expenseData.filteredExpenses.values.toList()[i].timestamp,
-              );
-            },
-            itemCount: _expenseData.filteredExpenses.length,
+        if (_expenseData.selectedExpenses.length >= 1)
+          Card(
+              color: Theme.of(context).backgroundColor,
+              elevation: 5,
+              margin: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+              child: Padding(
+                padding: const EdgeInsets.all(14),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      '${_expenseData.selectedExpenses.length} selected',
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: Text(
+                        'Delete',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                ),
+              )),
+        Expanded(
+          child: Container(
+            width: double.infinity,
+            child: ListView.builder(
+              itemBuilder: (ctx, i) {
+                return ExpenseItem(
+                  id: _expenseData.filteredExpenses.values.toList()[i].id,
+                  amount:
+                      _expenseData.filteredExpenses.values.toList()[i].amount,
+                  type: _expenseData.filteredExpenses.values.toList()[i].type,
+                  timestamp: _expenseData.filteredExpenses.values
+                      .toList()[i]
+                      .timestamp,
+                );
+              },
+              itemCount: _expenseData.filteredExpenses.length,
+            ),
           ),
         )
       ],

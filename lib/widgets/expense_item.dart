@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:spentall_mobile/assets/spent_all_icons.dart';
 
 import '../providers/expenses.dart';
 
@@ -34,13 +35,14 @@ class ExpenseItem extends StatelessWidget {
                 'Delete',
                 style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(context).canvasColor),
+                    color: Theme.of(context).canvasColor,
+                    fontSize: 16),
               ),
             ),
             Icon(
-              Icons.delete,
+              SpentAllIcons.trash,
               color: Theme.of(context).canvasColor,
-              size: 30,
+              size: 24,
             ),
           ],
         ),

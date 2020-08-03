@@ -30,6 +30,46 @@ class Expenses with ChangeNotifier {
             DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
         type: 'food',
         userId: '1'),
+    '4': Expense(
+        id: '4',
+        amount: 18.0,
+        currency: 'HKD',
+        timestamp:
+            DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
+        type: 'food',
+        userId: '1'),
+    '5': Expense(
+        id: '5',
+        amount: 18.0,
+        currency: 'HKD',
+        timestamp:
+            DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
+        type: 'food',
+        userId: '1'),
+    '6': Expense(
+        id: '6',
+        amount: 18.0,
+        currency: 'HKD',
+        timestamp:
+            DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
+        type: 'food',
+        userId: '1'),
+    '7': Expense(
+        id: '7',
+        amount: 18.0,
+        currency: 'HKD',
+        timestamp:
+            DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
+        type: 'food',
+        userId: '1'),
+    '8': Expense(
+        id: '8',
+        amount: 18.0,
+        currency: 'HKD',
+        timestamp:
+            DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
+        type: 'food',
+        userId: '1'),
   };
 
   Map<String, bool> _selectedExpenses = {};
