@@ -50,25 +50,37 @@ class ExpenseItem extends StatelessWidget {
       ),
       direction: DismissDirection.endToStart,
       key: ValueKey(id),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(3),
-            color: Theme.of(context).buttonColor),
+      child: Card(
+        elevation: 5,
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        child: ListTile(
-          leading: CustomRadio(false, () {
-            expenseData.toggleSelected(id);
-          }),
-          title: Text(
-            '\$$amount',
-            style: Theme.of(context).textTheme.headline2,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(3),
+            color: Theme.of(context).buttonColor,
           ),
-          subtitle: Text(
-            type,
-            style: Theme.of(context).textTheme.subtitle2,
+          child: ListTile(
+            leading: Column(
+              children: <Widget>[
+                Expanded(
+                  child: CustomRadio(
+                      isSelected: expenseData.selectedExpenses.containsKey(id),
+                      onTap: () {
+                        expenseData.toggleSelected(id);
+                      }),
+                )
+              ],
+            ),
+            title: Text(
+              '\$$amount',
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            subtitle: Text(
+              type,
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
+            trailing: Text(DateFormat('d MMM').format(timestamp),
+                style: Theme.of(context).textTheme.subtitle2),
           ),
-          trailing: Text(DateFormat('d MMM').format(timestamp),
-              style: Theme.of(context).textTheme.subtitle2),
         ),
       ),
     );

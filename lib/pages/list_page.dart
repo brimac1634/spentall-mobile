@@ -14,16 +14,18 @@ class ListPage extends StatelessWidget {
     return Column(
       children: <Widget>[
         Card(
-          color: Theme.of(context).accentColor,
+          color: Theme.of(context).backgroundColor,
           elevation: 5,
           margin: EdgeInsets.all(10),
           child: ListTile(
             title: Text(
               '\$${_expenseData.totalFilteredAmount}',
-              style: Theme.of(context).textTheme.headline3,
+              style: Theme.of(context).textTheme.headline4,
             ),
             subtitle: Text(
-                '${DateFormat(_dateFilterFormat).format(_expenseData.timeFilter[0])} to ${DateFormat(_dateFilterFormat).format(_expenseData.timeFilter[1])}'),
+              '${DateFormat(_dateFilterFormat).format(_expenseData.timeFilter[0])} to ${DateFormat(_dateFilterFormat).format(_expenseData.timeFilter[1])}',
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
             trailing: IconButton(
               icon: Icon(Icons.calendar_today),
               onPressed: () {},
@@ -36,6 +38,7 @@ class ListPage extends StatelessWidget {
           child: ListView.builder(
             itemBuilder: (ctx, i) {
               return ExpenseItem(
+                id: _expenseData.filteredExpenses.values.toList()[i].id,
                 amount: _expenseData.filteredExpenses.values.toList()[i].amount,
                 type: _expenseData.filteredExpenses.values.toList()[i].type,
                 timestamp:

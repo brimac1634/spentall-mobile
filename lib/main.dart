@@ -22,13 +22,15 @@ class MyApp extends StatelessWidget {
         title: 'Spentall',
         theme: ThemeData(
             canvasColor: Color.fromRGBO(102, 114, 228, 1),
-            primaryColor: Color.fromRGBO(247, 249, 252, 1),
+            primaryColor: Color.fromRGBO(102, 114, 228, 1),
             buttonColor: Color.fromRGBO(129, 158, 252, 1),
-            backgroundColor: Color.fromRGBO(102, 114, 228, 1),
+            backgroundColor: Color.fromRGBO(247, 249, 252, 1),
             accentColor: Color.fromRGBO(255, 185, 246, 1),
             fontFamily: 'Karla',
             textTheme: TextTheme(
               bodyText1: TextStyle(color: Color.fromRGBO(247, 249, 252, 1)),
+              bodyText2: TextStyle(
+                  color: Color.fromRGBO(102, 114, 228, 1), fontSize: 14),
               subtitle1: TextStyle(
                   color: Color.fromRGBO(102, 114, 228, 1),
                   fontWeight: FontWeight.w900),
@@ -49,6 +51,10 @@ class MyApp extends StatelessWidget {
                   color: Color.fromRGBO(102, 114, 228, 1),
                   fontSize: 22,
                   fontFamily: 'Rubik',
+                  fontWeight: FontWeight.bold),
+              headline4: TextStyle(
+                  color: Color.fromRGBO(102, 114, 228, 1),
+                  fontSize: 18,
                   fontWeight: FontWeight.bold),
             )),
         home: TabsPage(),

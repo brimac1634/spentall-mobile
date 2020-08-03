@@ -63,7 +63,7 @@ class Expenses with ChangeNotifier {
   }
 
   void toggleSelected(String id) {
-    if (_selectedExpenses[id]) {
+    if (_selectedExpenses.containsKey(id)) {
       _selectedExpenses.remove(id);
     } else {
       _selectedExpenses[id] = true;

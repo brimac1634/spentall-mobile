@@ -42,15 +42,15 @@ class _TabsPageState extends State<TabsPage> {
       appBar: AppBar(
         title: Text(
           _pages[_selectedPageIndex]['title'],
-          style: TextStyle(color: Theme.of(context).backgroundColor),
+          style: Theme.of(context).textTheme.headline1,
         ),
       ),
       body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectPage,
         backgroundColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.grey,
-        selectedItemColor: Theme.of(context).backgroundColor,
+        unselectedItemColor: Theme.of(context).backgroundColor,
+        selectedItemColor: Theme.of(context).accentColor,
         currentIndex: _selectedPageIndex,
         type: BottomNavigationBarType.fixed,
         items: _pages.map((tab) {
