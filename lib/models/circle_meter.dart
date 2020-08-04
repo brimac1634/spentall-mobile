@@ -37,7 +37,6 @@ class CircleMeter extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
-    throw UnimplementedError();
+    return true;
   }
 }
