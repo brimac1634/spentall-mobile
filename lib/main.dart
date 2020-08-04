@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
             buttonColor: Color.fromRGBO(129, 158, 252, 1),
             backgroundColor: Color.fromRGBO(247, 249, 252, 1),
             accentColor: Color.fromRGBO(255, 185, 246, 1),
+            cursorColor: Color.fromRGBO(196, 240, 255, 1),
             fontFamily: 'Karla',
             textTheme: TextTheme(
               bodyText1: TextStyle(color: Color.fromRGBO(247, 249, 252, 1)),
