@@ -23,7 +23,7 @@ class CircleMeter extends CustomPainter {
       ..strokeWidth = strokeWidth
       ..color = foreColor
       ..style = PaintingStyle.stroke
-      ..strokeCap = StrokeCap.round;
+      ..strokeCap = StrokeCap.butt;
 
     Offset center = Offset(size.width / 2, size.height / 2);
     double radius = min(size.width / 2, size.height / 2) - strokeWidth;

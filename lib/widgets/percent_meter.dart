@@ -1,43 +1,66 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import '../models/circle_meter.dart';
 
-class PercentMeter extends StatelessWidget {
-  // AnimationController percentController;
-  // Animation animation;
+class PercentMeter extends StatefulWidget {
+  final double percentage;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   percentController = AnimationController(
-  //       vsync: this, duration: Duration(milliseconds: 2000));
-  //   animation = Tween<double>(begin: 0, end: 80).animate(percentController);
-  // }
+  PercentMeter(@required this.percentage);
+
+  @override
+  _PercentMeterState createState() => _PercentMeterState();
+}
+
+class _PercentMeterState extends State<PercentMeter>
+    with SingleTickerProviderStateMixin {
+  AnimationController _percentController;
+  Animation _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _percentController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 2000));
+    _animation = Tween<double>(begin: 0, end: widget.percentage)
+        .animate(_percentController);
+    _percentController.forward();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _percentController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      foregroundPainter: CircleMeter(
-          // currentPercent: animation.value,
-          currentPercent: 60,
-          backColor: Theme.of(context).buttonColor,
-          foreColor: Theme.of(context).cursorColor),
-      child: Center(
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.8,
-          height: MediaQuery.of(context).size.width * 0.8,
+    return AnimatedBuilder(
+      animation: _percentController,
+      builder: (ctx, _) {
+        return CustomPaint(
+          foregroundPainter: CircleMeter(
+              currentPercent: _animation.value,
+              backColor: Theme.of(context).buttonColor,
+              foreColor: Theme.of(context).cursorColor),
           child: Center(
-            child: Text(
-              // animation.value,
-              '60%',
-              style: TextStyle(
-                  color: Theme.of(context).accentColor,
-                  fontFamily: 'Karla',
-                  fontSize: 50),
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.width * 0.8,
+              child: Center(
+                child: Text(
+                  '${_animation.value.toInt()}%',
+                  style: TextStyle(
+                      color: Theme.of(context).accentColor,
+                      fontFamily: 'Karla',
+                      fontSize: 50),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

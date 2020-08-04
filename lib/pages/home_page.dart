@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
           Container(
             height: 30,
           ),
-          PercentMeter(),
+          PercentMeter(90),
           Text('11% of your monthly limit'),
           Text('or'),
           Text('\$868 out of \$8,000'),
