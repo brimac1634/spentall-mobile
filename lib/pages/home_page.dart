@@ -13,9 +13,21 @@ class HomePage extends StatelessWidget {
             height: 30,
           ),
           PercentMeter(90),
-          Text('11% of your monthly limit'),
-          Text('or'),
-          Text('\$868 out of \$8,000'),
+          Container(
+            height: 20,
+          ),
+          Text(
+            '11% of your monthly limit',
+            style: Theme.of(context).textTheme.headline2,
+          ),
+          Text(
+            'or',
+            style: Theme.of(context).textTheme.headline2,
+          ),
+          Text(
+            '\$868 out of \$8,000',
+            style: Theme.of(context).textTheme.headline2,
+          ),
         ]);
   }
 }

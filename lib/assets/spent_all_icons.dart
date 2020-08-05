@@ -26,5 +26,6 @@ class SpentAllIcons {
   static const IconData list = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData settings = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData filter = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData search = IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData trash = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

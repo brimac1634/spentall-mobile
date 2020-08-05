@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:spentall_mobile/assets/spent_all_icons.dart';
 
 import '../providers/expenses.dart';
 
 import '../widgets/expense_item.dart';
+import '../widgets/search_field.dart';
+
+import '../assets/spent_all_icons.dart';
 
 class ListPage extends StatelessWidget {
   static const _dateFilterFormat = 'd MMM yyyy';
+
   @override
   Widget build(BuildContext context) {
     final _expenseData = Provider.of<Expenses>(context);
@@ -19,22 +22,44 @@ class ListPage extends StatelessWidget {
           elevation: 5,
           margin: EdgeInsets.all(10),
           child: ListTile(
-            title: Text(
-              '\$${_expenseData.totalFilteredAmount}',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            subtitle: Text(
-              '${DateFormat(_dateFilterFormat).format(_expenseData.timeFilter[0])} to ${DateFormat(_dateFilterFormat).format(_expenseData.timeFilter[1])}',
-              style: Theme.of(context).textTheme.bodyText2,
-            ),
-            trailing: IconButton(
-              icon: Icon(
-                SpentAllIcons.filter,
-                color: Theme.of(context).canvasColor,
+              title: Text(
+                '\$${_expenseData.totalFilteredAmount}',
+                style: Theme.of(context).textTheme.headline4,
               ),
-              onPressed: () {},
-            ),
-          ),
+              subtitle: Text(
+                '${DateFormat(_dateFilterFormat).format(_expenseData.timeFilter[0])} to ${DateFormat(_dateFilterFormat).format(_expenseData.timeFilter[1])}',
+                style: Theme.of(context).textTheme.bodyText2,
+              ),
+              trailing: Container(
+                width: 150,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        SpentAllIcons.filter,
+                        color: Theme.of(context).canvasColor,
+                      ),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        SpentAllIcons.search,
+                        color: Theme.of(context).canvasColor,
+                      ),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              )),
+          // Padding(
+          //   padding: const EdgeInsets.all(10),
+          //   child: SearchField(
+          //     onSearch: (value) {
+          //       print(value);
+          //     },
+          //   ),
+          // )
         ),
         if (_expenseData.selectedExpenses.length >= 1)
           Card(
