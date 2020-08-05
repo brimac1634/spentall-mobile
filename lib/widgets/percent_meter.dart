@@ -43,7 +43,7 @@ class _PercentMeterState extends State<PercentMeter>
           foregroundPainter: CircleMeter(
               currentPercent: _animation.value,
               backColor: Theme.of(context).buttonColor,
-              foreColor: Theme.of(context).cursorColor),
+              foreColor: Theme.of(context).highlightColor),
           child: Center(
             child: Container(
               width: MediaQuery.of(context).size.width * 0.8,

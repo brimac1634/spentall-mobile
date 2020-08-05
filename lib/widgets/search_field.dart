@@ -17,7 +17,6 @@ class _SearchFieldState extends State<SearchField> {
     super.initState();
     _searchController = TextEditingController()
       ..addListener(() {
-        print('whats up');
         widget.onSearch(_searchController.text);
       });
   }
@@ -31,31 +30,12 @@ class _SearchFieldState extends State<SearchField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-      maxLines: 1,
-      controller: _searchController,
-      onSubmitted: (String value) async {
-        await showDialog<void>(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Thanks!'),
-              content: Text('You typed "$value".'),
-              actions: <Widget>[
-                FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
-      },
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Search',
-      ),
-    );
+        maxLines: 1,
+        controller: _searchController,
+        decoration: InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: 'Search',
+          labelStyle: TextStyle(color: Theme.of(context).canvasColor),
+        ));
   }
 }
