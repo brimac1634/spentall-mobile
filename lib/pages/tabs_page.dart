@@ -5,6 +5,8 @@ import './home_page.dart';
 import './list_page.dart';
 import './settings_page.dart';
 
+import '../widgets/expense_input.dart';
+
 import '../assets/spent_all_icons.dart';
 
 class TabsPage extends StatefulWidget {
@@ -34,6 +36,15 @@ class _TabsPageState extends State<TabsPage> {
     setState(() {
       _selectedPageIndex = index;
     });
+  }
+
+  void _showModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (_) => Container(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: ExpenseInput()),
+        isScrollControlled: true);
   }
 
   @override
@@ -79,7 +90,9 @@ class _TabsPageState extends State<TabsPage> {
           color: Theme.of(context).backgroundColor,
         ),
         backgroundColor: Theme.of(context).accentColor,
-        onPressed: () {},
+        onPressed: () {
+          _showModalBottomSheet(context);
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );

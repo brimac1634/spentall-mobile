@@ -33,9 +33,10 @@ class _SearchFieldState extends State<SearchField> {
         maxLines: 1,
         controller: _searchController,
         decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Search',
-          labelStyle: TextStyle(color: Theme.of(context).canvasColor),
-        ));
+            border: OutlineInputBorder(),
+            labelText: 'Search',
+            labelStyle: TextStyle(color: Theme.of(context).canvasColor),
+            filled: true,
+            fillColor: Theme.of(context).backgroundColor));
   }
 }
