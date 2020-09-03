@@ -71,12 +71,6 @@ class _ExpenseInputState extends State<ExpenseInput> {
               SizedBox(
                 height: 20,
               ),
-              // TextFormField(
-              //   decoration: InputDecoration(
-              //     labelText: 'Date',
-              //   ),
-              //   keyboardType: TextInputType.datetime,
-              // ),
               RaisedButton(
                 child: Text(
                     _selectedDate.isSameDay(DateTime.now())
@@ -90,35 +84,39 @@ class _ExpenseInputState extends State<ExpenseInput> {
               SizedBox(
                 height: 18,
               ),
-              Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(right: 12),
-                    child: RaisedButton(
-                      child: Text(
-                        _currency,
-                        style:
-                            TextStyle(color: Theme.of(context).backgroundColor),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3),
+                    border: Border.all()),
+                child: Row(
+                  children: [
+                    Container(
+                      child: FlatButton(
+                        child: Text(
+                          _currency,
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
+                        ),
+                        onPressed: _presentCurrencyPicker,
                       ),
-                      onPressed: _presentCurrencyPicker,
                     ),
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      // TODO: update to currency symbol of currency
-                      decoration: InputDecoration(
-                          labelText: 'Amount',
-                          prefixText: '\$',
-                          prefixStyle: TextStyle()),
-                      inputFormatters: [
-                        FilteringTextInputFormatter.allow(
-                            RegExp(r'^\d+\.?\d{0,2}'))
-                      ],
-                      keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
+                    Expanded(
+                      child: TextFormField(
+                        // TODO: update to currency symbol of currency
+                        decoration: InputDecoration(
+                            labelText: 'Amount',
+                            prefixText: '\$',
+                            prefixStyle: TextStyle()),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d+\.?\d{0,2}'))
+                        ],
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               SizedBox(
                 height: 18,
