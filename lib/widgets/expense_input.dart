@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
-import 'dart:math';
+
+import './search_field.dart';
+import './currency_selector.dart';
 
 import '../extensions.dart';
 
@@ -11,7 +13,19 @@ class ExpenseInput extends StatefulWidget {
 }
 
 class _ExpenseInputState extends State<ExpenseInput> {
+  static List<String> _categoryOptions = [
+    'food',
+    'entertainment',
+    'home',
+    'pet',
+    'education',
+    'groceries',
+    'sports'
+  ];
+  List<String> _filteredCategories = _categoryOptions;
   DateTime _selectedDate = DateTime.now();
+  String _currency = 'HKD';
+  String _category;
 
   void _presentDatePicker() {
     var date = DateTime.now();
@@ -26,6 +40,19 @@ class _ExpenseInputState extends State<ExpenseInput> {
         _selectedDate = date;
       });
     });
+  }
+
+  void _presentCurrencyPicker() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CurrencySelector((cur) {
+            setState(() {
+              _currency = cur;
+            });
+            Navigator.of(context).pop();
+          });
+        });
   }
 
   @override
@@ -61,7 +88,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                 },
               ),
               SizedBox(
-                height: 14,
+                height: 18,
               ),
               Row(
                 children: [
@@ -69,11 +96,11 @@ class _ExpenseInputState extends State<ExpenseInput> {
                     margin: EdgeInsets.only(right: 12),
                     child: RaisedButton(
                       child: Text(
-                        'HKD',
+                        _currency,
                         style:
                             TextStyle(color: Theme.of(context).backgroundColor),
                       ),
-                      onPressed: () {},
+                      onPressed: _presentCurrencyPicker,
                     ),
                   ),
                   Expanded(
@@ -94,7 +121,32 @@ class _ExpenseInputState extends State<ExpenseInput> {
                 ],
               ),
               SizedBox(
-                height: 14,
+                height: 18,
+              ),
+              SearchField(
+                onSearch: (String search) {
+                  setState(() {
+                    _filteredCategories = _categoryOptions
+                        .where((cat) =>
+                            cat.toLowerCase().contains(search.toLowerCase()))
+                        .toList();
+                  });
+                },
+              ),
+              Container(
+                height: 50,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: _filteredCategories
+                      .map((cat) => Chip(
+                            label: Text(cat),
+                            elevation: 3,
+                          ))
+                      .toList(),
+                ),
+              ),
+              SizedBox(
+                height: 18,
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Notes'),
