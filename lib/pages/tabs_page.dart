@@ -6,35 +6,77 @@ import './list_page.dart';
 import './settings_page.dart';
 
 import '../widgets/expense_input.dart';
+import '../widgets/bottom_bar_view.dart';
 
-import '../assets/spent_all_icons.dart';
+import '../models/tab_icon_data.dart';
+
+import '../app_theme.dart';
 
 class TabsPage extends StatefulWidget {
   @override
   _TabsPageState createState() => _TabsPageState();
 }
 
-class _TabsPageState extends State<TabsPage> {
-  final List<Map<String, Object>> _pages = [
-    {'page': HomePage(), 'title': 'Home', 'icon': SpentAllIcons.home},
-    {'page': ListPage(), 'title': 'List', 'icon': SpentAllIcons.list},
-    {
-      'page': AnalyticsPage(),
-      'title': 'Analytics',
-      'icon': SpentAllIcons.analytics
-    },
-    {
-      'page': SettingsPage(),
-      'title': 'Settings',
-      'icon': SpentAllIcons.settings
-    }
-  ];
+class _TabsPageState extends State<TabsPage>
+    with SingleTickerProviderStateMixin {
+  // final List<Map<String, Object>> _pages = [
+  //   {'page': HomePage(), 'title': 'Home', 'icon': SpentAllIcons.home},
+  //   {'page': ListPage(), 'title': 'List', 'icon': SpentAllIcons.list},
+  //   {
+  //     'page': AnalyticsPage(),
+  //     'title': 'Analytics',
+  //     'icon': SpentAllIcons.analytics
+  //   },
+  //   {
+  //     'page': SettingsPage(),
+  //     'title': 'Settings',
+  //     'icon': SpentAllIcons.settings
+  //   }
+  // ];
+  AnimationController animationController;
 
-  int _selectedPageIndex = 0;
+  List<TabIconData> tabIconsList = TabIconData.tabIconsList;
 
-  void _selectPage(int index) {
-    setState(() {
-      _selectedPageIndex = index;
+  Widget tabBody = Container(
+    color: AppTheme.background,
+  );
+
+  @override
+  void initState() {
+    tabIconsList.forEach((TabIconData tab) {
+      tab.isSelected = false;
+    });
+    tabIconsList[0].isSelected = true;
+
+    animationController = AnimationController(
+        duration: const Duration(milliseconds: 600), vsync: this);
+    tabBody = HomePage(animationController: animationController);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  void _setPageIndex(int index) {
+    animationController.reverse().then<dynamic>((data) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        switch (index) {
+          case 0:
+            tabBody = HomePage(animationController: animationController);
+            break;
+          case 1:
+            tabBody = ListPage(animationController: animationController);
+            break;
+          default:
+            tabBody = HomePage(animationController: animationController);
+        }
+      });
     });
   }
 
@@ -47,39 +89,42 @@ class _TabsPageState extends State<TabsPage> {
         isScrollControlled: true);
   }
 
+  Future<bool> getData() async {
+    // get expense data
+    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          _pages[_selectedPageIndex]['title'],
-          style: Theme.of(context).textTheme.headline1,
+    return Container(
+      color: AppTheme.background,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: FutureBuilder<bool>(
+          future: getData(),
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            if (!snapshot.hasData) {
+              return const SizedBox();
+            } else {
+              return Stack(
+                children: <Widget>[
+                  tabBody,
+                  BottomBarView(
+                    tabIconsList: tabIconsList,
+                    addClick: () {
+                      _showModalBottomSheet(context);
+                    },
+                    changeIndex: (int index) {
+                      _setPageIndex(index);
+                    },
+                  ),
+                ],
+              );
+            }
+          },
         ),
       ),
-      body: _pages[_selectedPageIndex]['page'],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: _selectPage,
-        backgroundColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Theme.of(context).backgroundColor,
-        selectedItemColor: Theme.of(context).accentColor,
-        currentIndex: _selectedPageIndex,
-        type: BottomNavigationBarType.fixed,
-        items: _pages.map((tab) {
-          return BottomNavigationBarItem(
-              icon: Icon(tab['icon']), title: Text(tab['title']));
-        }).toList(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.add,
-          color: Theme.of(context).backgroundColor,
-        ),
-        backgroundColor: Theme.of(context).accentColor,
-        onPressed: () {
-          _showModalBottomSheet(context);
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }

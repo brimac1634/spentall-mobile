@@ -2,7 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../widgets/percent_meter.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  final AnimationController animationController;
+
+  HomePage({@required this.animationController});
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Column(

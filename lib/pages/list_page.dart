@@ -6,7 +6,15 @@ import '../providers/expenses.dart';
 import '../widgets/filter_bar.dart';
 import '../widgets/expense_item.dart';
 
-class ListPage extends StatelessWidget {
+class ListPage extends StatefulWidget {
+  final AnimationController animationController;
+
+  ListPage({@required this.animationController});
+  @override
+  _ListPageState createState() => _ListPageState();
+}
+
+class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final _expenseData = Provider.of<Expenses>(context);
