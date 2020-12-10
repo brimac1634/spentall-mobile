@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/expenses.dart';
+import 'providers/auth.dart';
 
 import './pages/tabs_page.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => Expenses()),
-        // ChangeNotifierProvider(create: (ctx) => Expenses()),
+        ChangeNotifierProvider(create: (ctx) => Auth()),
       ],
       child: MaterialApp(
         title: 'Spentall',
