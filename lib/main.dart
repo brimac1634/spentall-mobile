@@ -5,18 +5,13 @@ import 'providers/expenses.dart';
 import 'providers/auth.dart';
 
 import './pages/tabs_page.dart';
+import './app_theme.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  static const darkPurple = Color.fromRGBO(102, 114, 228, 1);
-  static const lightPurple = Color.fromRGBO(129, 158, 252, 1);
-  static const offWhite = Color.fromRGBO(247, 249, 252, 1);
-  static const pink = Color.fromRGBO(255, 185, 246, 1);
-  static const lightBlue = Color.fromRGBO(196, 240, 255, 1);
-
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -27,44 +22,48 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Spentall',
         theme: ThemeData(
-            canvasColor: darkPurple,
-            primaryColor: darkPurple,
-            buttonColor: lightPurple,
-            backgroundColor: offWhite,
-            accentColor: pink,
-            cursorColor: darkPurple,
-            highlightColor: lightBlue,
+            canvasColor: AppTheme.darkPurple,
+            primaryColor: AppTheme.darkPurple,
+            buttonColor: AppTheme.lightPurple,
+            backgroundColor: AppTheme.offWhite,
+            accentColor: AppTheme.pink,
+            cursorColor: AppTheme.darkPurple,
+            highlightColor: AppTheme.lightBlue,
             fontFamily: 'Karla',
             inputDecorationTheme: InputDecorationTheme(
               labelStyle: TextStyle(
-                color: darkPurple,
+                color: AppTheme.darkPurple,
               ),
               border: OutlineInputBorder(),
               filled: true,
-              fillColor: offWhite,
+              fillColor: AppTheme.offWhite,
               floatingLabelBehavior: FloatingLabelBehavior.never,
             ),
             textTheme: TextTheme(
-                bodyText1: TextStyle(color: offWhite),
-                bodyText2: TextStyle(color: darkPurple, fontSize: 16),
-                subtitle1:
-                    TextStyle(color: darkPurple, fontWeight: FontWeight.w900),
+                bodyText1: TextStyle(color: AppTheme.offWhite),
+                bodyText2: TextStyle(color: AppTheme.darkPurple, fontSize: 16),
+                subtitle1: TextStyle(
+                    color: AppTheme.darkPurple, fontWeight: FontWeight.w900),
                 subtitle2: TextStyle(
-                    color: offWhite, fontWeight: FontWeight.w500, fontSize: 16),
+                    color: AppTheme.offWhite,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16),
                 headline1: TextStyle(
-                    color: pink,
+                    color: AppTheme.pink,
                     fontSize: 22,
                     fontFamily: 'Rubik',
                     fontWeight: FontWeight.normal),
                 headline2: TextStyle(
-                    color: offWhite, fontSize: 20, fontWeight: FontWeight.bold),
+                    color: AppTheme.offWhite,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
                 headline3: TextStyle(
-                    color: darkPurple,
+                    color: AppTheme.darkPurple,
                     fontSize: 22,
                     fontFamily: 'Rubik',
                     fontWeight: FontWeight.bold),
                 headline4: TextStyle(
-                    color: darkPurple,
+                    color: AppTheme.darkPurple,
                     fontSize: 18,
                     fontWeight: FontWeight.bold),
                 button: TextStyle(

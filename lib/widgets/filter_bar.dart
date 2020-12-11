@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../providers/expenses.dart';
 
 import '../widgets/search_field.dart';
+import './scale_icon_button.dart';
 
 import '../assets/spent_all_icons.dart';
 
@@ -40,38 +41,20 @@ class _FilterBarState extends State<FilterBar> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Theme.of(context).backgroundColor),
-                      child: IconButton(
-                        icon: Icon(
-                          SpentAllIcons.filter,
-                          color: Theme.of(context).canvasColor,
-                        ),
-                        onPressed: () {},
-                      ),
+                    ScaleIconButton(
+                      imageAsset: 'assets/icons/filter.png',
+                      onTap: () {},
                     ),
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _showSearch
-                              ? Theme.of(context).primaryColor
-                              : Theme.of(context).backgroundColor),
-                      child: IconButton(
-                        icon: Icon(
-                          SpentAllIcons.search,
-                          color: _showSearch
-                              ? Theme.of(context).highlightColor
-                              : Theme.of(context).canvasColor,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _showSearch = !_showSearch;
-                          });
-                        },
-                      ),
-                    ),
+                    ScaleIconButton(
+                      imageAsset: _showSearch
+                          ? 'assets/icons/searchS.png'
+                          : 'assets/icons/search.png',
+                      onTap: () {
+                        setState(() {
+                          _showSearch = !_showSearch;
+                        });
+                      },
+                    )
                   ],
                 ),
               )),

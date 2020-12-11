@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:spentall_mobile/app_theme.dart';
 import 'package:spentall_mobile/assets/spent_all_icons.dart';
 
 import '../providers/expenses.dart';
@@ -65,6 +66,7 @@ class ExpenseItem extends StatelessWidget {
                       0.0, 30 * (1.0 - animation.value), 0.0),
                   child: Card(
                     elevation: 5,
+                    shadowColor: AppTheme.lightPurple,
                     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     child: Container(
                       decoration: BoxDecoration(
