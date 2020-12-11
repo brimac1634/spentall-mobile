@@ -126,7 +126,6 @@ class _AuthPageState extends State<AuthPage> {
                             prefixIcon: Icon(Icons.email_outlined)),
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          print(value);
                           if (!RegExp(
                                   r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                               .hasMatch(value)) {

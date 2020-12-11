@@ -18,9 +18,7 @@ class Auth with ChangeNotifier {
   }
 
   String get token {
-    if (_token != null &&
-        _expiryDate != null &&
-        _expiryDate.isAfter(DateTime.now())) {
+    if (_token != null) {
       return _token;
     }
     return null;
@@ -36,7 +34,7 @@ class Auth with ChangeNotifier {
 
   Future<void> register(String name, String email) async {
     try {
-      final response = await http.post('$api/register',
+      final response = await http.post('$api/auth/register',
           body: json.encode({
             'name': name,
             'email': email,
@@ -51,8 +49,11 @@ class Auth with ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     try {
-      final response = await http.post('$api/login',
-          body: json.encode({'email': email, 'password': password}));
+      final response = await http.post('$api/auth/login',
+          body: json.encode({'email': email, 'password': password}),
+          headers: {
+            'Content-Type': 'application/json',
+          });
       final userData = json.decode(response.body) as Map<String, dynamic>;
 
       handleLogin(userData['user']);
@@ -64,11 +65,10 @@ class Auth with ChangeNotifier {
   }
 
   void handleLogin(Map<String, dynamic> data) {
-    print(data['categories']);
     _user = User(
         name: data['userName'],
         email: data['userEmail'],
-        target: int.parse(data['target']),
+        target: int.parse(data['target'].toString()),
         cycle: data['cycle'],
         currency: data['currency'],
         categories: data['categories'].toString().split(','));
