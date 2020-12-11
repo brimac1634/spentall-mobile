@@ -45,7 +45,7 @@ class _BottomBarViewState extends State<BottomBarView>
               return Transform(
                 transform: Matrix4.translationValues(0.0, 0.0, 0.0),
                 child: PhysicalShape(
-                  color: AppTheme.white,
+                  color: AppTheme.offWhite,
                   elevation: 16.0,
                   clipper: TabClipper(
                       radius: Tween<double>(begin: 0.0, end: 1.0)
@@ -72,6 +72,15 @@ class _BottomBarViewState extends State<BottomBarView>
                                       widget.changeIndex(0);
                                     }),
                               ),
+                              Expanded(
+                                child: TabIcons(
+                                    tabIconData: widget.tabIconsList[1],
+                                    removeAllSelect: () {
+                                      setRemoveAllSelection(
+                                          widget.tabIconsList[1]);
+                                      widget.changeIndex(1);
+                                    }),
+                              ),
                               SizedBox(
                                 width: Tween<double>(begin: 0.0, end: 1.0)
                                         .animate(CurvedAnimation(
@@ -82,11 +91,20 @@ class _BottomBarViewState extends State<BottomBarView>
                               ),
                               Expanded(
                                 child: TabIcons(
-                                    tabIconData: widget.tabIconsList[1],
+                                    tabIconData: widget.tabIconsList[2],
                                     removeAllSelect: () {
                                       setRemoveAllSelection(
-                                          widget.tabIconsList[1]);
-                                      widget.changeIndex(1);
+                                          widget.tabIconsList[2]);
+                                      widget.changeIndex(2);
+                                    }),
+                              ),
+                              Expanded(
+                                child: TabIcons(
+                                    tabIconData: widget.tabIconsList[3],
+                                    removeAllSelect: () {
+                                      setRemoveAllSelection(
+                                          widget.tabIconsList[3]);
+                                      widget.changeIndex(3);
                                     }),
                               ),
                             ],
@@ -125,18 +143,18 @@ class _BottomBarViewState extends State<BottomBarView>
                       child: Container(
                         // alignment: Alignment.center,s
                         decoration: BoxDecoration(
-                          color: AppTheme.nearlyDarkBlue,
+                          color: AppTheme.darkPurple,
                           gradient: LinearGradient(
                               colors: [
-                                AppTheme.nearlyDarkBlue,
-                                Color(0xff6A88E5),
+                                AppTheme.pink,
+                                AppTheme.lightPurple,
                               ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight),
                           shape: BoxShape.circle,
                           boxShadow: <BoxShadow>[
                             BoxShadow(
-                                color: AppTheme.nearlyDarkBlue.withOpacity(0.4),
+                                color: AppTheme.lightPurple.withOpacity(0.4),
                                 offset: const Offset(8.0, 16.0),
                                 blurRadius: 16.0),
                           ],
@@ -152,7 +170,7 @@ class _BottomBarViewState extends State<BottomBarView>
                             },
                             child: Icon(
                               Icons.add,
-                              color: AppTheme.white,
+                              color: AppTheme.offWhite,
                               size: 32,
                             ),
                           ),
@@ -238,9 +256,13 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                           parent: widget.tabIconData.animationController,
                           curve:
                               Interval(0.1, 1.0, curve: Curves.fastOutSlowIn))),
-                  child: Image.asset(widget.tabIconData.isSelected
-                      ? widget.tabIconData.selectedImagePath
-                      : widget.tabIconData.imagePath),
+                  child: Image.asset(
+                    widget.tabIconData.isSelected
+                        ? widget.tabIconData.selectedImagePath
+                        : widget.tabIconData.imagePath,
+                    height: 36,
+                    width: 36,
+                  ),
                 ),
                 Positioned(
                   top: 4,
@@ -257,7 +279,7 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                       width: 8,
                       height: 8,
                       decoration: BoxDecoration(
-                        color: AppTheme.nearlyDarkBlue,
+                        color: AppTheme.lightPurple,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -278,7 +300,7 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                       width: 4,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: AppTheme.nearlyDarkBlue,
+                        color: AppTheme.lightPurple,
                         shape: BoxShape.circle,
                       ),
                     ),
@@ -299,7 +321,7 @@ class _TabIconsState extends State<TabIcons> with TickerProviderStateMixin {
                       width: 6,
                       height: 6,
                       decoration: BoxDecoration(
-                        color: AppTheme.nearlyDarkBlue,
+                        color: AppTheme.lightPurple,
                         shape: BoxShape.circle,
                       ),
                     ),

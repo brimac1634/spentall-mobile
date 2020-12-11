@@ -38,7 +38,7 @@ class _TabsPageState extends State<TabsPage>
   List<TabIconData> tabIconsList = TabIconData.tabIconsList;
 
   Widget tabBody = Container(
-    color: AppTheme.background,
+    color: AppTheme.offWhite,
   );
 
   @override
@@ -73,6 +73,12 @@ class _TabsPageState extends State<TabsPage>
           case 1:
             tabBody = ListPage(animationController: animationController);
             break;
+          case 2:
+            tabBody = AnalyticsPage(animationController: animationController);
+            break;
+          case 3:
+            tabBody = SettingsPage(animationController: animationController);
+            break;
           default:
             tabBody = HomePage(animationController: animationController);
         }
@@ -98,7 +104,7 @@ class _TabsPageState extends State<TabsPage>
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppTheme.background,
+      color: AppTheme.darkPurple,
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: FutureBuilder<bool>(
@@ -109,7 +115,7 @@ class _TabsPageState extends State<TabsPage>
             } else {
               return Stack(
                 children: <Widget>[
-                  tabBody,
+                  SafeArea(child: tabBody),
                   BottomBarView(
                     tabIconsList: tabIconsList,
                     addClick: () {
