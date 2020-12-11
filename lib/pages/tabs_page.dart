@@ -13,26 +13,14 @@ import '../models/tab_icon_data.dart';
 import '../app_theme.dart';
 
 class TabsPage extends StatefulWidget {
+  static const pathName = '/home';
+
   @override
   _TabsPageState createState() => _TabsPageState();
 }
 
 class _TabsPageState extends State<TabsPage>
     with SingleTickerProviderStateMixin {
-  // final List<Map<String, Object>> _pages = [
-  //   {'page': HomePage(), 'title': 'Home', 'icon': SpentAllIcons.home},
-  //   {'page': ListPage(), 'title': 'List', 'icon': SpentAllIcons.list},
-  //   {
-  //     'page': AnalyticsPage(),
-  //     'title': 'Analytics',
-  //     'icon': SpentAllIcons.analytics
-  //   },
-  //   {
-  //     'page': SettingsPage(),
-  //     'title': 'Settings',
-  //     'icon': SpentAllIcons.settings
-  //   }
-  // ];
   AnimationController animationController;
 
   List<TabIconData> tabIconsList = TabIconData.tabIconsList;

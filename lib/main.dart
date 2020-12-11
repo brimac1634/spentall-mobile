@@ -5,6 +5,8 @@ import 'providers/expenses.dart';
 import 'providers/auth.dart';
 
 import './pages/tabs_page.dart';
+import './pages/auth_page.dart';
+
 import './app_theme.dart';
 
 void main() {
@@ -29,18 +31,21 @@ class MyApp extends StatelessWidget {
             accentColor: AppTheme.pink,
             cursorColor: AppTheme.darkPurple,
             highlightColor: AppTheme.lightBlue,
+            hintColor: AppTheme.offWhite,
             fontFamily: 'Karla',
             inputDecorationTheme: InputDecorationTheme(
               labelStyle: TextStyle(
                 color: AppTheme.darkPurple,
               ),
-              border: OutlineInputBorder(),
+              border: OutlineInputBorder(
+                  borderRadius:
+                      const BorderRadius.all(const Radius.circular(5))),
               filled: true,
               fillColor: AppTheme.offWhite,
               floatingLabelBehavior: FloatingLabelBehavior.never,
             ),
             textTheme: TextTheme(
-                bodyText1: TextStyle(color: AppTheme.offWhite),
+                bodyText1: TextStyle(color: AppTheme.offWhite, fontSize: 16),
                 bodyText2: TextStyle(color: AppTheme.darkPurple, fontSize: 16),
                 subtitle1: TextStyle(
                     color: AppTheme.darkPurple, fontWeight: FontWeight.w900),
@@ -55,7 +60,7 @@ class MyApp extends StatelessWidget {
                     fontWeight: FontWeight.normal),
                 headline2: TextStyle(
                     color: AppTheme.offWhite,
-                    fontSize: 20,
+                    fontSize: 22,
                     fontWeight: FontWeight.bold),
                 headline3: TextStyle(
                     color: AppTheme.darkPurple,
@@ -70,9 +75,10 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
                 ))),
-        home: TabsPage(),
+        home: AuthPage(),
         routes: {
-          // CategoryMealsPage.routeName: (ctx) => CategoryMealsPage(),
+          TabsPage.pathName: (ctx) => TabsPage(),
+          AuthPage.pathName: (ctx) => AuthPage()
         },
         // onUnknownRoute: () {
         // return MaterialPageRoute(builder: (ctx) => CategoriesPage());
