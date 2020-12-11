@@ -13,7 +13,7 @@ import '../models/tab_icon_data.dart';
 import '../app_theme.dart';
 
 class TabsPage extends StatefulWidget {
-  static const pathName = '/home';
+  static const pathName = '/tabs';
 
   @override
   _TabsPageState createState() => _TabsPageState();

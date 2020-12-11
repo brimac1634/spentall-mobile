@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -35,16 +34,23 @@ class _AuthPageState extends State<AuthPage> {
       return;
     }
     _formKey.currentState.save();
+
     setState(() {
       _isLoading = true;
     });
-    if (_authMode == AuthMode.Login) {
-      await Provider.of<Auth>(context, listen: false)
-          .login(_authData['email'], _authData['password']);
-    } else {
-      await Provider.of<Auth>(context, listen: false)
-          .register(_authData['name'], _authData['email']);
+
+    try {
+      if (_authMode == AuthMode.Login) {
+        await Provider.of<Auth>(context, listen: false)
+            .login(_authData['email'], _authData['password']);
+      } else {
+        await Provider.of<Auth>(context, listen: false)
+            .register(_authData['name'], _authData['email']);
+      }
+    } catch (err) {
+      print(err);
     }
+
     setState(() {
       _isLoading = false;
     });
@@ -85,9 +91,14 @@ class _AuthPageState extends State<AuthPage> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         child: TextFormField(
+                          cursorColor: AppTheme.darkPurple,
+                          style: AppTheme.input,
                           decoration: InputDecoration(
-                            labelText: 'Name',
-                          ),
+                              labelText: 'Name',
+                              labelStyle: AppTheme.label,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
+                              prefixIcon: Icon(Icons.person_outline)),
                           keyboardType: TextInputType.text,
                           validator: (value) {
                             if (value.length >= 1) {
@@ -102,14 +113,20 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: const EdgeInsets.symmetric(vertical: 4),
                       child: TextFormField(
+                        cursorColor: AppTheme.darkPurple,
+                        style: AppTheme.input,
                         decoration: InputDecoration(
-                          labelText: 'E-Mail',
-                        ),
+                            labelText: 'E-Mail',
+                            labelStyle: AppTheme.label,
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                            prefixIcon: Icon(Icons.email_outlined)),
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (value.isEmpty || !value.contains('@')) {
+                          if (RegExp(
+                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              .hasMatch(value)) {
                             return 'Invalid email!';
                           }
                           return null;
@@ -124,12 +141,19 @@ class _AuthPageState extends State<AuthPage> {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         child: TextFormField(
-                          decoration: InputDecoration(labelText: 'Password'),
+                          cursorColor: AppTheme.darkPurple,
+                          style: AppTheme.input,
+                          decoration: InputDecoration(
+                              labelText: 'Password',
+                              labelStyle: AppTheme.label,
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.never,
+                              prefixIcon: Icon(Icons.lock_outline)),
                           obscureText: true,
                           controller: _passwordController,
                           validator: (value) {
-                            if (value.isEmpty || value.length < 5) {
-                              return 'Password is too short!';
+                            if (value.isEmpty || value.length < 6) {
+                              return 'Password must be at least 6 characters';
                             }
                           },
                           onSaved: (value) {

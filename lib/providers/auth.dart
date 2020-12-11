@@ -8,14 +8,22 @@ import '../constants/api.dart';
 import '../models/user.dart';
 
 class Auth with ChangeNotifier {
-  bool _isLoggedIn = false;
   String _token;
   DateTime _expiryDate;
   User _user;
   String _registrationEmail;
 
   bool get isLoggedIn {
-    return _isLoggedIn;
+    return token != null;
+  }
+
+  String get token {
+    if (_token != null &&
+        _expiryDate != null &&
+        _expiryDate.isAfter(DateTime.now())) {
+      return _token;
+    }
+    return null;
   }
 
   User get user {
@@ -46,17 +54,23 @@ class Auth with ChangeNotifier {
       final response = await http.post('$api/login',
           body: json.encode({'email': email, 'password': password}));
       final userData = json.decode(response.body) as Map<String, dynamic>;
-      _user = User(
-          name: userData['userName'],
-          email: userData['userEmail'],
-          target: userData['target'],
-          cycle: userData['cycle'],
-          currency: userData['currency'],
-          categories: userData['cattegories']);
-      _isLoggedIn = true;
+
+      handleLogin(userData['user']);
+      _token = userData['token'];
       notifyListeners();
     } catch (error) {
       throw error;
     }
+  }
+
+  void handleLogin(Map<String, dynamic> data) {
+    print(data['categories']);
+    _user = User(
+        name: data['userName'],
+        email: data['userEmail'],
+        target: int.parse(data['target']),
+        cycle: data['cycle'],
+        currency: data['currency'],
+        categories: data['categories'].toString().split(','));
   }
 }

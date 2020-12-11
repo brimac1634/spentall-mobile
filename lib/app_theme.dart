@@ -10,7 +10,7 @@ class AppTheme {
 
   static const Color darkText = Color(0xFF253840);
   static const Color darkerText = Color(0xFF17262A);
-  static const Color lightText = Color(0xFF4A6572);
+  static const Color lightText = Color(0xFF757575);
   static const Color deactivatedText = Color(0xFF767676);
   static const Color dismissibleBackground = Color(0xFF364A54);
   static const Color spacer = Color(0xFFF2F2F2);
@@ -31,14 +31,21 @@ class AppTheme {
   );
 
   static const TextTheme textTheme = TextTheme(
+    headline1: headline1,
     headline4: display1,
     headline5: headline,
     headline6: title,
     subtitle2: subtitle,
     bodyText2: body2,
     bodyText1: body1,
-    caption: caption,
+    caption: label,
   );
+
+  static const TextStyle headline1 = TextStyle(
+      color: AppTheme.pink,
+      fontSize: 22,
+      fontFamily: 'Rubik',
+      fontWeight: FontWeight.normal);
 
   static const TextStyle display1 = TextStyle(
     fontFamily: fontName,
@@ -89,11 +96,19 @@ class AppTheme {
     color: darkText,
   );
 
-  static const TextStyle caption = TextStyle(
+  static const TextStyle label = TextStyle(
     fontFamily: fontName,
-    fontWeight: FontWeight.w400,
-    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    fontSize: 18,
     letterSpacing: 0.2,
-    color: lightText, // was lightText
+    color: lightText,
+  );
+
+  static const TextStyle input = TextStyle(
+    fontFamily: fontName,
+    fontWeight: FontWeight.w600,
+    fontSize: 18,
+    letterSpacing: 0.2,
+    color: darkPurple,
   );
 }
