@@ -144,13 +144,7 @@ class _BottomBarViewState extends State<BottomBarView>
                         // alignment: Alignment.center,s
                         decoration: BoxDecoration(
                           color: AppTheme.darkPurple,
-                          gradient: LinearGradient(
-                              colors: [
-                                AppTheme.pink,
-                                AppTheme.lightPurple,
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight),
+                          gradient: AppTheme.linearGradient,
                           shape: BoxShape.circle,
                           boxShadow: <BoxShadow>[
                             BoxShadow(

@@ -21,6 +21,11 @@ class AppTheme {
 
   static const Radius borderRadius = Radius.circular(20.0);
 
+  static const LinearGradient linearGradient = LinearGradient(colors: [
+    AppTheme.pink,
+    AppTheme.lightPurple,
+  ], begin: Alignment.topLeft, end: Alignment.bottomRight);
+
   static const TextTheme textTheme = TextTheme(
     headline4: display1,
     headline5: headline,
