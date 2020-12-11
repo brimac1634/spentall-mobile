@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/custom_raised_button.dart';
+import '../widgets/expandable.dart';
 
 import '../providers/auth.dart';
 
@@ -21,6 +22,7 @@ class _AuthPageState extends State<AuthPage> {
   final GlobalKey<FormState> _formKey = GlobalKey();
   AuthMode _authMode = AuthMode.Login;
   Map<String, String> _authData = {
+    'name': '',
     'email': '',
     'password': '',
   };
@@ -41,7 +43,7 @@ class _AuthPageState extends State<AuthPage> {
           .login(_authData['email'], _authData['password']);
     } else {
       await Provider.of<Auth>(context, listen: false)
-          .register(_authData['email'], _authData['password']);
+          .register(_authData['name'], _authData['email']);
     }
     setState(() {
       _isLoading = false;
@@ -78,6 +80,27 @@ class _AuthPageState extends State<AuthPage> {
                         style: TextStyle(fontSize: 48, color: AppTheme.pink),
                       ),
                     ),
+                    Expandable(
+                      expand: _authMode == AuthMode.Register,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            labelText: 'Name',
+                          ),
+                          keyboardType: TextInputType.text,
+                          validator: (value) {
+                            if (value.length >= 1) {
+                              return 'Name is cannot be empty!';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _authData['name'] = value;
+                          },
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: TextFormField(
@@ -96,36 +119,25 @@ class _AuthPageState extends State<AuthPage> {
                         },
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: TextFormField(
-                        decoration: InputDecoration(labelText: 'Password'),
-                        obscureText: true,
-                        controller: _passwordController,
-                        validator: (value) {
-                          if (value.isEmpty || value.length < 5) {
-                            return 'Password is too short!';
-                          }
-                        },
-                        onSaved: (value) {
-                          _authData['password'] = value;
-                        },
+                    Expandable(
+                      expand: _authMode == AuthMode.Login,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: TextFormField(
+                          decoration: InputDecoration(labelText: 'Password'),
+                          obscureText: true,
+                          controller: _passwordController,
+                          validator: (value) {
+                            if (value.isEmpty || value.length < 5) {
+                              return 'Password is too short!';
+                            }
+                          },
+                          onSaved: (value) {
+                            _authData['password'] = value;
+                          },
+                        ),
                       ),
                     ),
-                    if (_authMode == AuthMode.Register)
-                      TextFormField(
-                        enabled: _authMode == AuthMode.Register,
-                        decoration:
-                            InputDecoration(labelText: 'Confirm Password'),
-                        obscureText: true,
-                        validator: _authMode == AuthMode.Register
-                            ? (value) {
-                                if (value != _passwordController.text) {
-                                  return 'Passwords do not match!';
-                                }
-                              }
-                            : null,
-                      ),
                     SizedBox(
                       height: 20,
                     ),
