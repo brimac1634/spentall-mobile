@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:spentall_mobile/assets/spent_all_icons.dart';
+
+import '../app_theme.dart';
 
 class SearchField extends StatefulWidget {
   final Function onSearch;
@@ -30,13 +33,15 @@ class _SearchFieldState extends State<SearchField> {
   @override
   Widget build(BuildContext context) {
     return TextField(
-        maxLines: 1,
-        controller: _searchController,
-        decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Search',
-            labelStyle: TextStyle(color: Theme.of(context).canvasColor),
-            filled: true,
-            fillColor: Theme.of(context).backgroundColor));
+      maxLines: 1,
+      controller: _searchController,
+      cursorColor: AppTheme.darkPurple,
+      style: AppTheme.input,
+      decoration: InputDecoration(
+          labelText: 'Name',
+          labelStyle: AppTheme.label,
+          floatingLabelBehavior: FloatingLabelBehavior.never,
+          prefixIcon: Icon(SpentAllIcons.search)),
+    );
   }
 }

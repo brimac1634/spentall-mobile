@@ -111,4 +111,12 @@ class AppTheme {
     letterSpacing: 0.2,
     color: darkPurple,
   );
+
+  static const TextStyle inputError = TextStyle(
+    fontFamily: fontName,
+    fontWeight: FontWeight.w400,
+    fontSize: 12,
+    letterSpacing: 0.2,
+    color: pink,
+  );
 }

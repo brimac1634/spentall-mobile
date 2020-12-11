@@ -96,6 +96,7 @@ class _AuthPageState extends State<AuthPage> {
                           decoration: InputDecoration(
                               labelText: 'Name',
                               labelStyle: AppTheme.label,
+                              errorStyle: AppTheme.inputError,
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.never,
                               prefixIcon: Icon(Icons.person_outline)),
@@ -120,14 +121,16 @@ class _AuthPageState extends State<AuthPage> {
                         decoration: InputDecoration(
                             labelText: 'E-Mail',
                             labelStyle: AppTheme.label,
+                            errorStyle: AppTheme.inputError,
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             prefixIcon: Icon(Icons.email_outlined)),
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
-                          if (RegExp(
-                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          print(value);
+                          if (!RegExp(
+                                  r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
                               .hasMatch(value)) {
-                            return 'Invalid email!';
+                            return 'Invalid email';
                           }
                           return null;
                         },
@@ -146,6 +149,7 @@ class _AuthPageState extends State<AuthPage> {
                           decoration: InputDecoration(
                               labelText: 'Password',
                               labelStyle: AppTheme.label,
+                              errorStyle: AppTheme.inputError,
                               floatingLabelBehavior:
                                   FloatingLabelBehavior.never,
                               prefixIcon: Icon(Icons.lock_outline)),
