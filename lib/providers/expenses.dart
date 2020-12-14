@@ -1,10 +1,19 @@
 import 'dart:math';
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 
 import 'package:flutter/foundation.dart';
 
+import '../constants/api.dart';
+
 import '../models/expense.dart';
+import '../models/user.dart';
 
 class Expenses with ChangeNotifier {
+  final String token;
+  final User user;
+
   Map<String, Expense> _expenses = {
     '1': Expense(
         id: '1',
@@ -80,7 +89,6 @@ class Expenses with ChangeNotifier {
         notes: 'cool'),
   };
 
-  // Map<String, Expense> _filteredExpenses = {..._expenses};
   String _searchText = '';
   Map<String, bool> _selectedExpenses = {};
 
@@ -89,8 +97,15 @@ class Expenses with ChangeNotifier {
     DateTime(DateTime.now().year, DateTime.now().month + 1, 0)
   ];
 
+  Expenses(this.token, this.user, this._expenses, this._searchText,
+      this._selectedExpenses, this._timeFilter);
+
   Map<String, Expense> get filteredExpenses {
     return {..._expenses};
+  }
+
+  String get searchText {
+    return _searchText;
   }
 
   Map<String, Expense> get filteredExpensesWithSearch {
@@ -139,5 +154,31 @@ class Expenses with ChangeNotifier {
       _selectedExpenses[id] = true;
     }
     notifyListeners();
+  }
+
+  // API CALLS
+
+  Future<void> getExpenses() async {
+    try {
+      final response = await http.get('$api/expenditures',
+          headers: {'x-access-token': 'Bearer $token'});
+      final expenses = json.decode(response.body) as List<dynamic>;
+      _expenses = expenses.fold({}, (accum, e) {
+        accum[e['expenditure_id'].toString()] = Expense(
+            id: e['expenditure_id'].toString(),
+            userId: e['user_id'].toString(),
+            currency: e['currency'],
+            type: e['type'],
+            notes: e['notes'],
+            amount: double.parse(e['amount'].toString()),
+            timestamp: DateTime.parse(e['timestamp'].toString()));
+
+        return accum;
+      });
+
+      notifyListeners();
+    } catch (error) {
+      throw error;
+    }
   }
 }

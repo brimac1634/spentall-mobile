@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import './analytics_page.dart';
 import './home_page.dart';
@@ -9,6 +10,7 @@ import '../widgets/expense_input.dart';
 import '../widgets/bottom_bar_view.dart';
 
 import '../models/tab_icon_data.dart';
+import '../providers/expenses.dart';
 
 import '../app_theme.dart';
 
@@ -83,9 +85,8 @@ class _TabsPageState extends State<TabsPage>
         isScrollControlled: true);
   }
 
-  Future<bool> getData() async {
-    // get expense data
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
+  Future<bool> _getExpenses() async {
+    await Provider.of<Expenses>(context, listen: false).getExpenses();
     return true;
   }
 
@@ -96,26 +97,24 @@ class _TabsPageState extends State<TabsPage>
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: FutureBuilder<bool>(
-          future: getData(),
+          future: _getExpenses(),
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            if (!snapshot.hasData) {
-              return const SizedBox();
-            } else {
-              return Stack(
-                children: <Widget>[
-                  SafeArea(child: tabBody),
-                  BottomBarView(
-                    tabIconsList: tabIconsList,
-                    addClick: () {
-                      _showModalBottomSheet(context);
-                    },
-                    changeIndex: (int index) {
-                      _setPageIndex(index);
-                    },
-                  ),
-                ],
-              );
-            }
+            return Stack(
+              children: <Widget>[
+                (snapshot.hasData)
+                    ? SafeArea(child: tabBody)
+                    : Center(child: CircularProgressIndicator()),
+                BottomBarView(
+                  tabIconsList: tabIconsList,
+                  addClick: () {
+                    _showModalBottomSheet(context);
+                  },
+                  changeIndex: (int index) {
+                    _setPageIndex(index);
+                  },
+                ),
+              ],
+            );
           },
         ),
       ),

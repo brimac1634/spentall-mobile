@@ -18,8 +18,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (ctx) => Expenses()),
           ChangeNotifierProvider(create: (ctx) => Auth()),
+          ChangeNotifierProxyProvider<Auth, Expenses>(
+              update: (ctx, auth, prev) => Expenses(
+                  auth.token,
+                  auth.user,
+                  prev == null ? {} : prev.filteredExpenses,
+                  prev == null ? '' : prev.searchText,
+                  prev == null ? {} : prev.selectedExpenses,
+                  prev == null ? [] : prev.timeFilter)),
         ],
         child: Consumer<Auth>(
           builder: (ctx, auth, _) => MaterialApp(
