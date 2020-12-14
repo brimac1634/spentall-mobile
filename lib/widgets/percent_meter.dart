@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../models/circle_meter.dart';
 
 class PercentMeter extends StatefulWidget {
-  final double percentage;
+  final int percentage;
 
   PercentMeter(@required this.percentage);
 
@@ -23,7 +23,7 @@ class _PercentMeterState extends State<PercentMeter>
     super.initState();
     _percentController = AnimationController(
         vsync: this, duration: Duration(milliseconds: 2000));
-    _animation = Tween<double>(begin: 0, end: widget.percentage)
+    _animation = Tween<double>(begin: 100, end: widget.percentage.toDouble())
         .animate(_percentController);
     _percentController.forward();
   }

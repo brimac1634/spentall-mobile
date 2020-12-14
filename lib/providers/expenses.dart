@@ -9,6 +9,9 @@ import '../constants/api.dart';
 
 import '../models/expense.dart';
 import '../models/user.dart';
+import '../models/date_range.dart';
+
+import '../helpers/utils.dart' as utils;
 
 class Expenses with ChangeNotifier {
   final String token;
@@ -100,8 +103,30 @@ class Expenses with ChangeNotifier {
   Expenses(this.token, this.user, this._expenses, this._searchText,
       this._selectedExpenses, this._timeFilter);
 
+  // GETTERS
+
+  DateRange get cycleDateRange {
+    return utils.getCycleDates(user.cycle);
+  }
+
   Map<String, Expense> get filteredExpenses {
     return {..._expenses};
+  }
+
+  double get cycleFilteredTotalExpenses {
+    final start = cycleDateRange.start;
+    final end = cycleDateRange.end;
+    return filteredExpenses.values.fold(0, (accum, e) {
+      if (e.timestamp.compareTo(start) >= 0 &&
+          e.timestamp.compareTo(end) <= 0) {
+        return accum + e.amount;
+      }
+      return accum;
+    });
+  }
+
+  double get cycleTotalTargetPercentage {
+    return (user.target - cycleFilteredTotalExpenses) * 100 / user.target;
   }
 
   String get searchText {
@@ -136,6 +161,8 @@ class Expenses with ChangeNotifier {
   Map<String, bool> get selectedExpenses {
     return {..._selectedExpenses};
   }
+
+  // SETTERS
 
   void setTimeFilter(List<DateTime> dates) {
     _timeFilter = dates;
