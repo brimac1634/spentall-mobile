@@ -87,10 +87,13 @@ class Auth with ChangeNotifier {
     return true;
   }
 
-  void logout() async {
+  Future<void> logout() async {
     _token = null;
     _user = null;
     notifyListeners();
+
+    final preferences = await SharedPreferences.getInstance();
+    preferences.clear();
   }
 
   void handleLogin(Map<String, dynamic> data) {

@@ -10,6 +10,7 @@ import './pages/auth_page.dart';
 import './widgets/splash_background.dart';
 
 import './app_theme.dart';
+import './helpers/utils.dart' as utils;
 
 void main() {
   runApp(MyApp());
@@ -25,10 +26,12 @@ class MyApp extends StatelessWidget {
               update: (ctx, auth, prev) => Expenses(
                   auth.token,
                   auth.user,
-                  prev == null ? {} : prev.filteredExpenses,
+                  prev == null ? {} : prev.expenses,
                   prev == null ? '' : prev.searchText,
                   prev == null ? {} : prev.selectedExpenses,
-                  prev == null ? [] : prev.timeFilter)),
+                  prev == null
+                      ? utils.getCycleDates(auth.user.cycle)
+                      : prev.filterRange)),
         ],
         child: Consumer<Auth>(
           builder: (ctx, auth, _) => MaterialApp(

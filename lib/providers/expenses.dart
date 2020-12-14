@@ -17,106 +17,32 @@ class Expenses with ChangeNotifier {
   final String token;
   final User user;
 
-  Map<String, Expense> _expenses = {
-    '1': Expense(
-        id: '1',
-        amount: 30.0,
-        currency: 'HKD',
-        timestamp:
-            DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
-        type: 'food',
-        userId: '1',
-        notes: ''),
-    '2': Expense(
-        id: '2',
-        amount: 60.0,
-        currency: 'HKD',
-        timestamp:
-            DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
-        type: 'housing',
-        userId: '1',
-        notes: ''),
-    '3': Expense(
-        id: '3',
-        amount: 18.0,
-        currency: 'HKD',
-        timestamp:
-            DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
-        type: 'food',
-        userId: '1',
-        notes: ''),
-    '4': Expense(
-        id: '4',
-        amount: 18.0,
-        currency: 'HKD',
-        timestamp:
-            DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
-        type: 'food',
-        userId: '1',
-        notes: ''),
-    '5': Expense(
-        id: '5',
-        amount: 18.0,
-        currency: 'HKD',
-        timestamp:
-            DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
-        type: 'food',
-        userId: '1',
-        notes: ''),
-    '6': Expense(
-        id: '6',
-        amount: 18.0,
-        currency: 'HKD',
-        timestamp:
-            DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
-        type: 'food',
-        userId: '1',
-        notes: ''),
-    '7': Expense(
-        id: '7',
-        amount: 18.0,
-        currency: 'HKD',
-        timestamp:
-            DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
-        type: 'food',
-        userId: '1',
-        notes: ''),
-    '8': Expense(
-        id: '8',
-        amount: 18.0,
-        currency: 'HKD',
-        timestamp:
-            DateTime(2020, DateTime.now().month - 1, Random().nextInt(20)),
-        type: 'food',
-        userId: '1',
-        notes: 'cool'),
-  };
+  Map<String, Expense> _expenses = {};
 
   String _searchText = '';
   Map<String, bool> _selectedExpenses = {};
 
-  List<DateTime> _timeFilter = [
-    DateTime(DateTime.now().year, DateTime.now().month, 1),
-    DateTime(DateTime.now().year, DateTime.now().month + 1, 0)
-  ];
+  DateRange _filterRange;
 
   Expenses(this.token, this.user, this._expenses, this._searchText,
-      this._selectedExpenses, this._timeFilter);
+      this._selectedExpenses, this._filterRange);
 
   // GETTERS
+
+  Map<String, Expense> get expenses {
+    return {..._expenses};
+  }
+
+  // HOME PAGE GETTERS
 
   DateRange get cycleDateRange {
     return utils.getCycleDates(user.cycle);
   }
 
-  Map<String, Expense> get filteredExpenses {
-    return {..._expenses};
-  }
-
   double get cycleFilteredTotalExpenses {
     final start = cycleDateRange.start;
     final end = cycleDateRange.end;
-    return filteredExpenses.values.fold(0, (accum, e) {
+    return expenses.values.fold(0, (accum, e) {
       if (e.timestamp.compareTo(start) >= 0 &&
           e.timestamp.compareTo(end) <= 0) {
         return accum + e.amount;
@@ -129,13 +55,41 @@ class Expenses with ChangeNotifier {
     return (user.target - cycleFilteredTotalExpenses) * 100 / user.target;
   }
 
+  // LIST VIEW PAGE GETTERS
+
+  DateRange get filterRange {
+    return _filterRange;
+  }
+
+  Map<String, Expense> get rangeFilteredExpenses {
+    if (filterRange == null) return {};
+
+    final start = filterRange.start;
+    final end = filterRange.end;
+
+    return {...expenses}..removeWhere((key, e) {
+        if (e.timestamp.compareTo(start) >= 0 &&
+            e.timestamp.compareTo(end) <= 0) {
+          return false;
+        }
+        return true;
+      });
+  }
+
+  double get rangeFilteredTotal {
+    return rangeFilteredExpenses.values
+        .toList()
+        .fold(0, (accum, expense) => accum + expense.amount);
+  }
+
   String get searchText {
     return _searchText;
   }
 
   Map<String, Expense> get filteredExpensesWithSearch {
+    // print(rangeFilteredExpenses);
     if (_searchText.length >= 1) {
-      return {...filteredExpenses}.values.toList().where((exp) {
+      return {...rangeFilteredExpenses}.values.toList().where((exp) {
         return exp.amount.toString().contains(_searchText) ||
             exp.type.contains(_searchText) ||
             exp.notes.contains(_searchText);
@@ -144,18 +98,8 @@ class Expenses with ChangeNotifier {
         return accum;
       });
     } else {
-      return {...filteredExpenses};
+      return {...rangeFilteredExpenses};
     }
-  }
-
-  double get totalFilteredAmount {
-    return filteredExpenses.values
-        .toList()
-        .fold(0, (accum, expense) => accum + expense.amount);
-  }
-
-  List<DateTime> get timeFilter {
-    return [..._timeFilter];
   }
 
   Map<String, bool> get selectedExpenses {
@@ -164,8 +108,8 @@ class Expenses with ChangeNotifier {
 
   // SETTERS
 
-  void setTimeFilter(List<DateTime> dates) {
-    _timeFilter = dates;
+  void setTimeFilter(DateRange dates) {
+    _filterRange = dates;
     notifyListeners();
   }
 

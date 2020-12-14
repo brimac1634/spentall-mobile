@@ -7,7 +7,7 @@ import '../providers/expenses.dart';
 import '../widgets/search_field.dart';
 import './scale_icon_button.dart';
 
-import '../assets/spent_all_icons.dart';
+import '../helpers/utils.dart' as utils;
 
 class FilterBar extends StatefulWidget {
   @override
@@ -29,11 +29,11 @@ class _FilterBarState extends State<FilterBar> {
         children: [
           ListTile(
               title: Text(
-                '\$${_expenseData.totalFilteredAmount}',
+                '\$${utils.formatAmount(_expenseData.rangeFilteredTotal)}',
                 style: Theme.of(context).textTheme.headline4,
               ),
               subtitle: Text(
-                '${DateFormat(_dateFilterFormat).format(_expenseData.timeFilter[0])} to ${DateFormat(_dateFilterFormat).format(_expenseData.timeFilter[1])}',
+                '${DateFormat(_dateFilterFormat).format(_expenseData.filterRange.start)} to ${DateFormat(_dateFilterFormat).format(_expenseData.filterRange.end)}',
                 style: Theme.of(context).textTheme.bodyText2,
               ),
               trailing: Container(
