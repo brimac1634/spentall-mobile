@@ -83,7 +83,7 @@ class _AuthPageState extends State<AuthPage> {
       ),
       Center(
         child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Form(
                 key: _formKey,
                 child: SingleChildScrollView(

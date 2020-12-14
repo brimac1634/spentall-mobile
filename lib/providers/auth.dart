@@ -9,7 +9,6 @@ import '../models/user.dart';
 
 class Auth with ChangeNotifier {
   String _token;
-  DateTime _expiryDate;
   User _user;
   String _registrationEmail;
 
@@ -62,6 +61,12 @@ class Auth with ChangeNotifier {
     } catch (error) {
       throw error;
     }
+  }
+
+  void logout() async {
+    _token = null;
+    _user = null;
+    notifyListeners();
   }
 
   void handleLogin(Map<String, dynamic> data) {

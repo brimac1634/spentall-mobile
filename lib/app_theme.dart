@@ -49,7 +49,7 @@ class AppTheme {
 
   static const TextStyle display1 = TextStyle(
     fontFamily: fontName,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.normal,
     fontSize: 36,
     letterSpacing: 0.4,
     height: 0.9,
