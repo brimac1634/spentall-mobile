@@ -23,7 +23,8 @@ class TabsPage extends StatefulWidget {
 
 class _TabsPageState extends State<TabsPage>
     with SingleTickerProviderStateMixin {
-  AnimationController animationController;
+  AnimationController _animationController;
+  bool _isFetching;
 
   List<TabIconData> tabIconsList = TabIconData.tabIconsList;
 
@@ -38,39 +39,38 @@ class _TabsPageState extends State<TabsPage>
     });
     tabIconsList[0].isSelected = true;
 
-    animationController = AnimationController(
+    _animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
-    tabBody = HomePage(animationController: animationController);
+    tabBody = HomePage(animationController: _animationController);
     super.initState();
   }
 
   @override
   void dispose() {
-    animationController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
   void _setPageIndex(int index) {
-    animationController.reverse().then<dynamic>((data) {
+    _animationController.reverse().then<dynamic>((data) {
       if (!mounted) {
         return;
       }
       setState(() {
         switch (index) {
           case 0:
-            tabBody = HomePage(animationController: animationController);
+            tabBody = HomePage(animationController: _animationController);
             break;
           case 1:
-            tabBody = ListPage(animationController: animationController);
+            tabBody = ListPage(animationController: _animationController);
             break;
           case 2:
-            tabBody = AnalyticsPage(animationController: animationController);
+            tabBody = AnalyticsPage(animationController: _animationController);
             break;
           case 3:
-            tabBody = SettingsPage(animationController: animationController);
-            break;
           default:
-            tabBody = HomePage(animationController: animationController);
+            tabBody = SettingsPage(animationController: _animationController);
+            break;
         }
       });
     });
@@ -86,8 +86,41 @@ class _TabsPageState extends State<TabsPage>
   }
 
   Future<bool> _getExpenses() async {
-    await Provider.of<Expenses>(context, listen: false).getExpenses();
-    return true;
+    _isFetching = true;
+    try {
+      await Provider.of<Expenses>(context, listen: false).getExpenses();
+      return true;
+    } catch (err) {
+      return false;
+    } finally {
+      _isFetching = false;
+    }
+  }
+
+  Widget renderBody(bool isFetching, bool hasData, BuildContext context) {
+    if (isFetching) return CircularProgressIndicator();
+    return (hasData)
+        ? SafeArea(child: tabBody)
+        : Center(
+            child: SizedBox(
+              height: 200,
+              child: Column(children: [
+                Text(
+                  'OH DEAR!',
+                  style: AppTheme.display1,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'We were unable to pull your expenses. Please try again later.',
+                  style: Theme.of(context).textTheme.headline2,
+                  textAlign: TextAlign.center,
+                ),
+              ]),
+            ),
+          );
   }
 
   @override
@@ -101,9 +134,7 @@ class _TabsPageState extends State<TabsPage>
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             return Stack(
               children: <Widget>[
-                (snapshot.hasData)
-                    ? SafeArea(child: tabBody)
-                    : Center(child: CircularProgressIndicator()),
+                renderBody(_isFetching, snapshot.data, context),
                 BottomBarView(
                   tabIconsList: tabIconsList,
                   addClick: () {

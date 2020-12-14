@@ -42,7 +42,7 @@ class AppTheme {
   );
 
   static const TextStyle headline1 = TextStyle(
-      color: AppTheme.pink,
+      color: pink,
       fontSize: 22,
       fontFamily: 'Rubik',
       fontWeight: FontWeight.normal);
@@ -53,7 +53,7 @@ class AppTheme {
     fontSize: 36,
     letterSpacing: 0.4,
     height: 0.9,
-    color: darkerText,
+    color: pink,
   );
 
   static const TextStyle headline = TextStyle(

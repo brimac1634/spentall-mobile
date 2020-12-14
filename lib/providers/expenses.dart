@@ -186,26 +186,22 @@ class Expenses with ChangeNotifier {
   // API CALLS
 
   Future<void> getExpenses() async {
-    try {
-      final response = await http.get('$api/expenditures',
-          headers: {'x-access-token': 'Bearer $token'});
-      final expenses = json.decode(response.body) as List<dynamic>;
-      _expenses = expenses.fold({}, (accum, e) {
-        accum[e['expenditure_id'].toString()] = Expense(
-            id: e['expenditure_id'].toString(),
-            userId: e['user_id'].toString(),
-            currency: e['currency'],
-            type: e['type'],
-            notes: e['notes'],
-            amount: double.parse(e['amount'].toString()),
-            timestamp: DateTime.parse(e['timestamp'].toString()));
+    final response = await http
+        .get('$api/expenditures', headers: {'x-access-token': 'Bearer $token'});
+    final expenses = json.decode(response.body) as List<dynamic>;
+    _expenses = expenses.fold({}, (accum, e) {
+      accum[e['expenditure_id'].toString()] = Expense(
+          id: e['expenditure_id'].toString(),
+          userId: e['user_id'].toString(),
+          currency: e['currency'],
+          type: e['type'],
+          notes: e['notes'],
+          amount: double.parse(e['amount'].toString()),
+          timestamp: DateTime.parse(e['timestamp'].toString()));
 
-        return accum;
-      });
+      return accum;
+    });
 
-      notifyListeners();
-    } catch (error) {
-      throw error;
-    }
+    notifyListeners();
   }
 }
