@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/custom_raised_button.dart';
 import '../widgets/expandable.dart';
+import '../widgets/splash_background.dart';
 
 import '../providers/auth.dart';
 
@@ -72,15 +73,7 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(children: [
-      Positioned(
-        child: Image.asset(
-          'assets/images/auth_background.png',
-        ),
-        top: 0,
-        right: 0,
-        left: 0,
-        bottom: 0,
-      ),
+      SplashBackground(),
       Center(
         child: Padding(
             padding: const EdgeInsets.all(16.0),

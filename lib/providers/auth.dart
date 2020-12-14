@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants/api.dart';
@@ -58,9 +59,32 @@ class Auth with ChangeNotifier {
       handleLogin(userData['user']);
       _token = userData['token'];
       notifyListeners();
+
+      final preferences = await SharedPreferences.getInstance();
+      preferences.setString('token', _token);
     } catch (error) {
       throw error;
     }
+  }
+
+  Future<bool> tryAutoLogin() async {
+    final preferences = await SharedPreferences.getInstance();
+
+    if (!preferences.containsKey('token')) {
+      return false;
+    }
+
+    _token = preferences.getString('token');
+
+    final response = await http.get('$api/auth', headers: {
+      'x-access-token': 'Bearer $_token',
+    });
+
+    final userData = json.decode(response.body) as Map<String, dynamic>;
+    handleLogin(userData);
+
+    notifyListeners();
+    return true;
   }
 
   void logout() async {

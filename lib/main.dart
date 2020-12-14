@@ -7,6 +7,8 @@ import 'providers/auth.dart';
 import './pages/tabs_page.dart';
 import './pages/auth_page.dart';
 
+import './widgets/splash_background.dart';
+
 import './app_theme.dart';
 
 void main() {
@@ -86,7 +88,20 @@ class MyApp extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
                     ))),
-            home: auth.isLoggedIn ? TabsPage() : AuthPage(),
+            home: auth.isLoggedIn
+                ? TabsPage()
+                : FutureBuilder<bool>(
+                    future: auth.tryAutoLogin(),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                      return (snapshot.connectionState ==
+                              ConnectionState.waiting)
+                          ? SplashBackground(
+                              child: CircularProgressIndicator(),
+                            )
+                          : AuthPage();
+                    },
+                  ),
             routes: {
               TabsPage.pathName: (ctx) => TabsPage(),
               AuthPage.pathName: (ctx) => AuthPage()
