@@ -1,4 +1,5 @@
 import '../models/date_range.dart';
+import '../models/user.dart';
 
 DateRange getCycleDates(String cycle) {
   final now = DateTime.now();
@@ -24,4 +25,12 @@ String formatAmount(double amount) {
     return amount.toStringAsFixed(2);
   }
   return amount.toStringAsFixed(0);
+}
+
+bool userIsComplete(User user) {
+  return user != null &&
+      user.target != null &&
+      user.cycle != null &&
+      user.currency != null &&
+      user.categories != null;
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:spentall_mobile/app_theme.dart';
 import 'package:spentall_mobile/assets/spent_all_icons.dart';
 
 import '../providers/expenses.dart';
 
 import '../widgets/custom_radio.dart';
+
+import '../app_theme.dart';
+import '../helpers/utils.dart' as utils;
 
 class ExpenseItem extends StatelessWidget {
   final AnimationController animationController;
@@ -30,7 +32,9 @@ class ExpenseItem extends StatelessWidget {
     return Dismissible(
         onDismissed: (_) {},
         background: Container(
-          color: Theme.of(context).accentColor,
+          decoration: BoxDecoration(
+              color: Theme.of(context).accentColor,
+              gradient: AppTheme.linearGradientReversed),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
@@ -40,13 +44,13 @@ class ExpenseItem extends StatelessWidget {
                   'Delete',
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      color: Theme.of(context).canvasColor,
+                      color: AppTheme.darkPurple,
                       fontSize: 16),
                 ),
               ),
               Icon(
                 SpentAllIcons.trash,
-                color: Theme.of(context).canvasColor,
+                color: AppTheme.darkPurple,
                 size: 24,
               ),
             ],
@@ -87,7 +91,7 @@ class ExpenseItem extends StatelessWidget {
                           ],
                         ),
                         title: Text(
-                          '\$$amount',
+                          '\$${utils.formatAmount(amount)}',
                           style: Theme.of(context).textTheme.headline2,
                         ),
                         subtitle: Text(

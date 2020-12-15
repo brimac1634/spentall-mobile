@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_raised_button.dart';
 import '../widgets/expandable.dart';
 import '../widgets/splash_background.dart';
+import '../widgets/custom_alert_dialog.dart';
 
 import '../providers/auth.dart';
 
@@ -45,15 +46,62 @@ class _AuthPageState extends State<AuthPage> {
         await Provider.of<Auth>(context, listen: false)
             .login(_authData['email'], _authData['password']);
       } else {
-        await Provider.of<Auth>(context, listen: false)
+        final registeredEmail = await Provider.of<Auth>(context, listen: false)
             .register(_authData['name'], _authData['email']);
+        _showAlertDialog(context, registeredEmail);
       }
     } catch (err) {
       print(err);
+      showDialog(
+          context: context,
+          builder: (context) => CustomAlertDialog(
+                  title: err.toString(),
+                  content:
+                      'It looks like we\'ve run into a problem. Please try again soon!',
+                  actions: [
+                    FlatButton(
+                      child: Text(
+                        'Okay',
+                        style: AppTheme.body1,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      textColor: AppTheme.darkPurple,
+                    ),
+                  ]));
     }
 
     setState(() {
       _isLoading = false;
+    });
+  }
+
+  void _showAlertDialog(BuildContext context, String email) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CustomAlertDialog(
+            title: 'Confirmation',
+            content:
+                'We have sent a confirmation email to $email. If you\'re having trouble finding it, be sure to check your spam folder!',
+            actions: [
+              CustomRaisedButton(
+                child: Text(
+                  'Okay',
+                  style: Theme.of(context).textTheme.headline2,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        }).then((_) {
+      _switchAuthMode();
+    }).catchError((onError) {
+      print(onError.toString());
     });
   }
 
@@ -105,8 +153,8 @@ class _AuthPageState extends State<AuthPage> {
                                 prefixIcon: Icon(Icons.person_outline)),
                             keyboardType: TextInputType.text,
                             validator: (value) {
-                              if (value.length >= 1) {
-                                return 'Name is cannot be empty!';
+                              if (value.length <= 0) {
+                                return 'Name cannot be empty!';
                               }
                               return null;
                             },

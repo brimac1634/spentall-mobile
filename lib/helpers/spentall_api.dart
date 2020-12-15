@@ -1,28 +1,54 @@
-// import 'package:http/http.dart' as http;
+import 'dart:io';
 
-// class SpentAllApi {
-//   static const url = 'http://localhost:5000';
+import 'package:http/http.dart' as http;
 
-//   final String token;
+import 'custom_exceptions.dart';
 
-//   SpentAllApi({this.token});
+class SpentAllApi {
+  static const url = 'http://localhost:5000';
 
-//   Future<void> get(
-//       {String endPoint,
-//       Map<String, String> headers = {
-//         'x-access-token': 'Bearer $token',
-//       },
-//       dynamic body}) {
-//     return http.get('$url$endPoint', headers: headers);
-//   }
+  Future<dynamic> get(
+      {String endPoint, Map<String, String> headers, String token}) async {
+    try {
+      final response = await http.get(
+        '$url$endPoint',
+        headers: headers != null
+            ? headers
+            : {
+                'x-access-token': 'Bearer $token',
+              },
+      );
+      return _returnResponse(response);
+    } on SocketException {
+      throw CustomException('No Internet connection');
+    }
+  }
 
-//   Future<void> post(
-//       {String endPoint,
-//       Map<String, String> headers = {
-//         'Content-Type': 'application/json',
-//         'x-access-token': 'Bearer $token',
-//       },
-//       dynamic body}) {
-//     return http.post('$url$endPoint', headers: headers, body: body);
-//   }
-// }
+  Future<dynamic> post(
+      {String endPoint,
+      Map<String, String> headers,
+      dynamic body,
+      String token}) async {
+    try {
+      final response = await http.post('$url$endPoint',
+          headers: headers != null
+              ? headers
+              : {
+                  'Content-Type': 'application/json',
+                  'x-access-token': 'Bearer $token',
+                },
+          body: body);
+      return _returnResponse(response);
+    } on SocketException {
+      throw CustomException('No Internet');
+    }
+  }
+
+  dynamic _returnResponse(http.Response response) {
+    if (response.statusCode < 300) {
+      return response;
+    } else if (response.statusCode >= 300) {
+      throw CustomException(response.body.toString());
+    }
+  }
+}

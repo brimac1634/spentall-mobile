@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/foundation.dart';
 
-import '../constants/api.dart';
+import '../helpers/spentall_api.dart';
 
 import '../models/expense.dart';
 import '../models/user.dart';
@@ -130,8 +130,8 @@ class Expenses with ChangeNotifier {
   // API CALLS
 
   Future<void> getExpenses() async {
-    final response = await http
-        .get('$api/expenditures', headers: {'x-access-token': 'Bearer $token'});
+    final response =
+        await SpentAllApi().get(endPoint: '/expenditures', token: token);
     final expenses = json.decode(response.body) as List<dynamic>;
     _expenses = expenses.fold({}, (accum, e) {
       accum[e['expenditure_id'].toString()] = Expense(

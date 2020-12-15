@@ -6,6 +6,7 @@ import 'providers/auth.dart';
 
 import './pages/tabs_page.dart';
 import './pages/auth_page.dart';
+import './pages/preferences_page.dart';
 
 import './widgets/splash_background.dart';
 
@@ -17,6 +18,27 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  Widget renderHome(Auth auth) {
+    if (auth.isLoggedIn) {
+      if (utils.userIsComplete(auth.user)) {
+        return TabsPage();
+      } else {
+        return PreferencesPage();
+      }
+    } else {
+      return FutureBuilder<bool>(
+        future: auth.tryAutoLogin(),
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          return (snapshot.connectionState == ConnectionState.waiting)
+              ? SplashBackground(
+                  child: CircularProgressIndicator(),
+                )
+              : AuthPage();
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -91,20 +113,7 @@ class MyApp extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
                     ))),
-            home: auth.isLoggedIn
-                ? TabsPage()
-                : FutureBuilder<bool>(
-                    future: auth.tryAutoLogin(),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                      return (snapshot.connectionState ==
-                              ConnectionState.waiting)
-                          ? SplashBackground(
-                              child: CircularProgressIndicator(),
-                            )
-                          : AuthPage();
-                    },
-                  ),
+            home: renderHome(auth),
             routes: {
               TabsPage.pathName: (ctx) => TabsPage(),
               AuthPage.pathName: (ctx) => AuthPage()

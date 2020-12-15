@@ -30,8 +30,8 @@ class _PercentMeterState extends State<PercentMeter>
 
   @override
   void dispose() {
-    super.dispose();
     _percentController.dispose();
+    super.dispose();
   }
 
   @override

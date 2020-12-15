@@ -52,6 +52,8 @@ class _ExpandableState extends State<Expandable>
   @override
   Widget build(BuildContext context) {
     return SizeTransition(
-        axisAlignment: 1.0, sizeFactor: _animation, child: widget.child);
+        axisAlignment: 1.0,
+        sizeFactor: _animation,
+        child: widget.expand ? widget.child : Container());
   }
 }
