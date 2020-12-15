@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppTheme {
   AppTheme._();
   static const darkPurple = Color.fromRGBO(102, 114, 228, 1);
+  static const darkerPurple = Color.fromRGBO(76, 85, 168, 1);
   static const lightPurple = Color.fromRGBO(129, 158, 252, 1);
   static const offWhite = Color.fromRGBO(247, 249, 252, 1);
   static const pink = Color.fromRGBO(255, 185, 246, 1);

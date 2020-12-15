@@ -205,7 +205,6 @@ class _AuthPageState extends State<AuthPage> {
                                     FloatingLabelBehavior.never,
                                 prefixIcon: Icon(Icons.lock_outline)),
                             obscureText: true,
-                            controller: _passwordController,
                             validator: (value) {
                               if (value.isEmpty || value.length < 6) {
                                 return 'Password must be at least 6 characters';

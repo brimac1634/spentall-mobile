@@ -28,7 +28,7 @@ class CustomRaisedButton extends StatelessWidget {
                   colors: [AppTheme.lightPurple, AppTheme.lightPurple]),
           boxShadow: [
             BoxShadow(
-              color: AppTheme.darkPurple,
+              color: AppTheme.darkerPurple,
               offset: Offset(0.0, 1.5),
               blurRadius: 1.5,
             ),

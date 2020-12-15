@@ -56,7 +56,7 @@ class _TopBarState extends State<TopBar> with TickerProviderStateMixin {
                           bottomRight: Radius.circular(20.0)),
                       boxShadow: <BoxShadow>[
                         BoxShadow(
-                            color: AppTheme.darkPurple
+                            color: AppTheme.darkerPurple
                                 .withOpacity(0.4 * widget.topBarOpacity),
                             offset: const Offset(1.1, 1.1),
                             blurRadius: 10.0),

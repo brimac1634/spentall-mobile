@@ -41,11 +41,8 @@ class _PreferencesPageState extends State<PreferencesPage>
       body: Stack(children: [
         SafeArea(
             child: SingleChildScrollView(
-          padding: EdgeInsets.all(12),
-          child: Column(
-            children: [Preferences()],
-          ),
-        )),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 82),
+                child: Preferences())),
         TopBar(
           topBarOpacity: _animation.value,
           animationController: _animationController,
