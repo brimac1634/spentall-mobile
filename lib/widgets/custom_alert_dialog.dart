@@ -33,17 +33,17 @@ class CustomAlertDialog extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(24.0)),
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Row(children: [
-                Text(
-                  title,
-                  style: AppTheme.headline2,
-                  textAlign: TextAlign.left,
-                ),
-                Spacer()
-              ]),
-              Container(child: Text(content, style: AppTheme.label)),
+              Text(
+                title,
+                style: AppTheme.headline2,
+                textAlign: TextAlign.left,
+              ),
+              Container(
+                  padding: EdgeInsets.symmetric(vertical: 28),
+                  child: Text(content, style: AppTheme.label)),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: actions.length >= 2

@@ -57,7 +57,7 @@ class _AuthPageState extends State<AuthPage> {
           builder: (context) => CustomAlertDialog(
                   title: err.toString(),
                   content:
-                      'It looks like we\'ve run into a problem. Please try again soon!',
+                      'It looks like we\'ve run into a problem. Please try again!',
                   actions: [
                     FlatButton(
                       child: Text(
@@ -225,7 +225,7 @@ class _AuthPageState extends State<AuthPage> {
                       else
                         CustomRaisedButton(
                           child: Text(
-                            _authMode == AuthMode.Login ? 'login' : 'register',
+                            _authMode == AuthMode.Login ? 'Login' : 'Register',
                             style: Theme.of(context).textTheme.headline2,
                           ),
                           onPressed: _submit,

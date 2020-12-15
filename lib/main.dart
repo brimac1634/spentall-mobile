@@ -20,7 +20,7 @@ void main() {
 class MyApp extends StatelessWidget {
   Widget renderHome(Auth auth) {
     if (auth.isLoggedIn) {
-      if (utils.userIsComplete(auth.user)) {
+      if (utils.userIsComplete(auth.user) && false) {
         return TabsPage();
       } else {
         return PreferencesPage();

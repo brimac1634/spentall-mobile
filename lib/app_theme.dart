@@ -100,8 +100,8 @@ class AppTheme {
 
   static const TextStyle body1 = TextStyle(
     fontFamily: fontName,
-    fontWeight: FontWeight.w400,
-    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    fontSize: 18,
     letterSpacing: -0.05,
     color: darkPurple,
   );
