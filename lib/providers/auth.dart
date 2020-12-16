@@ -89,4 +89,23 @@ class Auth with ChangeNotifier {
         currency: data['currency'],
         categories: data['categories'].toString().split(','));
   }
+
+  Future<void> updatePreferences(
+      {String currency,
+      String cycle,
+      int target,
+      List<String> categores}) async {
+    final response = await SpentAllApi().post(
+        endPoint: '/settings/update-settings',
+        body: json.encode({
+          'currency': currency,
+          'cycle': cycle,
+          'target': target,
+          'categories': categores.join(',')
+        }),
+        token: _token);
+    final userData = json.decode(response.body) as Map<String, dynamic>;
+    handleLogin(userData);
+    notifyListeners();
+  }
 }

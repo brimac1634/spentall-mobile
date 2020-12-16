@@ -4,6 +4,7 @@ import '../widgets/preferences.dart';
 import '../widgets/top_bar.dart';
 
 import '../app_theme.dart';
+import '../constants/currencies.dart';
 
 class PreferencesPage extends StatefulWidget {
   @override
@@ -42,7 +43,23 @@ class _PreferencesPageState extends State<PreferencesPage>
         SafeArea(
             child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 82),
-                child: Preferences())),
+                child: Preferences(
+                  currency: currencies['HKD'],
+                  cycle: 'monthly',
+                  target: null,
+                  categories: [
+                    'food',
+                    'housing',
+                    'transportation',
+                    'travel',
+                    'entertainment',
+                    'clothing',
+                    'groceries',
+                    'utilities',
+                    'health',
+                    'education'
+                  ],
+                ))),
         TopBar(
           topBarOpacity: _animation.value,
           animationController: _animationController,
