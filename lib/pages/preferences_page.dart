@@ -46,7 +46,7 @@ class _PreferencesPageState extends State<PreferencesPage>
                 child: Preferences(
                   currency: currencies['HKD'],
                   cycle: 'monthly',
-                  target: null,
+                  target: 0,
                   categories: [
                     'food',
                     'housing',
