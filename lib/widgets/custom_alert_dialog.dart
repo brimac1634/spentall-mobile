@@ -14,47 +14,42 @@ class CustomAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24.0),
-              bottomRight: Radius.circular(24.0),
-              topRight: Radius.circular(4.0),
-              bottomLeft: Radius.circular(4.0))),
-      child: Center(
-        child: Container(
-          width: max(290, MediaQuery.of(context).size.width * 0.8),
-          padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 24),
-          decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: AppTheme.offWhite,
-            borderRadius: BorderRadius.all(Radius.circular(24.0)),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                title,
-                style: AppTheme.headline2,
-                textAlign: TextAlign.left,
+    return AlertDialog(
+        backgroundColor: Colors.transparent,
+        contentPadding: EdgeInsets.all(0),
+        actions: [
+          Center(
+            child: Container(
+              width: max(290, MediaQuery.of(context).size.width * 0.8),
+              padding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 24),
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: AppTheme.offWhite,
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
               ),
-              Container(
-                  padding: EdgeInsets.symmetric(vertical: 28),
-                  child: Text(content, style: AppTheme.label)),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: actions.length >= 2
-                    ? MainAxisAlignment.spaceBetween
-                    : MainAxisAlignment.end,
-                children: actions,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: AppTheme.headline2,
+                    textAlign: TextAlign.left,
+                  ),
+                  Container(
+                      padding: EdgeInsets.symmetric(vertical: 28),
+                      child: Text(content, style: AppTheme.label)),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: actions.length >= 2
+                        ? MainAxisAlignment.spaceBetween
+                        : MainAxisAlignment.end,
+                    children: actions,
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        ]);
   }
 }

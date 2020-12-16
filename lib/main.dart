@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 import 'providers/expenses.dart';
 import 'providers/auth.dart';
@@ -14,7 +15,11 @@ import './app_theme.dart';
 import './helpers/utils.dart' as utils;
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(new MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -58,6 +63,7 @@ class MyApp extends StatelessWidget {
         child: Consumer<Auth>(
           builder: (ctx, auth, _) => MaterialApp(
             title: 'Spentall',
+            debugShowCheckedModeBanner: false,
             theme: ThemeData(
                 canvasColor: AppTheme.darkPurple,
                 primaryColor: AppTheme.darkPurple,
