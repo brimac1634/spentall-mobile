@@ -17,12 +17,14 @@ class Preferences extends StatefulWidget {
   final String cycle;
   final int target;
   final List<String> categories;
+  final Function onComplete;
 
   Preferences(
       {@required this.currency,
       @required this.cycle,
       @required this.target,
-      @required this.categories});
+      @required this.categories,
+      this.onComplete});
 
   @override
   _PreferencesState createState() => _PreferencesState();
@@ -68,33 +70,34 @@ class _PreferencesState extends State<Preferences> {
       _isLoading = true;
     });
 
-    // try {
-    //   await Provider.of<Auth>(context, listen: false).updatePreferences(
-    //       currency: _currency.id,
-    //       cycle: _cycle,
-    //       target: _target,
-    //       categores: _categories);
-    // } catch (err) {
-    //   showDialog(
-    //       context: context,
-    //       builder: (context) => CustomAlertDialog(
-    //               title: err.toString(),
-    //               content:
-    //                   'It looks like we\'ve run into a problem. Please try again!',
-    //               actions: [
-    //                 FlatButton(
-    //                   child: Text(
-    //                     'Okay',
-    //                     style: AppTheme.body1,
-    //                   ),
-    //                   onPressed: () {
-    //                     Navigator.of(context).pop();
-    //                   },
-    //                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    //                   textColor: AppTheme.darkPurple,
-    //                 ),
-    //               ]));
-    // }
+    try {
+      await Provider.of<Auth>(context, listen: false).updatePreferences(
+          currency: _currency.id,
+          cycle: _cycle,
+          target: _target,
+          categores: _categories);
+      widget.onComplete();
+    } catch (err) {
+      showDialog(
+          context: context,
+          builder: (context) => CustomAlertDialog(
+                  title: err.toString(),
+                  content:
+                      'It looks like we\'ve run into a problem. Please try again!',
+                  actions: [
+                    FlatButton(
+                      child: Text(
+                        'Okay',
+                        style: AppTheme.body1,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      textColor: AppTheme.darkPurple,
+                    ),
+                  ]));
+    }
 
     setState(() {
       _isLoading = false;

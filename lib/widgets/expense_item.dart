@@ -70,7 +70,7 @@ class ExpenseItem extends StatelessWidget {
                       0.0, 30 * (1.0 - animation.value), 0.0),
                   child: Card(
                     elevation: 5,
-                    shadowColor: AppTheme.lightPurple,
+                    shadowColor: AppTheme.darkerPurple,
                     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     child: Container(
                       decoration: BoxDecoration(

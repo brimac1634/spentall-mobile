@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 import '../helpers/spentall_api.dart';
-
+import '../constants/currencies.dart';
 import '../models/user.dart';
 
 class Auth with ChangeNotifier {
@@ -86,7 +86,7 @@ class Auth with ChangeNotifier {
         email: data['userEmail'],
         target: int.parse(data['target'].toString()),
         cycle: data['cycle'],
-        currency: data['currency'],
+        currency: currencies[data['currency']],
         categories: data['categories'].toString().split(','));
   }
 

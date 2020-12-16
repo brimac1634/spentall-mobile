@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/dropdown.dart';
+import '../widgets/preferences.dart';
+
 import '../providers/auth.dart';
 
 import '../app_theme.dart';
@@ -22,15 +25,37 @@ class _SettingsPageState extends State<SettingsPage> {
     return SizedBox(
       width: double.infinity,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 92),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              '${_auth.user.name.capitalize()}\'s Settings',
-              style: AppTheme.display1,
-              textAlign: TextAlign.center,
-            ),
+            DropDown(
+                title: 'User Preferences',
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Preferences(
+                    target: _auth.user.target,
+                    currency: _auth.user.currency,
+                    cycle: _auth.user.cycle,
+                    categories: _auth.user.categories,
+                    onComplete: () {
+                      Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text('User Preferences Updated!',
+                            style: AppTheme.input),
+                        backgroundColor: AppTheme.offWhite,
+                      ));
+                    },
+                  ),
+                )),
+            // FlatButton(
+            //     onPressed: () {
+            //       Scaffold.of(context).showSnackBar(SnackBar(
+            //         content: Text('User Preferences Updated!',
+            //             style: AppTheme.input),
+            //         backgroundColor: AppTheme.offWhite,
+            //       ));
+            //     },
+            //     child: Text('press here')),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 28),
               child: FlatButton(
