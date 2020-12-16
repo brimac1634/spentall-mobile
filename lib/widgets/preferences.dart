@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import './custom_raised_button.dart';
 import './custom_alert_dialog.dart';
+import './currency_selector.dart';
 
 import '../models/currency.dart';
 import '../providers/auth.dart';
@@ -107,6 +108,21 @@ class _PreferencesState extends State<Preferences> {
     _categoryController.clear();
   }
 
+  void _presentCurrencyPicker() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CurrencySelector(
+            onCurrencySelect: (currency) {
+              setState(() {
+                _currency = currency;
+              });
+              Navigator.of(context).pop();
+            },
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -131,7 +147,7 @@ class _PreferencesState extends State<Preferences> {
                     style: Theme.of(context).textTheme.headline2,
                   ),
                   type: ButtonType.normal,
-                  onPressed: () {},
+                  onPressed: _presentCurrencyPicker,
                   width: 120,
                 ),
               ],
@@ -187,7 +203,7 @@ class _PreferencesState extends State<Preferences> {
                             labelStyle: AppTheme.label,
                             errorStyle: AppTheme.inputError,
                             floatingLabelBehavior: FloatingLabelBehavior.never,
-                            prefixText: _currency.currencySymbol,
+                            prefixText: _currency.currencySymbol ?? '',
                             prefixStyle: AppTheme.label,
                             suffixText: '.00',
                             suffixStyle: AppTheme.label),

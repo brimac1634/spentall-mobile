@@ -9,21 +9,18 @@ class CustomRaisedButton extends StatelessWidget {
   final ButtonType type;
   final Function onPressed;
   final Widget child;
-  final bool disabled;
 
-  CustomRaisedButton(
-      {this.width,
-      this.type = ButtonType.special,
-      @required this.onPressed,
-      this.child,
-      this.disabled = false});
+  CustomRaisedButton({
+    this.width,
+    this.type = ButtonType.special,
+    @required this.onPressed,
+    this.child,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      foregroundDecoration: BoxDecoration(
-          color: disabled ? AppTheme.darkPurple : Colors.transparent),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(3),
         gradient: type == ButtonType.special
@@ -41,10 +38,7 @@ class CustomRaisedButton extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-            onTap: () {
-              if (disabled) return;
-              onPressed();
-            },
+            onTap: onPressed,
             child: Center(
               child: Padding(
                 padding:

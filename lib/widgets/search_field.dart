@@ -5,8 +5,9 @@ import '../app_theme.dart';
 
 class SearchField extends StatefulWidget {
   final Function onSearch;
+  final String label;
 
-  SearchField({@required this.onSearch});
+  SearchField({@required this.onSearch, this.label = ''});
 
   @override
   _SearchFieldState createState() => _SearchFieldState();
@@ -38,8 +39,9 @@ class _SearchFieldState extends State<SearchField> {
       cursorColor: AppTheme.darkPurple,
       style: AppTheme.input,
       decoration: InputDecoration(
-          labelText: 'Name',
+          labelText: widget.label,
           labelStyle: AppTheme.label,
+          errorStyle: AppTheme.inputError,
           floatingLabelBehavior: FloatingLabelBehavior.never,
           prefixIcon: Icon(SpentAllIcons.search)),
     );

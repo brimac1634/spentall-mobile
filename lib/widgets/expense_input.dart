@@ -6,6 +6,9 @@ import './search_field.dart';
 import './currency_selector.dart';
 
 import '../extensions.dart';
+import '../models/currency.dart';
+
+import '../constants/currencies.dart';
 
 class ExpenseInput extends StatefulWidget {
   @override
@@ -24,7 +27,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
   ];
   List<String> _filteredCategories = _categoryOptions;
   DateTime _selectedDate = DateTime.now();
-  String _currency = 'HKD';
+  Currency _currency = currencies['HKD'];
   String _category;
 
   void _presentDatePicker() {
@@ -46,12 +49,14 @@ class _ExpenseInputState extends State<ExpenseInput> {
     showDialog(
         context: context,
         builder: (context) {
-          return CurrencySelector((cur) {
-            setState(() {
-              _currency = cur;
-            });
-            Navigator.of(context).pop();
-          });
+          return CurrencySelector(
+            onCurrencySelect: (currency) {
+              setState(() {
+                _currency = currency;
+              });
+              Navigator.of(context).pop();
+            },
+          );
         });
   }
 
@@ -93,7 +98,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                     Container(
                       child: FlatButton(
                         child: Text(
-                          _currency,
+                          _currency.id,
                           style:
                               TextStyle(color: Theme.of(context).primaryColor),
                         ),
