@@ -8,8 +8,13 @@ class DropDown extends StatefulWidget {
   final bool isOpen;
   final String title;
   final Widget child;
+  final EdgeInsetsGeometry padding;
 
-  DropDown({this.isOpen = false, this.title = '', @required this.child});
+  DropDown(
+      {this.isOpen = false,
+      this.title = '',
+      @required this.child,
+      this.padding});
 
   @override
   _DropDownState createState() => _DropDownState();
@@ -39,6 +44,7 @@ class _DropDownState extends State<DropDown> {
             });
           },
           child: Container(
+            padding: widget.padding,
             decoration: BoxDecoration(
               color: AppTheme.offWhite,
               borderRadius: const BorderRadius.only(
@@ -54,7 +60,7 @@ class _DropDownState extends State<DropDown> {
             child: ListTile(
               title: Text(
                 widget.title,
-                style: AppTheme.headline2,
+                style: AppTheme.flatButton,
               ),
               trailing: Icon(
                 _expand

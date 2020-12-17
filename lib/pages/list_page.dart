@@ -33,29 +33,38 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
         Expanded(
           child: Container(
             width: double.infinity,
-            child: ListView.builder(
-              itemBuilder: (ctx, i) {
-                final int count =
-                    _expenseData.filteredExpensesWithSearch.length > 10
-                        ? 10
-                        : _expenseData.filteredExpensesWithSearch.length;
-                final Animation<double> _animation =
-                    Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
-                        parent: widget.animationController,
-                        curve: Interval((1 / count) * i, 1.0,
-                            curve: Curves.fastOutSlowIn)));
-                widget.animationController.forward();
-
-                return ExpenseItem(
-                  animationController: widget.animationController,
-                  animation: _animation,
-                  id: _filteredExpenseList[i].id,
-                  amount: _filteredExpenseList[i].amount,
-                  type: _filteredExpenseList[i].type,
-                  timestamp: _filteredExpenseList[i].timestamp,
-                );
+            child: RefreshIndicator(
+              onRefresh: () async {
+                await _expenseData.getExpenses();
               },
-              itemCount: _filteredExpenseList.length,
+              backgroundColor: AppTheme.offWhite,
+              color: AppTheme.darkPurple,
+              child: ListView.builder(
+                padding: EdgeInsets.only(top: 8),
+                itemBuilder: (ctx, i) {
+                  final int count =
+                      _expenseData.filteredExpensesWithSearch.length > 10
+                          ? 10
+                          : _expenseData.filteredExpensesWithSearch.length;
+                  final Animation<double> _animation =
+                      Tween<double>(begin: 0.0, end: 1.0).animate(
+                          CurvedAnimation(
+                              parent: widget.animationController,
+                              curve: Interval((1 / count) * i, 1.0,
+                                  curve: Curves.fastOutSlowIn)));
+                  widget.animationController.forward();
+
+                  return ExpenseItem(
+                    animationController: widget.animationController,
+                    animation: _animation,
+                    id: _filteredExpenseList[i].id,
+                    amount: _filteredExpenseList[i].amount,
+                    type: _filteredExpenseList[i].type,
+                    timestamp: _filteredExpenseList[i].timestamp,
+                  );
+                },
+                itemCount: _filteredExpenseList.length,
+              ),
             ),
           ),
         )

@@ -30,6 +30,8 @@ class _SettingsPageState extends State<SettingsPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             DropDown(
+                padding:
+                    EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                 title: 'User Preferences',
                 child: Padding(
                   padding: const EdgeInsets.all(16),
@@ -47,15 +49,6 @@ class _SettingsPageState extends State<SettingsPage> {
                     },
                   ),
                 )),
-            // FlatButton(
-            //     onPressed: () {
-            //       Scaffold.of(context).showSnackBar(SnackBar(
-            //         content: Text('User Preferences Updated!',
-            //             style: AppTheme.input),
-            //         backgroundColor: AppTheme.offWhite,
-            //       ));
-            //     },
-            //     child: Text('press here')),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 28),
               child: FlatButton(

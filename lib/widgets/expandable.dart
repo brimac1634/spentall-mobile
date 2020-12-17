@@ -25,8 +25,10 @@ class _ExpandableState extends State<Expandable>
   void initState() {
     super.initState();
 
-    _expandController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    _expandController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
     _animation = CurvedAnimation(
       parent: _expandController,
       curve: Curves.fastOutSlowIn,

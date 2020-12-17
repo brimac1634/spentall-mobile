@@ -76,7 +76,7 @@ class ExpenseItem extends StatelessWidget {
                     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
+                        borderRadius: BorderRadius.circular(4),
                         color: Theme.of(context).buttonColor,
                       ),
                       child: ListTile(
