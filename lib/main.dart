@@ -9,6 +9,7 @@ import './pages/tabs_page.dart';
 import './pages/auth_page.dart';
 import './pages/preferences_page.dart';
 
+import './widgets/custom_alert_dialog.dart';
 import './widgets/splash_background.dart';
 
 import './app_theme.dart';
@@ -23,7 +24,16 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  Widget renderHome(Auth auth) {
+  Future<bool> _tryAutoLogin(Auth auth) async {
+    try {
+      return await auth.tryAutoLogin();
+    } catch (err) {
+      print(err);
+      return false;
+    }
+  }
+
+  Widget _renderHome(Auth auth) {
     if (auth.isLoggedIn) {
       if (utils.userIsComplete(auth.user)) {
         return TabsPage();
@@ -32,7 +42,7 @@ class MyApp extends StatelessWidget {
       }
     } else {
       return FutureBuilder<bool>(
-        future: auth.tryAutoLogin(),
+        future: _tryAutoLogin(auth),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           return (snapshot.connectionState == ConnectionState.waiting)
               ? SplashBackground(
@@ -111,15 +121,12 @@ class MyApp extends StatelessWidget {
                         fontSize: 22,
                         fontFamily: 'Rubik',
                         fontWeight: FontWeight.bold),
-                    headline4: TextStyle(
-                        color: AppTheme.darkPurple,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
+                    headline4: AppTheme.headline4,
                     button: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 22,
                     ))),
-            home: renderHome(auth),
+            home: _renderHome(auth),
             routes: {
               TabsPage.pathName: (ctx) => TabsPage(),
               AuthPage.pathName: (ctx) => AuthPage()

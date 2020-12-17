@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 import '../helpers/spentall_api.dart';
 import '../constants/currencies.dart';
@@ -61,11 +60,12 @@ class Auth with ChangeNotifier {
       return false;
     }
 
-    _token = preferences.getString('token');
     final response = await SpentAllApi().get(endPoint: '/auth', token: _token);
 
     final userData = json.decode(response.body) as Map<String, dynamic>;
     handleLogin(userData);
+
+    _token = preferences.getString('token');
 
     notifyListeners();
     return true;

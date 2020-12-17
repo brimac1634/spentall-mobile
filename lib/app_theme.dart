@@ -75,6 +75,13 @@ class AppTheme {
     color: darkPurple,
   );
 
+  static const TextStyle headline4 = TextStyle(
+      fontFamily: headingFont,
+      color: AppTheme.darkPurple,
+      fontSize: 20,
+      letterSpacing: 0.27,
+      fontWeight: FontWeight.bold);
+
   static const TextStyle title = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.bold,

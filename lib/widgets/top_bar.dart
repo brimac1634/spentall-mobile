@@ -5,18 +5,13 @@ import '../app_theme.dart';
 class TopBar extends StatefulWidget {
   final double topBarOpacity;
   final AnimationController animationController;
-  final String title;
   final Widget child;
-  final bool canGoBack;
-  final Function onBack;
 
-  TopBar(
-      {@required this.topBarOpacity,
-      @required this.animationController,
-      @required this.title,
-      this.child,
-      this.canGoBack = false,
-      this.onBack});
+  TopBar({
+    @required this.topBarOpacity,
+    @required this.animationController,
+    this.child,
+  });
 
   @override
   _TopBarState createState() => _TopBarState();
@@ -68,51 +63,12 @@ class _TopBarState extends State<TopBar> with TickerProviderStateMixin {
                           height: MediaQuery.of(context).padding.top,
                         ),
                         Padding(
-                          padding: EdgeInsets.only(
-                              left: 16,
-                              right: 16,
-                              top: 16 - 8.0 * widget.topBarOpacity,
-                              bottom: 12 - 8.0 * widget.topBarOpacity),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              if (widget.canGoBack)
-                                IconButton(
-                                    icon: Image.asset(
-                                      'assets/left-arrow.png',
-                                      width: AppTheme.iconWidth,
-                                      height: AppTheme.iconHeight,
-                                    ),
-                                    onPressed: () {
-                                      widget.onBack();
-                                      Navigator.of(context).pop();
-                                    }),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    widget.title,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      fontFamily: AppTheme.fontName,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize:
-                                          22 + 6 - 6 * widget.topBarOpacity,
-                                      letterSpacing: 1.2,
-                                      color: AppTheme.darkPurple,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 8,
-                                    right: 8,
-                                  ),
-                                  child: widget.child),
-                            ],
-                          ),
-                        )
+                            padding: EdgeInsets.only(
+                                left: 16,
+                                right: 16,
+                                top: 16 - 8.0 * widget.topBarOpacity,
+                                bottom: 12 - 8.0 * widget.topBarOpacity),
+                            child: widget.child)
                       ],
                     ),
                   )),

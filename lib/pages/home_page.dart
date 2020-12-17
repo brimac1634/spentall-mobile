@@ -46,31 +46,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 child: Transform(
                   transform: Matrix4.translationValues(
                       0.0, 40 * (1.0 - _animation.value), 0.0),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 30,
-                        ),
-                        PercentMeter(
-                            expenses.cycleTotalTargetPercentage.ceil()),
-                        Container(
-                          height: 20,
-                        ),
-                        Text(
-                          '${expenses.cycleTotalTargetPercentage.ceil()}% left of your ${auth.user.cycle} limit',
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                        Text(
-                          'or',
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                        Text(
-                          '\$${utils.formatAmount(expenses.cycleFilteredTotalExpenses)} out of \$${auth.user.target}',
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
-                      ]),
+                  child: SafeArea(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 30,
+                          ),
+                          PercentMeter(
+                              expenses.cycleTotalTargetPercentage.ceil()),
+                          Container(
+                            height: 20,
+                          ),
+                          Text(
+                            '${expenses.cycleTotalTargetPercentage.ceil()}% left of your ${auth.user.cycle} limit',
+                            style: Theme.of(context).textTheme.headline2,
+                          ),
+                          Text(
+                            'or',
+                            style: Theme.of(context).textTheme.headline2,
+                          ),
+                          Text(
+                            '\$${utils.formatAmount(expenses.cycleFilteredTotalExpenses)} out of \$${auth.user.target}',
+                            style: Theme.of(context).textTheme.headline2,
+                          ),
+                        ]),
+                  ),
                 ),
               ),
             )));

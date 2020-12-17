@@ -28,9 +28,11 @@ class ExpenseItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final expenseData = Provider.of<Expenses>(context);
+    final _expenseData = Provider.of<Expenses>(context);
     return Dismissible(
-        onDismissed: (_) {},
+        onDismissed: (_) {
+          _expenseData.deleteExpense([id]);
+        },
         background: Container(
           decoration: BoxDecoration(
               color: Theme.of(context).accentColor,
@@ -82,10 +84,10 @@ class ExpenseItem extends StatelessWidget {
                           children: <Widget>[
                             Expanded(
                               child: CustomRadio(
-                                  isSelected: expenseData.selectedExpenses
+                                  isSelected: _expenseData.selectedExpenses
                                       .containsKey(id),
                                   onTap: () {
-                                    expenseData.toggleSelected(id);
+                                    _expenseData.toggleSelected(id);
                                   }),
                             )
                           ],

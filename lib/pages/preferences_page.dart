@@ -63,7 +63,10 @@ class _PreferencesPageState extends State<PreferencesPage>
         TopBar(
           topBarOpacity: _animation.value,
           animationController: _animationController,
-          title: 'User Preferences',
+          child: Text(
+            'User Preferences',
+            style: AppTheme.headline2,
+          ),
         )
       ]),
     );

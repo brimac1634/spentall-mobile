@@ -20,7 +20,7 @@ class SpentAllApi {
       );
       return _returnResponse(response);
     } on SocketException {
-      throw CustomException('No Internet connection');
+      throw CustomException('Unable to connect');
     }
   }
 
@@ -40,7 +40,7 @@ class SpentAllApi {
           body: body);
       return _returnResponse(response);
     } on SocketException {
-      throw CustomException('No Internet');
+      throw CustomException('Unable to connect');
     }
   }
 

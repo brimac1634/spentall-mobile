@@ -1,7 +1,4 @@
-import 'dart:math';
 import 'dart:convert';
-
-import 'package:http/http.dart' as http;
 
 import 'package:flutter/foundation.dart';
 
@@ -11,6 +8,7 @@ import '../models/expense.dart';
 import '../models/user.dart';
 import '../models/date_range.dart';
 
+import '../helpers/custom_exceptions.dart';
 import '../helpers/utils.dart' as utils;
 
 class Expenses with ChangeNotifier {
@@ -127,6 +125,11 @@ class Expenses with ChangeNotifier {
     notifyListeners();
   }
 
+  void clearSelected() {
+    _selectedExpenses.clear();
+    notifyListeners();
+  }
+
   // API CALLS
 
   Future<void> getExpenses() async {
@@ -134,18 +137,63 @@ class Expenses with ChangeNotifier {
         await SpentAllApi().get(endPoint: '/expenditures', token: token);
     final expenses = json.decode(response.body) as List<dynamic>;
     _expenses = expenses.fold({}, (accum, e) {
-      accum[e['expenditure_id'].toString()] = Expense(
-          id: e['expenditure_id'].toString(),
-          userId: e['user_id'].toString(),
-          currency: e['currency'],
-          type: e['type'],
-          notes: e['notes'],
-          amount: double.parse(e['amount'].toString()),
-          timestamp: DateTime.parse(e['timestamp'].toString()));
-
+      accum[e['expenditure_id'].toString()] = _newExpense(e);
       return accum;
     });
 
     notifyListeners();
+  }
+
+  Future<void> addExpense(String id, String currency, String category,
+      double amount, String notes, DateTime timestamp) async {
+    final response = await SpentAllApi().post(
+        endPoint: '/expenditures/add',
+        token: token,
+        body: json.encode({
+          'expenditure_id': id,
+          'currency': currency,
+          'type': category,
+          'amount': amount,
+          'notes': notes,
+          'timestamp': timestamp.toIso8601String()
+        }));
+    final expense = json.decode(response.body) as Map<String, dynamic>;
+    _expenses[expense['expenditure_id']] = _newExpense(expense);
+
+    notifyListeners();
+  }
+
+  Future<void> deleteExpense(List<String> expenseIds) async {
+    if (expenseIds.length < 1) return;
+
+    final _existingExpenses =
+        expenseIds.map((id) => _expenses.remove(id)).toList();
+
+    notifyListeners();
+
+    try {
+      await SpentAllApi().post(
+          endPoint: '/expenditures/delete',
+          token: token,
+          body: json.encode({'expenditureIDs': expenseIds}));
+    } catch (err) {
+      _existingExpenses.forEach((expense) {
+        _expenses[expense.id] = expense;
+      });
+      throw CustomException('Failed to Delete');
+    }
+  }
+
+  // HELPERS
+
+  Expense _newExpense(Map<String, dynamic> expenseData) {
+    return Expense(
+        id: expenseData['expenditure_id'].toString(),
+        userId: expenseData['user_id'].toString(),
+        currency: expenseData['currency'],
+        type: expenseData['type'],
+        notes: expenseData['notes'],
+        amount: double.parse(expenseData['amount'].toString()),
+        timestamp: DateTime.parse(expenseData['timestamp'].toString()));
   }
 }
