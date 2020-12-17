@@ -60,12 +60,15 @@ class Auth with ChangeNotifier {
       return false;
     }
 
-    final response = await SpentAllApi().get(endPoint: '/auth', token: _token);
+    final possibleToken = preferences.getString('token');
+
+    final response =
+        await SpentAllApi().get(endPoint: '/auth', token: possibleToken);
 
     final userData = json.decode(response.body) as Map<String, dynamic>;
     handleLogin(userData);
 
-    _token = preferences.getString('token');
+    _token = possibleToken;
 
     notifyListeners();
     return true;
