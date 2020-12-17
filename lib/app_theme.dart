@@ -77,7 +77,7 @@ class AppTheme {
 
   static const TextStyle headline4 = TextStyle(
       fontFamily: headingFont,
-      color: AppTheme.darkPurple,
+      color: darkPurple,
       fontSize: 20,
       letterSpacing: 0.27,
       fontWeight: FontWeight.bold);
@@ -112,6 +112,22 @@ class AppTheme {
     fontSize: 18,
     letterSpacing: -0.05,
     color: darkPurple,
+  );
+
+  static const TextStyle flatButton = TextStyle(
+    fontFamily: fontName,
+    fontWeight: FontWeight.bold,
+    fontSize: 18,
+    letterSpacing: 0.2,
+    color: darkPurple,
+  );
+
+  static const TextStyle cancel = TextStyle(
+    fontFamily: fontName,
+    fontWeight: FontWeight.w500,
+    fontSize: 18,
+    letterSpacing: 0.2,
+    color: lightText,
   );
 
   static const TextStyle label = TextStyle(

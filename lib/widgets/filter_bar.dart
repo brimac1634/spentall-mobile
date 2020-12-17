@@ -38,7 +38,8 @@ class _FilterBarState extends State<FilterBar> {
     return Column(
       children: [
         Expandable(
-          expand: _expenseData.selectedExpenses.length < 1,
+          axis: Axis.horizontal,
+          expand: !_showSearch,
           child: ListTile(
               contentPadding: EdgeInsets.all(0),
               title: Text(
@@ -58,6 +59,9 @@ class _FilterBarState extends State<FilterBar> {
                       imageAsset: 'assets/icons/filter.png',
                       onTap: () {},
                     ),
+                    SizedBox(
+                      width: 16,
+                    ),
                     ScaleIconButton(
                       imageAsset: _showSearch
                           ? 'assets/icons/searchS.png'
@@ -73,46 +77,59 @@ class _FilterBarState extends State<FilterBar> {
               )),
         ),
         Expandable(
+          axis: Axis.horizontal,
+          axisAlignment: -1.0,
           expand: _showSearch,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.only(bottom: 8.0),
             child: SearchField(
               onSearch: (value) {
                 _expenseData.setSearchText(value);
+              },
+              canCancel: true,
+              onCancel: () {
+                setState(() {
+                  _showSearch = !_showSearch;
+                });
               },
             ),
           ),
         ),
         Expandable(
           expand: _expenseData.selectedExpenses.length >= 1,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                FlatButton(
-                  splashColor: Colors.transparent,
-                  onPressed: () {
-                    _expenseData.clearSelected();
-                  },
-                  child: Text(
-                    'Cancel',
-                    style: AppTheme.label,
-                  ),
-                ),
-                FlatButton(
-                  splashColor: Colors.transparent,
-                  onPressed: () {
-                    _deleteSelectedExpenses(_expenseData);
-                  },
-                  child: Text(
-                    '(${_expenseData.selectedExpenses.length}) Delete',
-                    style: AppTheme.headline4,
-                  ),
-                )
-              ],
+          child: Column(children: [
+            Divider(
+              color: AppTheme.darkPurple,
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                      _expenseData.clearSelected();
+                    },
+                    child: Text(
+                      'Cancel',
+                      style: AppTheme.cancel,
+                    ),
+                  ),
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                      _deleteSelectedExpenses(_expenseData);
+                    },
+                    child: Text(
+                      '(${_expenseData.selectedExpenses.length}) Delete',
+                      style: AppTheme.flatButton,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ]),
         )
       ],
     );

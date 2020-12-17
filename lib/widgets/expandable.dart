@@ -3,8 +3,14 @@ import 'package:flutter/material.dart';
 class Expandable extends StatefulWidget {
   final Widget child;
   final bool expand;
+  final Axis axis;
+  final double axisAlignment;
 
-  Expandable({this.expand = false, this.child});
+  Expandable(
+      {this.expand = false,
+      this.child,
+      this.axis = Axis.vertical,
+      this.axisAlignment = 1.0});
 
   @override
   _ExpandableState createState() => _ExpandableState();
@@ -52,7 +58,8 @@ class _ExpandableState extends State<Expandable>
   @override
   Widget build(BuildContext context) {
     return SizeTransition(
-        axisAlignment: 1.0,
+        axis: widget.axis,
+        axisAlignment: widget.axisAlignment,
         sizeFactor: _animation,
         child: widget.expand ? widget.child : Container());
   }

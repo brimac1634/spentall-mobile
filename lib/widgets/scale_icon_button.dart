@@ -47,13 +47,10 @@ class _ScaleIconButtonState extends State<ScaleIconButton>
           _animationController.forward();
           widget.onTap();
         },
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset(
-            widget.imageAsset,
-            height: 36,
-            width: 36,
-          ),
+        child: Image.asset(
+          widget.imageAsset,
+          height: 36,
+          width: 36,
         ),
       ),
     );
