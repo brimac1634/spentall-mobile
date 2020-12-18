@@ -131,12 +131,13 @@ class _AuthPageState extends State<AuthPage> {
                       child: Column(
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 22),
-                            child: Text(
-                              'SpentAll',
-                              style:
-                                  TextStyle(fontSize: 48, color: AppTheme.pink),
-                            ),
+                            padding: const EdgeInsets.symmetric(vertical: 26),
+                            child: Text('SpentAll',
+                                style: TextStyle(
+                                    fontSize: 56,
+                                    color: AppTheme.offWhite,
+                                    fontFamily: 'Karla',
+                                    letterSpacing: 3)),
                           ),
                           Expandable(
                             expand: _authMode == AuthMode.Register,
