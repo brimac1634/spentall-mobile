@@ -161,7 +161,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Currency',
+                        'Date',
                         style: Theme.of(context).textTheme.headline2,
                       ),
                       CustomRaisedButton(
@@ -186,35 +186,55 @@ class _ExpenseInputState extends State<ExpenseInput> {
                           SizedBox(
                             height: 12,
                           ),
-                          TextFormField(
-                            cursorColor: AppTheme.darkPurple,
-                            style: AppTheme.input,
-                            decoration: InputDecoration(
-                                labelText: 'Amount',
-                                labelStyle: AppTheme.label,
-                                errorStyle: AppTheme.inputError,
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.never,
-                                prefixText: _currency.currencySymbol ?? '',
-                                prefixStyle: AppTheme.label,
-                                suffixText: '.00',
-                                suffixStyle: AppTheme.label),
-                            keyboardType: TextInputType.number,
-                            initialValue: _amount.toString(),
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            validator: (value) {
-                              final val = int.parse(value);
-                              if (val.isNaN || val < 1) {
-                                return 'Invalid number';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _amount = double.parse(value);
-                            },
-                          ),
+                          Row(children: [
+                            CustomRaisedButton(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 3),
+                                child: Text(
+                                  _currency.id,
+                                  style: Theme.of(context).textTheme.headline2,
+                                ),
+                              ),
+                              type: ButtonType.normal,
+                              onPressed: _presentCurrencyPicker,
+                              width: 120,
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            Expanded(
+                              child: TextFormField(
+                                cursorColor: AppTheme.darkPurple,
+                                style: AppTheme.input,
+                                decoration: InputDecoration(
+                                    labelText: 'Amount',
+                                    labelStyle: AppTheme.label,
+                                    errorStyle: AppTheme.inputError,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    prefixText: _currency.currencySymbol ?? '',
+                                    prefixStyle: AppTheme.label,
+                                    suffixText: '.00',
+                                    suffixStyle: AppTheme.label),
+                                keyboardType: TextInputType.number,
+                                initialValue: _amount.toString(),
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                validator: (value) {
+                                  final val = int.parse(value);
+                                  if (val.isNaN || val < 1) {
+                                    return 'Invalid number';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) {
+                                  _amount = double.parse(value);
+                                },
+                              ),
+                            ),
+                          ]),
                         ])),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 18),
