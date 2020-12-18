@@ -199,6 +199,7 @@ class Expenses with ChangeNotifier {
         type: expenseData['type'],
         notes: expenseData['notes'],
         amount: double.parse(expenseData['amount'].toString()) / 100,
-        timestamp: DateTime.parse(expenseData['timestamp'].toString()));
+        timestamp:
+            DateTime.parse(expenseData['timestamp'].toString()).toLocal());
   }
 }

@@ -44,7 +44,7 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
               backgroundColor: AppTheme.offWhite,
               color: AppTheme.darkPurple,
               child: ListView.builder(
-                padding: EdgeInsets.only(top: 8),
+                padding: EdgeInsets.only(top: 8, bottom: 200),
                 itemBuilder: (ctx, i) {
                   final Animation<double> _animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
@@ -57,10 +57,7 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
                   return ExpenseItem(
                     animationController: widget.animationController,
                     animation: _animation,
-                    id: _filteredExpenseList[i].id,
-                    amount: _filteredExpenseList[i].amount,
-                    type: _filteredExpenseList[i].type,
-                    timestamp: _filteredExpenseList[i].timestamp,
+                    expense: _filteredExpenseList[i],
                   );
                 },
                 itemCount: _filteredExpenseList.length,

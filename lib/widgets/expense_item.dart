@@ -5,33 +5,47 @@ import 'package:spentall_mobile/assets/spent_all_icons.dart';
 
 import '../providers/expenses.dart';
 
-import '../widgets/custom_radio.dart';
+import './custom_radio.dart';
+import './expense_input.dart';
 
 import '../app_theme.dart';
+import '../models/expense.dart';
 import '../helpers/utils.dart' as utils;
+import '../constants/currencies.dart';
 
 class ExpenseItem extends StatelessWidget {
   final AnimationController animationController;
   final Animation<dynamic> animation;
-  final String id;
-  final double amount;
-  final String type;
-  final DateTime timestamp;
+  final Expense expense;
 
   ExpenseItem(
       {@required this.animationController,
       @required this.animation,
-      @required this.id,
-      @required this.amount,
-      @required this.type,
-      @required this.timestamp});
+      @required this.expense});
+
+  void _showModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) => Container(
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: ExpenseInput(
+              id: expense.id,
+              amount: expense.amount,
+              category: expense.type,
+              currency: currencies[expense.currency],
+              date: expense.timestamp,
+              notes: expense.notes,
+            )),
+        isScrollControlled: true);
+  }
 
   @override
   Widget build(BuildContext context) {
     final _expenseData = Provider.of<Expenses>(context);
     return Dismissible(
         onDismissed: (_) {
-          _expenseData.deleteExpense([id]);
+          _expenseData.deleteExpense([expense.id]);
         },
         background: Container(
           decoration: BoxDecoration(
@@ -62,7 +76,7 @@ class ExpenseItem extends StatelessWidget {
           margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         ),
         direction: DismissDirection.endToStart,
-        key: ValueKey(id),
+        key: ValueKey(expense.id),
         child: AnimatedBuilder(
             animation: animationController,
             builder: (context, child) => FadeTransition(
@@ -80,27 +94,31 @@ class ExpenseItem extends StatelessWidget {
                         color: Theme.of(context).buttonColor,
                       ),
                       child: ListTile(
+                        onLongPress: () {
+                          _showModalBottomSheet(context);
+                        },
                         leading: Column(
                           children: <Widget>[
                             Expanded(
                               child: CustomRadio(
                                   isSelected: _expenseData.selectedExpenses
-                                      .containsKey(id),
+                                      .containsKey(expense.id),
                                   onTap: () {
-                                    _expenseData.toggleSelected(id);
+                                    _expenseData.toggleSelected(expense.id);
                                   }),
                             )
                           ],
                         ),
                         title: Text(
-                          '\$${utils.formatAmount(amount)}',
+                          '\$${utils.formatAmount(expense.amount)}',
                           style: AppTheme.headline3,
                         ),
                         subtitle: Text(
-                          type,
+                          expense.type,
                           style: Theme.of(context).textTheme.subtitle2,
                         ),
-                        trailing: Text(DateFormat('d MMM').format(timestamp),
+                        trailing: Text(
+                            DateFormat('d MMM').format(expense.timestamp),
                             style: Theme.of(context).textTheme.subtitle2),
                       ),
                     ),

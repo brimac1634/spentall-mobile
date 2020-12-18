@@ -23,16 +23,15 @@ class ExpenseInput extends StatefulWidget {
   final String category;
   final double amount;
   final String notes;
-  final BuildContext context;
 
-  ExpenseInput(
-      {this.id,
-      this.date,
-      this.category,
-      this.currency,
-      this.amount,
-      this.notes,
-      @required this.context});
+  ExpenseInput({
+    this.id,
+    this.date,
+    this.category,
+    this.currency,
+    this.amount,
+    this.notes,
+  });
 
   @override
   _ExpenseInputState createState() => _ExpenseInputState();
@@ -85,7 +84,6 @@ class _ExpenseInputState extends State<ExpenseInput> {
     setState(() {
       _isLoading = true;
     });
-
     try {
       await Provider.of<Expenses>(context, listen: false).addExpense(
           id: widget.id,
@@ -148,13 +146,13 @@ class _ExpenseInputState extends State<ExpenseInput> {
     var date = DateTime.now();
     showDatePicker(
             context: context,
-            initialDate: DateTime.now(),
+            initialDate: _date,
             firstDate: DateTime(date.year - 1, date.month, date.day),
             lastDate: DateTime(date.year + 1, date.month, date.day))
         .then((date) {
       if (date == null) return;
       setState(() {
-        _date = date;
+        _date = date.add(Duration(seconds: 1));
       });
     });
   }
@@ -202,13 +200,16 @@ class _ExpenseInputState extends State<ExpenseInput> {
                   'Add Expenditure',
                   style: AppTheme.headline3,
                 ),
+                SizedBox(
+                  height: 18,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 18),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Date',
+                        '1. Date',
                         style: AppTheme.headline3,
                       ),
                       ConstrainedBox(
@@ -235,7 +236,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Currency and Amount',
+                          Text('2. Currency and Amount',
                               style: AppTheme.headline3),
                           SizedBox(
                             height: 12,
@@ -294,7 +295,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Category', style: AppTheme.headline3),
+                      Text('3. Category', style: AppTheme.headline3),
                       SizedBox(
                         height: 12,
                       ),
@@ -347,7 +348,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Notes', style: AppTheme.headline3),
+                      Text('4. Notes', style: AppTheme.headline3),
                       SizedBox(
                         height: 12,
                       ),
@@ -384,6 +385,9 @@ class _ExpenseInputState extends State<ExpenseInput> {
                         ),
                         onPressed: _submit,
                       ),
+                SizedBox(
+                  height: 18,
+                )
               ],
             ),
           ),
