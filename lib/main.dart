@@ -112,15 +112,8 @@ class MyApp extends StatelessWidget {
                         fontSize: 22,
                         fontFamily: 'Rubik',
                         fontWeight: FontWeight.normal),
-                    headline2: TextStyle(
-                        color: AppTheme.offWhite,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold),
-                    headline3: TextStyle(
-                        color: AppTheme.darkPurple,
-                        fontSize: 22,
-                        fontFamily: 'Rubik',
-                        fontWeight: FontWeight.bold),
+                    headline2: AppTheme.headline2,
+                    headline3: AppTheme.headline3,
                     headline4: AppTheme.headline4,
                     button: TextStyle(
                       fontWeight: FontWeight.bold,

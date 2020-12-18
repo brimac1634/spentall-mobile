@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import './search_field.dart';
 import './currency_selector.dart';
 import './custom_alert_dialog.dart';
 import './custom_raised_button.dart';
@@ -14,6 +13,7 @@ import '../providers/expenses.dart';
 import '../providers/auth.dart';
 
 import '../constants/currencies.dart';
+import '../helpers/extensions.dart';
 import '../app_theme.dart';
 
 class ExpenseInput extends StatefulWidget {
@@ -23,6 +23,7 @@ class ExpenseInput extends StatefulWidget {
   final String category;
   final double amount;
   final String notes;
+  final BuildContext context;
 
   ExpenseInput(
       {this.id,
@@ -30,7 +31,8 @@ class ExpenseInput extends StatefulWidget {
       this.category,
       this.currency,
       this.amount,
-      this.notes});
+      this.notes,
+      @required this.context});
 
   @override
   _ExpenseInputState createState() => _ExpenseInputState();
@@ -38,6 +40,9 @@ class ExpenseInput extends StatefulWidget {
 
 class _ExpenseInputState extends State<ExpenseInput> {
   final GlobalKey<FormState> _formKey = GlobalKey();
+  TextEditingController _amountController;
+  TextEditingController _notesController;
+  final ScrollController _scrollController = ScrollController();
 
   DateTime _date;
   Currency _currency;
@@ -55,9 +60,20 @@ class _ExpenseInputState extends State<ExpenseInput> {
       _date = widget.date ?? DateTime.now();
       _currency = widget.currency ?? _user.currency;
       _category = widget.category ?? '';
-      _amount = widget.amount ?? 0;
+      _amount = widget.amount;
       _notes = widget.notes ?? '';
     });
+    _amountController = TextEditingController(
+        text: _amount != null ? _amount.toStringAsFixed(2) : null);
+    _notesController = TextEditingController(text: _notes);
+  }
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    _notesController.dispose();
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> _submit() async {
@@ -71,16 +87,41 @@ class _ExpenseInputState extends State<ExpenseInput> {
     });
 
     try {
-      // await Provider.of<Auth>(context, listen: false).updatePreferences(
-      //     currency: _currency.id,
-      //     cycle: _cycle,
-      //     target: _target,
-      //     categores: _categories);
+      await Provider.of<Expenses>(context, listen: false).addExpense(
+          id: widget.id,
+          currency: _currency.id,
+          category: _category,
+          amount: _amount,
+          notes: _notes,
+          timestamp: _date);
+
+      // Scaffold.of(widget.context).showSnackBar(SnackBar(
+      //   content: Text(
+      //       widget.id != null ? 'Expenditure Updated!' : 'Expenditure Added!',
+      //       style: AppTheme.input),
+      //   backgroundColor: AppTheme.offWhite,
+      // ));
+
+      if (widget.id != null) {
+        Navigator.of(context).pop(true);
+      }
+
+      setState(() {
+        _amount = null;
+        _category = '';
+        _notes = '';
+      });
+      _amountController.clear();
+      _notesController.clear();
+
+      _scrollController.animateTo(0.0,
+          duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
     } catch (err) {
+      print(err);
       showDialog(
           context: context,
           builder: (context) => CustomAlertDialog(
-                  title: err.toString(),
+                  title: 'Uh Oh',
                   content:
                       'It looks like we\'ve run into a problem. Please try again!',
                   actions: [
@@ -137,6 +178,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
   Widget build(BuildContext context) {
     final _auth = Provider.of<Auth>(context);
     return Form(
+      key: _formKey,
       child: Container(
         decoration: BoxDecoration(
           color: AppTheme.darkPurple,
@@ -151,10 +193,15 @@ class _ExpenseInputState extends State<ExpenseInput> {
         ),
         padding: EdgeInsets.all(12),
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: SafeArea(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                Text(
+                  'Add Expenditure',
+                  style: AppTheme.headline3,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 18),
                   child: Row(
@@ -162,18 +209,23 @@ class _ExpenseInputState extends State<ExpenseInput> {
                     children: [
                       Text(
                         'Date',
-                        style: Theme.of(context).textTheme.headline2,
+                        style: AppTheme.headline3,
                       ),
-                      CustomRaisedButton(
-                        child: Text(
-                            _date.isSameDay(DateTime.now())
-                                ? 'Today'
-                                : DateFormat('d MMM yyyy').format(_date),
-                            style: TextStyle(
-                                color: Theme.of(context).backgroundColor)),
-                        type: ButtonType.normal,
-                        onPressed: _presentCurrencyPicker,
-                        width: 120,
+                      ConstrainedBox(
+                        constraints: BoxConstraints(minWidth: 120),
+                        child: CustomRaisedButton(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                                _date.isSameDay(DateTime.now())
+                                    ? 'Today'
+                                    : DateFormat('d MMM yyyy').format(_date),
+                                style: AppTheme.headline3),
+                          ),
+                          type: ButtonType.normal,
+                          onPressed: _presentDatePicker,
+                        ),
                       ),
                     ],
                   ),
@@ -184,19 +236,15 @@ class _ExpenseInputState extends State<ExpenseInput> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('Currency and Amount',
-                              style: Theme.of(context).textTheme.headline2),
+                              style: AppTheme.headline3),
                           SizedBox(
                             height: 12,
                           ),
                           Row(children: [
                             CustomRaisedButton(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 3),
-                                child: Text(
-                                  _currency.id,
-                                  style: Theme.of(context).textTheme.headline2,
-                                ),
+                              child: Text(
+                                _currency.id,
+                                style: AppTheme.headline3,
                               ),
                               type: ButtonType.normal,
                               onPressed: _presentCurrencyPicker,
@@ -210,22 +258,25 @@ class _ExpenseInputState extends State<ExpenseInput> {
                                 cursorColor: AppTheme.darkPurple,
                                 style: AppTheme.input,
                                 decoration: InputDecoration(
-                                    labelText: 'Amount',
-                                    labelStyle: AppTheme.label,
-                                    errorStyle: AppTheme.inputError,
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.never,
-                                    prefixText: _currency.currencySymbol ?? '',
-                                    prefixStyle: AppTheme.label,
-                                    suffixText: '.00',
-                                    suffixStyle: AppTheme.label),
-                                keyboardType: TextInputType.number,
-                                initialValue: _amount.toString(),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 17, horizontal: 12),
+                                  labelText: 'Amount',
+                                  labelStyle: AppTheme.label,
+                                  errorStyle: AppTheme.inputError,
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.never,
+                                  prefixText: _currency.currencySymbol ?? '',
+                                  prefixStyle: AppTheme.label,
+                                ),
+                                controller: _amountController,
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
                                 inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.digitsOnly
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^\d+\.?\d*'))
                                 ],
                                 validator: (value) {
-                                  final val = int.parse(value);
+                                  final val = double.parse(value);
                                   if (val.isNaN || val < 1) {
                                     return 'Invalid number';
                                   }
@@ -243,8 +294,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Category',
-                          style: Theme.of(context).textTheme.headline2),
+                      Text('Category', style: AppTheme.headline3),
                       SizedBox(
                         height: 12,
                       ),
@@ -252,24 +302,73 @@ class _ExpenseInputState extends State<ExpenseInput> {
                         runSpacing: 12,
                         spacing: 12,
                         alignment: WrapAlignment.center,
-                        children:
-                            Iterable<int>.generate(_auth.user.categories.length)
-                                .toList()
-                                .map((index) => Chip(
-                                      label: Text(
-                                        _auth.user.categories[index]
-                                            .capitalize(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headline2,
-                                      ),
-                                      backgroundColor: AppTheme.lightPurple,
-                                      padding: const EdgeInsets.all(12),
-                                      elevation: 2,
-                                      shadowColor: AppTheme.darkerPurple,
-                                    ))
-                                .toList(),
+                        children: Iterable<int>.generate(
+                                _auth.user.categories.length)
+                            .toList()
+                            .map((index) => InkWell(
+                                  splashColor: Colors.transparent,
+                                  onTap: () {
+                                    setState(() {
+                                      _category = _auth.user.categories[index];
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(12),
+                                    decoration: BoxDecoration(
+                                        color: AppTheme.lightPurple,
+                                        borderRadius: BorderRadius.circular(25),
+                                        gradient: _category ==
+                                                _auth.user.categories[index]
+                                            ? AppTheme.linearGradient
+                                            : LinearGradient(colors: [
+                                                AppTheme.lightPurple,
+                                                AppTheme.lightPurple
+                                              ]),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: AppTheme.darkerPurple,
+                                            offset: Offset(0.0, 1.5),
+                                            blurRadius: 1.5,
+                                          ),
+                                        ]),
+                                    child: Text(
+                                      _auth.user.categories[index].capitalize(),
+                                      style: AppTheme.headline3,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
                       )
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Notes', style: AppTheme.headline3),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      TextFormField(
+                        cursorColor: AppTheme.darkPurple,
+                        style: AppTheme.input,
+                        controller: _notesController,
+                        decoration: InputDecoration(
+                          labelText: 'Notes',
+                          labelStyle: AppTheme.label,
+                          errorStyle: AppTheme.inputError,
+                          floatingLabelBehavior: FloatingLabelBehavior.never,
+                        ),
+                        keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.done,
+                        maxLines: 2,
+                        minLines: 1,
+                        onSaved: (value) {
+                          _notes = value;
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -281,7 +380,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                     : CustomRaisedButton(
                         child: Text(
                           'Submit',
-                          style: Theme.of(context).textTheme.headline2,
+                          style: AppTheme.headline3,
                         ),
                         onPressed: _submit,
                       ),

@@ -6,6 +6,8 @@ import '../widgets/percent_meter.dart';
 import '../providers/expenses.dart';
 import '../providers/auth.dart';
 
+import '../app_theme.dart';
+
 import '../helpers/utils.dart' as utils;
 
 class HomePage extends StatefulWidget {
@@ -61,15 +63,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           ),
                           Text(
                             '${expenses.cycleTotalTargetPercentage.ceil()}% left of your ${auth.user.cycle} limit',
-                            style: Theme.of(context).textTheme.headline2,
+                            style: AppTheme.headline3,
                           ),
                           Text(
                             'or',
-                            style: Theme.of(context).textTheme.headline2,
+                            style: AppTheme.headline3,
                           ),
                           Text(
                             '\$${utils.formatAmount(expenses.cycleFilteredTotalExpenses)} out of \$${auth.user.target}',
-                            style: Theme.of(context).textTheme.headline2,
+                            style: AppTheme.headline3,
                           ),
                         ]),
                   ),

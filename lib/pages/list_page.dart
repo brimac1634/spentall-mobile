@@ -23,6 +23,10 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
     final _expenseData = Provider.of<Expenses>(context);
     final _filteredExpenseList =
         _expenseData.filteredExpensesWithSearch.values.toList();
+
+    final int count = _expenseData.filteredExpensesWithSearch.length > 10
+        ? 10
+        : _expenseData.filteredExpensesWithSearch.length;
     return Column(
       children: <Widget>[
         TopBar(
@@ -42,10 +46,6 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
               child: ListView.builder(
                 padding: EdgeInsets.only(top: 8),
                 itemBuilder: (ctx, i) {
-                  final int count =
-                      _expenseData.filteredExpensesWithSearch.length > 10
-                          ? 10
-                          : _expenseData.filteredExpensesWithSearch.length;
                   final Animation<double> _animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(

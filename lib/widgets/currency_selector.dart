@@ -34,7 +34,7 @@ class _CurrencySelectorState extends State<CurrencySelector> {
           width: 100,
           child: Text(
             '${cur.id} ${cur.currencySymbol != null ? '(${cur.currencySymbol})' : ''}',
-            style: Theme.of(context).textTheme.headline2,
+            style: AppTheme.headline3,
             textAlign: TextAlign.center,
           ),
         ),
@@ -69,8 +69,8 @@ class _CurrencySelectorState extends State<CurrencySelector> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20),
-                        child: Text('Select Currency',
-                            style: Theme.of(context).textTheme.headline2),
+                        child:
+                            Text('Select Currency', style: AppTheme.headline3),
                       ),
                       SearchField(
                         onSearch: (String search) {
@@ -95,8 +95,7 @@ class _CurrencySelectorState extends State<CurrencySelector> {
                                 children: [
                                   Text(
                                     'Default:',
-                                    style:
-                                        Theme.of(context).textTheme.headline2,
+                                    style: AppTheme.headline3,
                                   ),
                                   SizedBox(
                                     width: 12,

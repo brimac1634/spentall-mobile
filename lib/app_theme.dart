@@ -44,6 +44,7 @@ class AppTheme {
   static const TextTheme textTheme = TextTheme(
     headline1: headline1,
     headline2: headline2,
+    headline3: headline3,
     headline4: display1,
     headline6: title,
     subtitle2: subtitle,
@@ -74,6 +75,9 @@ class AppTheme {
     letterSpacing: 0.27,
     color: darkPurple,
   );
+
+  static const TextStyle headline3 = TextStyle(
+      color: AppTheme.offWhite, fontSize: 22, fontWeight: FontWeight.bold);
 
   static const TextStyle headline4 = TextStyle(
       fontFamily: headingFont,

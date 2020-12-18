@@ -144,8 +144,13 @@ class Expenses with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addExpense(String id, String currency, String category,
-      double amount, String notes, DateTime timestamp) async {
+  Future<void> addExpense(
+      {String id,
+      String currency,
+      String category,
+      double amount,
+      String notes,
+      DateTime timestamp}) async {
     final response = await SpentAllApi().post(
         endPoint: '/expenditures/add',
         token: token,
@@ -158,7 +163,7 @@ class Expenses with ChangeNotifier {
           'timestamp': timestamp.toIso8601String()
         }));
     final expense = json.decode(response.body) as Map<String, dynamic>;
-    _expenses[expense['expenditure_id']] = _newExpense(expense);
+    _expenses[expense['expenditure_id'].toString()] = _newExpense(expense);
 
     notifyListeners();
   }
@@ -193,7 +198,7 @@ class Expenses with ChangeNotifier {
         currency: expenseData['currency'],
         type: expenseData['type'],
         notes: expenseData['notes'],
-        amount: double.parse(expenseData['amount'].toString()),
+        amount: double.parse(expenseData['amount'].toString()) / 100,
         timestamp: DateTime.parse(expenseData['timestamp'].toString()));
   }
 }

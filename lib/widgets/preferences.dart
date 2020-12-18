@@ -142,12 +142,12 @@ class _PreferencesState extends State<Preferences> {
               children: [
                 Text(
                   'Currency',
-                  style: Theme.of(context).textTheme.headline2,
+                  style: AppTheme.headline3,
                 ),
                 CustomRaisedButton(
                   child: Text(
                     _currency.id,
-                    style: Theme.of(context).textTheme.headline2,
+                    style: AppTheme.headline3,
                   ),
                   type: ButtonType.normal,
                   onPressed: _presentCurrencyPicker,
@@ -160,8 +160,7 @@ class _PreferencesState extends State<Preferences> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Spending Cycle',
-                          style: Theme.of(context).textTheme.headline2),
+                      Text('Spending Cycle', style: AppTheme.headline3),
                       SizedBox(
                         height: 12,
                       ),
@@ -172,8 +171,7 @@ class _PreferencesState extends State<Preferences> {
                                 (option) => CustomRaisedButton(
                                   child: Text(
                                     option.capitalize(),
-                                    style:
-                                        Theme.of(context).textTheme.headline2,
+                                    style: AppTheme.headline3,
                                   ),
                                   type: option == _cycle
                                       ? ButtonType.special
@@ -194,7 +192,7 @@ class _PreferencesState extends State<Preferences> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('${_cycle.capitalize()} Target',
-                          style: Theme.of(context).textTheme.headline2),
+                          style: AppTheme.headline3),
                       SizedBox(
                         height: 12,
                       ),
@@ -233,7 +231,7 @@ class _PreferencesState extends State<Preferences> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Categories (${_categories.length} Total)',
-                      style: Theme.of(context).textTheme.headline2),
+                      style: AppTheme.headline3),
                   SizedBox(
                     height: 12,
                   ),
@@ -287,7 +285,7 @@ class _PreferencesState extends State<Preferences> {
                         .map((index) => Chip(
                               label: Text(
                                 _categories[index].capitalize(),
-                                style: Theme.of(context).textTheme.headline2,
+                                style: AppTheme.headline3,
                               ),
                               backgroundColor: AppTheme.lightPurple,
                               deleteIcon: Icon(
@@ -316,7 +314,7 @@ class _PreferencesState extends State<Preferences> {
                 : CustomRaisedButton(
                     child: Text(
                       'Submit',
-                      style: Theme.of(context).textTheme.headline2,
+                      style: AppTheme.headline3,
                     ),
                     onPressed: _submit,
                   ),

@@ -22,9 +22,10 @@ class _PercentMeterState extends State<PercentMeter>
   void initState() {
     super.initState();
     _percentController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 2000));
+        vsync: this, duration: Duration(milliseconds: 4000));
     _animation = Tween<double>(begin: 100, end: widget.percentage.toDouble())
-        .animate(_percentController);
+        .animate(CurvedAnimation(
+            parent: _percentController, curve: Curves.easeInOut));
     _percentController.forward();
   }
 

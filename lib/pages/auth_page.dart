@@ -89,7 +89,7 @@ class _AuthPageState extends State<AuthPage> {
               CustomRaisedButton(
                 child: Text(
                   'Okay',
-                  style: Theme.of(context).textTheme.headline2,
+                  style: AppTheme.headline3,
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -229,7 +229,7 @@ class _AuthPageState extends State<AuthPage> {
                                 _authMode == AuthMode.Login
                                     ? 'Login'
                                     : 'Register',
-                                style: Theme.of(context).textTheme.headline2,
+                                style: AppTheme.headline3,
                               ),
                               onPressed: _submit,
                               width: double.infinity,

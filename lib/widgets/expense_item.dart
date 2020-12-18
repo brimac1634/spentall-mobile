@@ -94,7 +94,7 @@ class ExpenseItem extends StatelessWidget {
                         ),
                         title: Text(
                           '\$${utils.formatAmount(amount)}',
-                          style: Theme.of(context).textTheme.headline2,
+                          style: AppTheme.headline3,
                         ),
                         subtitle: Text(
                           type,

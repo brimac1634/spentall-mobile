@@ -54,7 +54,7 @@ class _SettingsPageState extends State<SettingsPage> {
               child: FlatButton(
                 child: Text(
                   'Logout',
-                  style: Theme.of(context).textTheme.headline2,
+                  style: AppTheme.headline3,
                 ),
                 onPressed: _auth.logout,
                 padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),

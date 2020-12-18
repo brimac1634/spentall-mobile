@@ -78,10 +78,13 @@ class _TabsPageState extends State<TabsPage>
 
   void _showModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
+        backgroundColor: Colors.transparent,
         context: context,
-        builder: (_) => Container(
+        builder: (context) => Container(
             height: MediaQuery.of(context).size.height * 0.8,
-            child: ExpenseInput()),
+            child: ExpenseInput(
+              context: context,
+            )),
         isScrollControlled: true);
   }
 
@@ -115,7 +118,7 @@ class _TabsPageState extends State<TabsPage>
                 ),
                 Text(
                   'We were unable to pull your expenses. Please try again later.',
-                  style: Theme.of(context).textTheme.headline2,
+                  style: AppTheme.headline3,
                   textAlign: TextAlign.center,
                 ),
               ]),
