@@ -166,9 +166,11 @@ class _ExpenseInputState extends State<ExpenseInput> {
                       ),
                       CustomRaisedButton(
                         child: Text(
-                          _currency.id,
-                          style: Theme.of(context).textTheme.headline2,
-                        ),
+                            _date.isSameDay(DateTime.now())
+                                ? 'Today'
+                                : DateFormat('d MMM yyyy').format(_date),
+                            style: TextStyle(
+                                color: Theme.of(context).backgroundColor)),
                         type: ButtonType.normal,
                         onPressed: _presentCurrencyPicker,
                         width: 120,
