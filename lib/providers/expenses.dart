@@ -140,7 +140,6 @@ class Expenses with ChangeNotifier {
       accum[e['expenditure_id'].toString()] = _newExpense(e);
       return accum;
     });
-
     notifyListeners();
   }
 

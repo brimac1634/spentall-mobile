@@ -23,7 +23,7 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
     final _expenseData = Provider.of<Expenses>(context);
     final _filteredExpenseList =
         _expenseData.filteredExpensesWithSearch.values.toList();
-
+    print(_expenseData.expenses);
     final int count = _expenseData.filteredExpensesWithSearch.length > 10
         ? 10
         : _expenseData.filteredExpensesWithSearch.length;

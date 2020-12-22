@@ -1,5 +1,6 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 import '../widgets/custom_raised_button.dart';
 import '../widgets/expandable.dart';
@@ -50,31 +51,57 @@ class _AuthPageState extends State<AuthPage> {
         _showAlertDialog(context, registeredEmail);
       }
     } catch (err) {
-      print(err);
-      showDialog(
-          context: context,
-          builder: (context) => CustomAlertDialog(
-                  title: err.toString(),
-                  content:
-                      'It looks like we\'ve run into a problem. Please try again!',
-                  actions: [
-                    FlatButton(
-                      child: Text(
-                        'Okay',
-                        style: AppTheme.body1,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      textColor: AppTheme.darkPurple,
-                    ),
-                  ]));
+      _showErrorDialog(err.toString());
     }
 
     setState(() {
       _isLoading = false;
     });
+  }
+
+  Future<void> _fbLogin() async {
+    try {
+      final facebookLogin = FacebookLogin();
+      final result = await facebookLogin.logIn(['email']);
+
+      print(result);
+
+      switch (result.status) {
+        case FacebookLoginStatus.loggedIn:
+          // _sendTokenToServer(result.accessToken.token);
+          break;
+        case FacebookLoginStatus.cancelledByUser:
+          // _showCancelledMessage();
+          break;
+        case FacebookLoginStatus.error:
+          // _showErrorOnUI(result.errorMessage);
+          break;
+      }
+    } catch (err) {
+      _showErrorDialog(err.toString());
+    }
+  }
+
+  void _showErrorDialog(String error) {
+    showDialog(
+        context: context,
+        builder: (context) => CustomAlertDialog(
+                title: error,
+                content:
+                    'It looks like we\'ve run into a problem. Please try again!',
+                actions: [
+                  FlatButton(
+                    child: Text(
+                      'Okay',
+                      style: AppTheme.body1,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    textColor: AppTheme.darkPurple,
+                  ),
+                ]));
   }
 
   void _showAlertDialog(BuildContext context, String email) {
@@ -234,6 +261,24 @@ class _AuthPageState extends State<AuthPage> {
                               onPressed: _submit,
                               width: double.infinity,
                             ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'Or',
+                            style: Theme.of(context).textTheme.bodyText1,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          CustomRaisedButton(
+                            child: Text(
+                              'Facebook Login',
+                              style: AppTheme.headline3,
+                            ),
+                            onPressed: _fbLogin,
+                            width: double.infinity,
+                          ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 18),
                             child: FlatButton(

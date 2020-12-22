@@ -100,7 +100,7 @@ class _TabsPageState extends State<TabsPage>
   }
 
   Widget renderBody(bool isFetching, bool hasData, BuildContext context) {
-    if (isFetching) return CircularProgressIndicator();
+    if (isFetching) return Center(child: CircularProgressIndicator());
     return (hasData)
         ? tabBody
         : Center(
