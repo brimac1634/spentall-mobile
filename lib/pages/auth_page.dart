@@ -60,15 +60,18 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Future<void> _fbLogin() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     try {
       final facebookLogin = FacebookLogin();
-      final result = await facebookLogin.logIn(['email']);
-
-      print(result);
+      final result = await facebookLogin.logIn([]);
 
       switch (result.status) {
         case FacebookLoginStatus.loggedIn:
-          // _sendTokenToServer(result.accessToken.token);
+          await Provider.of<Auth>(context, listen: false)
+              .fbLogin(result.accessToken.token, result.accessToken.userId);
           break;
         case FacebookLoginStatus.cancelledByUser:
           // _showCancelledMessage();
@@ -78,7 +81,12 @@ class _AuthPageState extends State<AuthPage> {
           break;
       }
     } catch (err) {
-      _showErrorDialog(err.toString());
+      print(err);
+      // _showErrorDialog(err.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -251,51 +259,57 @@ class _AuthPageState extends State<AuthPage> {
                           if (_isLoading)
                             CircularProgressIndicator()
                           else
-                            CustomRaisedButton(
-                              child: Text(
-                                _authMode == AuthMode.Login
-                                    ? 'Login'
-                                    : 'Register',
-                                style: AppTheme.headline3,
-                              ),
-                              onPressed: _submit,
-                              width: double.infinity,
-                            ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'Or',
-                            style: Theme.of(context).textTheme.bodyText1,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          CustomRaisedButton(
-                            child: Text(
-                              'Facebook Login',
-                              style: AppTheme.headline3,
-                            ),
-                            onPressed: _fbLogin,
-                            width: double.infinity,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 18),
-                            child: FlatButton(
-                              child: Text(
-                                _authMode == AuthMode.Login
-                                    ? 'Not registered? register now.'
-                                    : 'Already registered? login now.',
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                              onPressed: _switchAuthMode,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 30.0, vertical: 4),
-                              materialTapTargetSize:
-                                  MaterialTapTargetSize.shrinkWrap,
-                              textColor: Theme.of(context).accentColor,
-                            ),
-                          ),
+                            Column(
+                              children: [
+                                CustomRaisedButton(
+                                  child: Text(
+                                    _authMode == AuthMode.Login
+                                        ? 'Login'
+                                        : 'Register',
+                                    style: AppTheme.headline3,
+                                  ),
+                                  onPressed: _submit,
+                                  width: double.infinity,
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text(
+                                  'Or',
+                                  style: Theme.of(context).textTheme.bodyText1,
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                CustomRaisedButton(
+                                  child: Text(
+                                    'Facebook Login',
+                                    style: AppTheme.headline3,
+                                  ),
+                                  onPressed: _fbLogin,
+                                  width: double.infinity,
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 18),
+                                  child: FlatButton(
+                                    child: Text(
+                                      _authMode == AuthMode.Login
+                                          ? 'Not registered? register now.'
+                                          : 'Already registered? login now.',
+                                      style:
+                                          Theme.of(context).textTheme.bodyText1,
+                                    ),
+                                    onPressed: _switchAuthMode,
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 30.0, vertical: 4),
+                                    materialTapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                    textColor: Theme.of(context).accentColor,
+                                  ),
+                                ),
+                              ],
+                            )
                         ],
                       ),
                     ))),

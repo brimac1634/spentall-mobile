@@ -53,6 +53,19 @@ class Auth with ChangeNotifier {
     preferences.setString('token', _token);
   }
 
+  Future<void> fbLogin(String token, String userId) async {
+    final response = await SpentAllApi().post(
+        endPoint: '/auth/facebook',
+        body: json.encode({'accessToken': token, 'userID': userId}));
+    final userData = json.decode(response.body) as Map<String, dynamic>;
+    handleLogin(userData['user']);
+    _token = userData['token'];
+    notifyListeners();
+
+    final preferences = await SharedPreferences.getInstance();
+    preferences.setString('token', _token);
+  }
+
   Future<bool> tryAutoLogin() async {
     final preferences = await SharedPreferences.getInstance();
 
