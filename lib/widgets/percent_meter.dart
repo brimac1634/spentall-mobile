@@ -30,6 +30,17 @@ class _PercentMeterState extends State<PercentMeter>
   }
 
   @override
+  void didUpdateWidget(covariant PercentMeter oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _animation = Tween<double>(
+            begin: oldWidget.percentage.toDouble(),
+            end: widget.percentage.toDouble())
+        .animate(CurvedAnimation(
+            parent: _percentController, curve: Curves.easeInOut));
+    _percentController.forward();
+  }
+
+  @override
   void dispose() {
     _percentController.dispose();
     super.dispose();

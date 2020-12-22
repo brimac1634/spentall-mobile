@@ -32,12 +32,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final expenses = Provider.of<Expenses>(context);
+    final _expenses = Provider.of<Expenses>(context);
     final auth = Provider.of<Auth>(context);
 
     return RefreshIndicator(
         onRefresh: () async {
-          await expenses.getExpenses();
+          await _expenses.getExpenses();
         },
         child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
@@ -57,12 +57,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             height: 30,
                           ),
                           PercentMeter(
-                              expenses.cycleTotalTargetPercentage.ceil()),
+                              _expenses.cycleTotalTargetPercentage.ceil()),
                           Container(
                             height: 20,
                           ),
                           Text(
-                            '${expenses.cycleTotalTargetPercentage.ceil()}% left of your ${auth.user.cycle} limit',
+                            '${_expenses.cycleTotalTargetPercentage.ceil()}% left of your ${auth.user.cycle} limit',
                             style: AppTheme.headline3,
                           ),
                           Text(
@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             style: AppTheme.headline3,
                           ),
                           Text(
-                            '\$${utils.formatAmount(expenses.cycleFilteredTotalExpenses)} out of \$${auth.user.target}',
+                            '\$${utils.formatAmount(_expenses.cycleFilteredTotalExpenses)} out of \$${auth.user.target}',
                             style: AppTheme.headline3,
                           ),
                         ]),

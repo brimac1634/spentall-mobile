@@ -7,6 +7,7 @@ import '../providers/expenses.dart';
 import './search_field.dart';
 import './expandable.dart';
 import './scale_icon_button.dart';
+import './custom_alert_dialog.dart';
 
 import '../helpers/utils.dart' as utils;
 import '../app_theme.dart';
@@ -19,8 +20,12 @@ class FilterBar extends StatefulWidget {
 class _FilterBarState extends State<FilterBar> {
   static const _dateFilterFormat = 'd MMM yyyy';
   var _showSearch = false;
+  var _isLoading = false;
 
   void _deleteSelectedExpenses(Expenses expenses) async {
+    setState(() {
+      _isLoading = true;
+    });
     try {
       await expenses.deleteExpense(expenses.selectedExpenses.keys.toList());
       expenses.clearSelected();
@@ -29,6 +34,10 @@ class _FilterBarState extends State<FilterBar> {
         content: Text('Failed to delete expenses', style: AppTheme.input),
         backgroundColor: AppTheme.offWhite,
       ));
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -116,16 +125,58 @@ class _FilterBarState extends State<FilterBar> {
                       style: AppTheme.cancel,
                     ),
                   ),
-                  InkWell(
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      _deleteSelectedExpenses(_expenseData);
-                    },
-                    child: Text(
-                      '(${_expenseData.selectedExpenses.length}) Delete',
-                      style: AppTheme.flatButton,
-                    ),
-                  )
+                  _isLoading
+                      ? CircularProgressIndicator()
+                      : InkWell(
+                          splashColor: Colors.transparent,
+                          onTap: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  final itemLength =
+                                      _expenseData.selectedExpenses.length;
+                                  return CustomAlertDialog(
+                                    title: 'Are you sure?',
+                                    content:
+                                        'Delete ${itemLength.toString()} item${itemLength > 1 ? 's' : ''}',
+                                    actions: [
+                                      FlatButton(
+                                        child: Text(
+                                          'Cancel',
+                                          style: AppTheme.body1,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop(false);
+                                        },
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        textColor: AppTheme.lightText,
+                                      ),
+                                      FlatButton(
+                                        child: Text(
+                                          'Confirm',
+                                          style: AppTheme.body1,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop(true);
+                                        },
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        textColor: AppTheme.darkPurple,
+                                      ),
+                                    ],
+                                  );
+                                }).then((delete) {
+                              if (delete) {
+                                _deleteSelectedExpenses(_expenseData);
+                              }
+                            });
+                          },
+                          child: Text(
+                            '(${_expenseData.selectedExpenses.length}) Delete',
+                            style: AppTheme.flatButton,
+                          ),
+                        )
                 ],
               ),
             ),
