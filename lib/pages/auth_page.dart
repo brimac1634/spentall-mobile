@@ -81,8 +81,7 @@ class _AuthPageState extends State<AuthPage> {
           break;
       }
     } catch (err) {
-      print(err);
-      // _showErrorDialog(err.toString());
+      _showErrorDialog(err.toString());
     } finally {
       setState(() {
         _isLoading = false;
