@@ -262,8 +262,6 @@ class _ExpenseInputState extends State<ExpenseInput> {
                                 cursorColor: AppTheme.darkPurple,
                                 style: AppTheme.input,
                                 decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 17, horizontal: 12),
                                   labelText: 'Amount',
                                   labelStyle: AppTheme.label,
                                   errorStyle: AppTheme.inputError,

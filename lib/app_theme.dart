@@ -10,12 +10,7 @@ class AppTheme {
   static const pink = Color.fromRGBO(255, 185, 246, 1);
   static const lightBlue = Color.fromRGBO(196, 240, 255, 1);
 
-  // static const Color darkText = Color(0xFF253840);
-  // static const Color darkerText = Color(0xFF17262A);
   static const Color lightText = Color(0xFF757575);
-  // static const Color deactivatedText = Color(0xFF767676);
-  // static const Color dismissibleBackground = Color(0xFF364A54);
-  // static const Color spacer = Color(0xFFF2F2F2);
   static const String fontName = 'Roboto';
   static const String headingFont = 'Karla';
 

@@ -21,11 +21,10 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final _expenseData = Provider.of<Expenses>(context);
-    final _filteredExpenseList =
-        _expenseData.filteredExpensesWithSearch.values.toList();
-    final int count = _expenseData.filteredExpensesWithSearch.length > 10
-        ? 10
-        : _expenseData.filteredExpensesWithSearch.length;
+    final int count =
+        _expenseData.filteredExpensesWithFiltersAndSorting.length > 10
+            ? 10
+            : _expenseData.filteredExpensesWithFiltersAndSorting.length;
     return Column(
       children: <Widget>[
         TopBar(
@@ -57,10 +56,12 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
                   return ExpenseItem(
                     animationController: widget.animationController,
                     animation: _animation,
-                    expense: _filteredExpenseList[i],
+                    expense:
+                        _expenseData.filteredExpensesWithFiltersAndSorting[i],
                   );
                 },
-                itemCount: _filteredExpenseList.length,
+                itemCount:
+                    _expenseData.filteredExpensesWithFiltersAndSorting.length,
               ),
             ),
           ),

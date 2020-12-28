@@ -29,20 +29,6 @@ class Calendar extends StatefulWidget {
 
 class _CalendarState extends State<Calendar> {
   static const _dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  static const _monthNames = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ];
 
   DateTime _month = DateTime.now();
 
@@ -94,7 +80,7 @@ class _CalendarState extends State<Calendar> {
         _color = AppTheme.lightPurple;
       }
 
-      if (_selectedDate.isSameDay(_date) ||
+      if ((!widget.range && _selectedDate.isSameDay(_date)) ||
           (widget.range &&
               _date.isAfter(
                   _selectedDateRange.start.subtract(Duration(seconds: 1))) &&

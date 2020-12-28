@@ -61,14 +61,17 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (ctx) => Auth()),
           ChangeNotifierProxyProvider<Auth, Expenses>(
               update: (ctx, auth, prev) => Expenses(
-                  auth.token,
-                  auth.user,
-                  prev == null ? {} : prev.expenses,
-                  prev == null ? '' : prev.searchText,
-                  prev == null ? {} : prev.selectedExpenses,
-                  prev == null
-                      ? utils.getCycleDates(auth.user.cycle)
-                      : prev.filterRange)),
+                    auth.token,
+                    auth.user,
+                    prev == null ? {} : prev.expenses,
+                    prev == null ? '' : prev.searchText,
+                    prev == null ? {} : prev.selectedExpenses,
+                    prev == null
+                        ? utils.getCycleDates(auth.user.cycle)
+                        : prev.filterRange,
+                    prev == null ? Sort.date : prev.sortBy,
+                    prev == null ? -1 : prev.sortDirection,
+                  )),
         ],
         child: Consumer<Auth>(
           builder: (ctx, auth, _) => MaterialApp(
@@ -85,6 +88,8 @@ class MyApp extends StatelessWidget {
                 hintColor: AppTheme.offWhite,
                 fontFamily: 'Karla',
                 inputDecorationTheme: InputDecorationTheme(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 17, horizontal: 12),
                   labelStyle: TextStyle(
                     color: AppTheme.darkPurple,
                   ),

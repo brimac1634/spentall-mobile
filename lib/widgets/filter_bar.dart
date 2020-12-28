@@ -11,7 +11,6 @@ import './scale_icon_button.dart';
 import './custom_alert_dialog.dart';
 import './calendar.dart';
 import './custom_dialog.dart';
-import './custom_raised_button.dart';
 
 import '../helpers/utils.dart' as utils;
 import '../helpers/extensions.dart';
@@ -60,6 +59,100 @@ class _FilterBarState extends State<FilterBar> {
       expenses.setTimeFilter(dateRange);
       await expenses.getExpenses(queryType: ExpenseQuery.dateRange);
     }
+  }
+
+  void _presentFiltersAndSorters() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        final _expenses = Provider.of<Expenses>(context);
+        return CustomDialog(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+          child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                'Filters',
+                style: AppTheme.headline5,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                'Sorting',
+                style: AppTheme.headline5,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 8,
+                  runSpacing: 12,
+                  children: Sort.values
+                      .map((sort) => InkWell(
+                            splashColor: Colors.transparent,
+                            onTap: () {
+                              if (_expenses.sortBy == sort) {
+                                _expenses.setSortDirection(
+                                    _expenses.sortDirection * -1);
+                              } else {
+                                _expenses.setSortBy(sort);
+                              }
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                  color: AppTheme.lightPurple,
+                                  borderRadius: BorderRadius.circular(25),
+                                  gradient: _expenses.sortBy == sort
+                                      ? AppTheme.linearGradient
+                                      : LinearGradient(colors: [
+                                          AppTheme.lightPurple,
+                                          AppTheme.lightPurple
+                                        ]),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: AppTheme.darkerPurple,
+                                      offset: Offset(0.0, 1.5),
+                                      blurRadius: 1.5,
+                                    ),
+                                  ]),
+                              child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      sort
+                                          .toString()
+                                          .split('.')
+                                          .last
+                                          .capitalize(),
+                                      style: AppTheme.label2,
+                                    ),
+                                    SizedBox(
+                                      width: 8,
+                                    ),
+                                    Icon(
+                                      Icons.sort_outlined,
+                                      color: AppTheme.offWhite,
+                                    ),
+                                    if (_expenses.sortBy == sort)
+                                      Icon(
+                                        _expenses.sortDirection < 0
+                                            ? Icons.arrow_downward_outlined
+                                            : Icons.arrow_upward_outlined,
+                                        color: AppTheme.offWhite,
+                                      ),
+                                  ]),
+                            ),
+                          ))
+                      .toList()),
+            )
+          ]),
+        ));
+      },
+    );
   }
 
   void _presentDatePicker(Expenses expenses) {
@@ -144,7 +237,8 @@ class _FilterBarState extends State<FilterBar> {
                     ScaleIconButton(
                       imageAsset: 'assets/icons/filter.png',
                       onTap: () {
-                        _presentDatePicker(_expenseData);
+                        // _presentDatePicker(_expenseData);
+                        _presentFiltersAndSorters();
                       },
                     ),
                     SizedBox(

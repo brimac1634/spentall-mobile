@@ -13,6 +13,8 @@ import '../helpers/utils.dart' as utils;
 
 enum ExpenseQuery { cycle, dateRange }
 
+enum Sort { amount, category, date }
+
 class Expenses with ChangeNotifier {
   final String token;
   final User user;
@@ -23,9 +25,18 @@ class Expenses with ChangeNotifier {
   Map<String, bool> _selectedExpenses = {};
 
   DateRange _filterRange;
+  Sort _sortBy = Sort.date;
+  int _sortDirection = -1;
 
-  Expenses(this.token, this.user, this._expenses, this._searchText,
-      this._selectedExpenses, this._filterRange);
+  Expenses(
+      this.token,
+      this.user,
+      this._expenses,
+      this._searchText,
+      this._selectedExpenses,
+      this._filterRange,
+      this._sortBy,
+      this._sortDirection);
 
   // GETTERS
 
@@ -61,6 +72,14 @@ class Expenses with ChangeNotifier {
     return _filterRange;
   }
 
+  Sort get sortBy {
+    return _sortBy;
+  }
+
+  int get sortDirection {
+    return _sortDirection;
+  }
+
   Map<String, Expense> get rangeFilteredExpenses {
     if (filterRange == null) return {};
 
@@ -88,20 +107,27 @@ class Expenses with ChangeNotifier {
     return _searchText;
   }
 
-  Map<String, Expense> get filteredExpensesWithSearch {
-    // print(rangeFilteredExpenses);
+  List<Expense> get filteredExpensesWithFiltersAndSorting {
+    List<Expense> _expenseList = [...rangeFilteredExpenses.values];
     if (_searchText.length >= 1) {
-      return {...rangeFilteredExpenses}.values.toList().where((exp) {
+      _expenseList = _expenseList.where((exp) {
         return exp.amount.toString().contains(_searchText) ||
             exp.type.contains(_searchText) ||
             exp.notes.contains(_searchText);
-      }).fold({}, (accum, exp) {
-        accum[exp.id] = exp;
-        return accum;
-      });
-    } else {
-      return {...rangeFilteredExpenses};
+      }).toList();
     }
+    return _expenseList
+      ..sort((a, b) {
+        switch (sortBy) {
+          case Sort.amount:
+            return a.amount.compareTo(b.amount) * sortDirection;
+          case Sort.category:
+            return a.type.compareTo(b.type) * sortDirection;
+          case Sort.date:
+          default:
+            return a.timestamp.compareTo(b.timestamp) * sortDirection;
+        }
+      });
   }
 
   Map<String, bool> get selectedExpenses {
@@ -112,6 +138,16 @@ class Expenses with ChangeNotifier {
 
   void setTimeFilter(DateRange dates) {
     _filterRange = dates;
+    notifyListeners();
+  }
+
+  void setSortBy(Sort sortBy) {
+    _sortBy = sortBy;
+    notifyListeners();
+  }
+
+  void setSortDirection(int direction) {
+    _sortDirection = direction;
     notifyListeners();
   }
 
