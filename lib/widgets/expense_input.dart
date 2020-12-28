@@ -6,13 +6,13 @@ import 'package:provider/provider.dart';
 import './currency_selector.dart';
 import './custom_alert_dialog.dart';
 import './custom_raised_button.dart';
+import './calendar.dart';
 
 import '../helpers/extensions.dart';
 import '../models/currency.dart';
 import '../providers/expenses.dart';
 import '../providers/auth.dart';
 
-import '../constants/currencies.dart';
 import '../helpers/extensions.dart';
 import '../app_theme.dart';
 
@@ -143,18 +143,30 @@ class _ExpenseInputState extends State<ExpenseInput> {
   }
 
   void _presentDatePicker() {
-    var date = DateTime.now();
-    showDatePicker(
-            context: context,
-            initialDate: _date,
-            firstDate: DateTime(date.year - 1, date.month, date.day),
-            lastDate: DateTime(date.year + 1, date.month, date.day))
-        .then((date) {
-      if (date == null) return;
-      setState(() {
-        _date = date.add(Duration(seconds: 1));
-      });
-    });
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Calendar(
+            startDate: _date,
+            onSelect: (date) {
+              print(date);
+              setState(() {
+                _date = date;
+              });
+            });
+      },
+    );
+    // showDatePicker(
+    //         context: context,
+    //         initialDate: _date,
+    //         firstDate: DateTime(date.year - 1, date.month, date.day),
+    //         lastDate: DateTime(date.year + 1, date.month, date.day))
+    //     .then((date) {
+    //   if (date == null) return;
+    //   setState(() {
+    //     _date = date.add(Duration(seconds: 1));
+    //   });
+    // });
   }
 
   void _presentCurrencyPicker() {

@@ -52,12 +52,13 @@ class _CurrencySelectorState extends State<CurrencySelector> {
     final defaultCurrency = currencies[userCurrencyString];
 
     return AlertDialog(
+        insetPadding: EdgeInsets.zero,
         backgroundColor: Colors.transparent,
         contentPadding: EdgeInsets.all(0),
         actions: [
           Center(
             child: Container(
-                width: max(400, MediaQuery.of(context).size.width * 0.9),
+                width: min(500, MediaQuery.of(context).size.width * 0.95),
                 height: min(450, MediaQuery.of(context).size.height * 0.8),
                 decoration: BoxDecoration(
                     color: AppTheme.darkPurple,

@@ -6,6 +6,7 @@ class AppTheme {
   static const darkerPurple = Color.fromRGBO(76, 85, 168, 1);
   static const lightPurple = Color.fromRGBO(129, 158, 252, 1);
   static const offWhite = Color.fromRGBO(247, 249, 252, 1);
+  static const fadedOffWhite = Color.fromRGBO(247, 249, 252, 0.5);
   static const pink = Color.fromRGBO(255, 185, 246, 1);
   static const lightBlue = Color.fromRGBO(196, 240, 255, 1);
 
@@ -86,6 +87,9 @@ class AppTheme {
       letterSpacing: 0.27,
       fontWeight: FontWeight.bold);
 
+  static const TextStyle headline5 = TextStyle(
+      color: AppTheme.offWhite, fontSize: 24, fontWeight: FontWeight.bold);
+
   static const TextStyle title = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.bold,
@@ -148,6 +152,14 @@ class AppTheme {
     fontSize: 16,
     letterSpacing: 0.2,
     color: offWhite,
+  );
+
+  static const TextStyle label3 = TextStyle(
+    fontFamily: fontName,
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    letterSpacing: 0.2,
+    color: fadedOffWhite,
   );
 
   static const TextStyle input = TextStyle(

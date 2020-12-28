@@ -138,7 +138,6 @@ class Expenses with ChangeNotifier {
 
     if (byCycle) {
       final dateRange = utils.getCycleDates(user.cycle);
-      print(dateRange.start);
       query = '?startDate=${dateRange.start}&endDate=${dateRange.end}';
     } else if (startDate != null && endDate != null) {
       query = '?startDate=$startDate&endDate=$endDate';
