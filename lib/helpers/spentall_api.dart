@@ -5,7 +5,8 @@ import 'package:http/http.dart' as http;
 import 'custom_exceptions.dart';
 
 class SpentAllApi {
-  static const url = 'https://spentall-server.herokuapp.com';
+  // static const url = 'https://spentall-server.herokuapp.com';
+  static const url = 'http://localhost:5000';
 
   Future<dynamic> get(
       {String endPoint, Map<String, String> headers, String token}) async {

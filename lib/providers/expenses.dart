@@ -132,9 +132,20 @@ class Expenses with ChangeNotifier {
 
   // API CALLS
 
-  Future<void> getExpenses() async {
+  Future<void> getExpenses(
+      {bool byCycle, DateTime startDate, DateTime endDate}) async {
+    var query = '';
+
+    if (byCycle) {
+      final dateRange = utils.getCycleDates(user.cycle);
+      print(dateRange.start);
+      query = '?startDate=${dateRange.start}&endDate=${dateRange.end}';
+    } else if (startDate != null && endDate != null) {
+      query = '?startDate=$startDate&endDate=$endDate';
+    }
+
     final response =
-        await SpentAllApi().get(endPoint: '/expenditures', token: token);
+        await SpentAllApi().get(endPoint: '/expenditures$query', token: token);
     final expenses = json.decode(response.body) as List<dynamic>;
     _expenses = expenses.fold({}, (accum, e) {
       accum[e['expenditure_id'].toString()] = _newExpense(e);
