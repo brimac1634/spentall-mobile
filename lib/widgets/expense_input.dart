@@ -153,6 +153,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                 setState(() {
                   _date = date;
                 });
+                Navigator.of(context).pop();
               }),
         );
       },

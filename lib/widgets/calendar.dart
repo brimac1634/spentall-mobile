@@ -10,8 +10,6 @@ import '../helpers/extensions.dart';
 import '../app_theme.dart';
 
 class Calendar extends StatefulWidget {
-  static const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
   final DateTime startDate;
   final DateTime endDate;
   final bool range;
@@ -30,11 +28,28 @@ class Calendar extends StatefulWidget {
 }
 
 class _CalendarState extends State<Calendar> {
+  static const _dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  static const _monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+
   DateTime _month = DateTime.now();
 
   DateTime _selectedDate;
   DateRange _selectedDateRange;
   bool _isStart = true;
+  bool _isMonthSelection = false;
 
   @override
   void initState() {
@@ -74,17 +89,21 @@ class _CalendarState extends State<Calendar> {
     List<Widget> _days = [];
 
     Color _getColor(DateTime date) {
-      if (widget.range) {
-        return _date.isAfter(
-                    _selectedDateRange.start.subtract(Duration(seconds: 1))) &&
-                _date.isBefore(_selectedDateRange.end.add(Duration(seconds: 1)))
-            ? AppTheme.pink
-            : Colors.transparent;
-      } else {
-        return _selectedDate.isSameDay(_date)
-            ? AppTheme.pink
-            : Colors.transparent;
+      var _color = Colors.transparent;
+      if (date.isSameDay(DateTime.now())) {
+        _color = AppTheme.lightPurple;
       }
+
+      if (_selectedDate.isSameDay(_date) ||
+          (widget.range &&
+              _date.isAfter(
+                  _selectedDateRange.start.subtract(Duration(seconds: 1))) &&
+              _date.isBefore(
+                  _selectedDateRange.end.add(Duration(seconds: 1))))) {
+        _color = AppTheme.pink;
+      }
+
+      return _color;
     }
 
     for (var i = 0; i < 7; i++) {
@@ -152,12 +171,24 @@ class _CalendarState extends State<Calendar> {
                 ),
                 onPressed: () {
                   setState(() {
-                    _month = DateTime(_month.year, _month.month, 0);
+                    _month = _isMonthSelection
+                        ? DateTime(_month.year - 1)
+                        : DateTime(_month.year, _month.month, 0);
                   });
                 }),
-            Text(
-              DateFormat('MMMM y').format(_month),
-              style: AppTheme.headline5,
+            InkWell(
+              splashColor: Colors.transparent,
+              onTap: () {
+                setState(() {
+                  _isMonthSelection = true;
+                });
+              },
+              child: Text(
+                _isMonthSelection
+                    ? DateFormat('y').format(_month)
+                    : DateFormat('MMMM y').format(_month),
+                style: AppTheme.headline5,
+              ),
             ),
             IconButton(
                 icon: Icon(
@@ -166,29 +197,65 @@ class _CalendarState extends State<Calendar> {
                 ),
                 onPressed: () {
                   setState(() {
-                    _month = DateTime(_month.year, _month.month + 1, 1);
+                    _month = _isMonthSelection
+                        ? DateTime(_month.year + 1)
+                        : DateTime(_month.year, _month.month + 1, 1);
                   });
                 }),
           ]),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: Calendar.dayNames
-              .map(
-                (day) => Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Text(
-                      day,
-                      style: AppTheme.headline3,
-                      textAlign: TextAlign.center,
+        _isMonthSelection
+            ? Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 8,
+                runSpacing: 4,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: List<int>.generate(12, (i) => i + 1, growable: false)
+                    .map((index) {
+                  final _currentMonth = DateTime(_month.year, index);
+                  return InkWell(
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                      setState(() {
+                        _month = _currentMonth;
+                        _isMonthSelection = false;
+                      });
+                    },
+                    child: Chip(
+                      backgroundColor: AppTheme.lightPurple,
+                      label: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 12),
+                        child: Text(
+                          DateFormat('MMM').format(_currentMonth),
+                          style: AppTheme.label2,
+                        ),
+                      ),
                     ),
+                  );
+                }).toList())
+            : Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: _dayNames
+                        .map(
+                          (day) => Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              child: Text(
+                                day,
+                                style: AppTheme.headline3,
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
                   ),
-                ),
-              )
-              .toList(),
-        ),
-        _renderWeeks(),
+                  _renderWeeks(),
+                ],
+              ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
           child: Row(
