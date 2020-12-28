@@ -90,8 +90,7 @@ class _TabsPageState extends State<TabsPage>
   Future<bool> _getExpenses() async {
     _isFetching = true;
     try {
-      await Provider.of<Expenses>(context, listen: false)
-          .getExpenses(byCycle: true);
+      await Provider.of<Expenses>(context, listen: false).getExpenses();
       return true;
     } catch (err) {
       return false;

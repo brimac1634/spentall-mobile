@@ -11,6 +11,8 @@ import '../models/date_range.dart';
 import '../helpers/custom_exceptions.dart';
 import '../helpers/utils.dart' as utils;
 
+enum ExpenseQuery { cycle, dateRange }
+
 class Expenses with ChangeNotifier {
   final String token;
   final User user;
@@ -135,23 +137,25 @@ class Expenses with ChangeNotifier {
   // API CALLS
 
   Future<void> getExpenses(
-      {bool byCycle, DateTime startDate, DateTime endDate}) async {
+      {ExpenseQuery queryType = ExpenseQuery.cycle}) async {
     var query = '';
 
-    if (byCycle) {
+    if (queryType == ExpenseQuery.cycle) {
       final dateRange = utils.getCycleDates(user.cycle);
       query = '?startDate=${dateRange.start}&endDate=${dateRange.end}';
-    } else if (startDate != null && endDate != null) {
-      query = '?startDate=$startDate&endDate=$endDate';
+    } else if (filterRange.start != null && filterRange.end != null) {
+      query = '?startDate=${filterRange.start}&endDate=${filterRange.end}';
     }
-
+    print(query);
     final response =
         await SpentAllApi().get(endPoint: '/expenditures$query', token: token);
     final expenses = json.decode(response.body) as List<dynamic>;
-    _expenses = expenses.fold({}, (accum, e) {
+    Map<String, Expense> _expenseMap = expenses.fold({}, (accum, e) {
       accum[e['expenditure_id'].toString()] = _newExpense(e);
       return accum;
     });
+
+    _expenses = {..._expenses, ..._expenseMap};
     notifyListeners();
   }
 

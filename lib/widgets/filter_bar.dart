@@ -51,11 +51,12 @@ class _FilterBarState extends State<FilterBar> {
           startDate: expenses.filterRange.start,
           endDate: expenses.filterRange.end,
           range: true,
-          onSelectRange: (dateRange) {
+          onSelectRange: (dateRange) async {
             if (dateRange.isWithinRange(expenses.cycleDateRange)) {
               expenses.setTimeFilter(dateRange);
             } else {
-              // make api call for new range of dates
+              expenses.setTimeFilter(dateRange);
+              await expenses.getExpenses(queryType: ExpenseQuery.dateRange);
             }
           },
         );

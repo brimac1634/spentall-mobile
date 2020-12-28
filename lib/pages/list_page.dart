@@ -38,7 +38,8 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
             width: double.infinity,
             child: RefreshIndicator(
               onRefresh: () async {
-                await _expenseData.getExpenses();
+                await _expenseData.getExpenses(
+                    queryType: ExpenseQuery.dateRange);
               },
               backgroundColor: AppTheme.offWhite,
               color: AppTheme.darkPurple,
