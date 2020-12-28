@@ -113,7 +113,7 @@ class Expenses with ChangeNotifier {
       _expenseList = _expenseList.where((exp) {
         return exp.amount.toString().contains(_searchText) ||
             exp.type.contains(_searchText) ||
-            exp.notes.contains(_searchText);
+            (exp.notes != null && exp.notes.contains(_searchText));
       }).toList();
     }
     return _expenseList

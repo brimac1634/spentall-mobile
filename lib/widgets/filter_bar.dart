@@ -73,10 +73,44 @@ class _FilterBarState extends State<FilterBar> {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Text(
-                'Filters',
+                'Date Range',
                 style: AppTheme.headline5,
               ),
             ),
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: InkWell(
+                  splashColor: Colors.transparent,
+                  onTap: () {
+                    _presentDatePicker(_expenses);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                        color: AppTheme.lightPurple,
+                        borderRadius: BorderRadius.circular(25),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppTheme.darkerPurple,
+                            offset: Offset(0.0, 1.5),
+                            blurRadius: 1.5,
+                          ),
+                        ]),
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      Text(
+                        '${DateFormat(_dateFilterFormat).format(_expenses.filterRange.start)} to ${DateFormat(_dateFilterFormat).format(_expenses.filterRange.end)}',
+                        style: AppTheme.label2,
+                      ),
+                      SizedBox(
+                        width: 8,
+                      ),
+                      Icon(
+                        Icons.calendar_today_outlined,
+                        color: AppTheme.offWhite,
+                      ),
+                    ]),
+                  ),
+                )),
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Text(
@@ -148,7 +182,7 @@ class _FilterBarState extends State<FilterBar> {
                             ),
                           ))
                       .toList()),
-            )
+            ),
           ]),
         ));
       },
