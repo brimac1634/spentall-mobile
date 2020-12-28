@@ -146,7 +146,7 @@ class Expenses with ChangeNotifier {
     } else if (filterRange.start != null && filterRange.end != null) {
       query = '?startDate=${filterRange.start}&endDate=${filterRange.end}';
     }
-    print(query);
+
     final response =
         await SpentAllApi().get(endPoint: '/expenditures$query', token: token);
     final expenses = json.decode(response.body) as List<dynamic>;

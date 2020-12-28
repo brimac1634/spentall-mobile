@@ -10,8 +10,11 @@ import './expandable.dart';
 import './scale_icon_button.dart';
 import './custom_alert_dialog.dart';
 import './calendar.dart';
+import './custom_dialog.dart';
+import './custom_raised_button.dart';
 
 import '../helpers/utils.dart' as utils;
+import '../helpers/extensions.dart';
 import '../app_theme.dart';
 
 class FilterBar extends StatefulWidget {
@@ -21,6 +24,13 @@ class FilterBar extends StatefulWidget {
 
 class _FilterBarState extends State<FilterBar> {
   static const _dateFilterFormat = 'd MMM yyyy';
+  static const _quickTimeFilters = [
+    'today',
+    'this week',
+    'this month',
+    'this year'
+  ];
+
   var _showSearch = false;
   var _isLoading = false;
 
@@ -43,22 +53,66 @@ class _FilterBarState extends State<FilterBar> {
     }
   }
 
+  void _updateTimeFilter(Expenses expenses, DateRange dateRange) async {
+    if (dateRange.isWithinRange(expenses.cycleDateRange)) {
+      expenses.setTimeFilter(dateRange);
+    } else {
+      expenses.setTimeFilter(dateRange);
+      await expenses.getExpenses(queryType: ExpenseQuery.dateRange);
+    }
+  }
+
   void _presentDatePicker(Expenses expenses) {
     showDialog(
       context: context,
       builder: (context) {
-        return Calendar(
-          startDate: expenses.filterRange.start,
-          endDate: expenses.filterRange.end,
-          range: true,
-          onSelectRange: (dateRange) async {
-            if (dateRange.isWithinRange(expenses.cycleDateRange)) {
-              expenses.setTimeFilter(dateRange);
-            } else {
-              expenses.setTimeFilter(dateRange);
-              await expenses.getExpenses(queryType: ExpenseQuery.dateRange);
-            }
-          },
+        return CustomDialog(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+            child: Column(children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(
+                  'Time Filter',
+                  style: AppTheme.headline5,
+                ),
+              ),
+              Wrap(
+                direction: Axis.horizontal,
+                alignment: WrapAlignment.center,
+                children: _quickTimeFilters
+                    .map((filter) => Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            onTap: () async {
+                              final dateRange = utils.getCycleDates(filter);
+                              _updateTimeFilter(expenses, dateRange);
+                              Navigator.of(context).pop();
+                            },
+                            child: Chip(
+                                backgroundColor: AppTheme.lightPurple,
+                                label: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8.0, horizontal: 12),
+                                  child: Text(filter.capitalize(),
+                                      style: AppTheme.label2),
+                                )),
+                          ),
+                        ))
+                    .toList(),
+              ),
+              Calendar(
+                startDate: expenses.filterRange.start,
+                endDate: expenses.filterRange.end,
+                range: true,
+                onSelectRange: (dateRange) async {
+                  _updateTimeFilter(expenses, dateRange);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ]),
+          ),
         );
       },
     );

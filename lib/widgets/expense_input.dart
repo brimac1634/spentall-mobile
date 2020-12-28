@@ -7,6 +7,7 @@ import './currency_selector.dart';
 import './custom_alert_dialog.dart';
 import './custom_raised_button.dart';
 import './calendar.dart';
+import './custom_dialog.dart';
 
 import '../helpers/extensions.dart';
 import '../models/currency.dart';
@@ -115,7 +116,6 @@ class _ExpenseInputState extends State<ExpenseInput> {
       _scrollController.animateTo(0.0,
           duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
     } catch (err) {
-      print(err);
       showDialog(
           context: context,
           builder: (context) => CustomAlertDialog(
@@ -146,13 +146,15 @@ class _ExpenseInputState extends State<ExpenseInput> {
     showDialog(
       context: context,
       builder: (context) {
-        return Calendar(
-            startDate: _date,
-            onSelect: (date) {
-              setState(() {
-                _date = date;
-              });
-            });
+        return CustomDialog(
+          child: Calendar(
+              startDate: _date,
+              onSelect: (date) {
+                setState(() {
+                  _date = date;
+                });
+              }),
+        );
       },
     );
   }

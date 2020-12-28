@@ -139,112 +139,92 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-        insetPadding: EdgeInsets.zero,
-        backgroundColor: Colors.transparent,
-        contentPadding: EdgeInsets.zero,
-        actions: [
-          Container(
-            width: min(500, MediaQuery.of(context).size.width * 0.95),
-            // height: min(400, MediaQuery.of(context).size.height * 0.95),
-            decoration: BoxDecoration(
-                color: AppTheme.darkPurple,
-                borderRadius: BorderRadius.all(Radius.circular(20))),
-            padding: EdgeInsets.all(8),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                            icon: Icon(
-                              Icons.arrow_back_outlined,
-                              color: AppTheme.offWhite,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _month = DateTime(_month.year, _month.month, 0);
-                              });
-                            }),
-                        Text(
-                          DateFormat('MMMM y').format(_month),
-                          style: AppTheme.headline5,
-                        ),
-                        IconButton(
-                            icon: Icon(
-                              Icons.arrow_forward_outlined,
-                              color: AppTheme.offWhite,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _month =
-                                    DateTime(_month.year, _month.month + 1, 1);
-                              });
-                            }),
-                      ]),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            IconButton(
+                icon: Icon(
+                  Icons.arrow_back_outlined,
+                  color: AppTheme.offWhite,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: Calendar.dayNames
-                      .map(
-                        (day) => Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              day,
-                              style: AppTheme.headline3,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                      )
-                      .toList(),
-                ),
-                _renderWeeks(),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      FlatButton(
-                        child: Text(
-                          'Cancel',
-                          style: AppTheme.label2,
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        textColor: AppTheme.darkPurple,
-                      ),
-                      CustomRaisedButton(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            'Confirm',
-                            style: AppTheme.label2,
-                          ),
-                        ),
-                        onPressed: () {
-                          if (!widget.range && widget.onSelect != null) {
-                            widget.onSelect(_selectedDate);
-                          } else if (widget.range &&
-                              widget.onSelectRange != null) {
-                            widget.onSelectRange(_selectedDateRange);
-                          }
-
-                          Navigator.of(context).pop();
-                        },
-                      )
-                    ],
-                  ),
-                )
-              ],
+                onPressed: () {
+                  setState(() {
+                    _month = DateTime(_month.year, _month.month, 0);
+                  });
+                }),
+            Text(
+              DateFormat('MMMM y').format(_month),
+              style: AppTheme.headline5,
             ),
+            IconButton(
+                icon: Icon(
+                  Icons.arrow_forward_outlined,
+                  color: AppTheme.offWhite,
+                ),
+                onPressed: () {
+                  setState(() {
+                    _month = DateTime(_month.year, _month.month + 1, 1);
+                  });
+                }),
+          ]),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: Calendar.dayNames
+              .map(
+                (day) => Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Text(
+                      day,
+                      style: AppTheme.headline3,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
+        ),
+        _renderWeeks(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              FlatButton(
+                child: Text(
+                  'Cancel',
+                  style: AppTheme.label2,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                textColor: AppTheme.darkPurple,
+              ),
+              CustomRaisedButton(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Text(
+                    'Confirm',
+                    style: AppTheme.label2,
+                  ),
+                ),
+                onPressed: () {
+                  if (!widget.range && widget.onSelect != null) {
+                    widget.onSelect(_selectedDate);
+                  } else if (widget.range && widget.onSelectRange != null) {
+                    widget.onSelectRange(_selectedDateRange);
+                  }
+                },
+              )
+            ],
           ),
-        ]);
+        )
+      ],
+    );
   }
 }

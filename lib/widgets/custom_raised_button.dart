@@ -22,7 +22,7 @@ class CustomRaisedButton extends StatelessWidget {
     return Container(
       width: width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: BorderRadius.circular(8),
         gradient: type == ButtonType.special
             ? AppTheme.linearGradient
             : LinearGradient(
