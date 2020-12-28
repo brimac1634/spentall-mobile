@@ -201,7 +201,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
               children: [
                 Text(
                   'Add Expenditure',
-                  style: AppTheme.headline3,
+                  style: AppTheme.headline5,
                 ),
                 SizedBox(
                   height: 18,
@@ -225,7 +225,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                                 _date.isSameDay(DateTime.now())
                                     ? 'Today'
                                     : DateFormat('d MMM yyyy').format(_date),
-                                style: AppTheme.headline3),
+                                style: AppTheme.label2),
                           ),
                           type: ButtonType.normal,
                           onPressed: _presentDatePicker,
@@ -248,7 +248,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                             CustomRaisedButton(
                               child: Text(
                                 _currency.id,
-                                style: AppTheme.headline3,
+                                style: AppTheme.label2,
                               ),
                               type: ButtonType.normal,
                               onPressed: _presentCurrencyPicker,
@@ -337,7 +337,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                                         ]),
                                     child: Text(
                                       _auth.user.categories[index].capitalize(),
-                                      style: AppTheme.headline3,
+                                      style: AppTheme.label2,
                                     ),
                                   ),
                                 ))

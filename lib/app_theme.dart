@@ -141,7 +141,7 @@ class AppTheme {
   static const TextStyle label = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.w500,
-    fontSize: 20,
+    fontSize: 16,
     letterSpacing: 0.2,
     color: lightText,
   );
@@ -165,7 +165,7 @@ class AppTheme {
   static const TextStyle input = TextStyle(
     fontFamily: fontName,
     fontWeight: FontWeight.w600,
-    fontSize: 20,
+    fontSize: 16,
     letterSpacing: 0.2,
     color: darkPurple,
   );
