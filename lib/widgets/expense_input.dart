@@ -149,24 +149,12 @@ class _ExpenseInputState extends State<ExpenseInput> {
         return Calendar(
             startDate: _date,
             onSelect: (date) {
-              print(date);
               setState(() {
                 _date = date;
               });
             });
       },
     );
-    // showDatePicker(
-    //         context: context,
-    //         initialDate: _date,
-    //         firstDate: DateTime(date.year - 1, date.month, date.day),
-    //         lastDate: DateTime(date.year + 1, date.month, date.day))
-    //     .then((date) {
-    //   if (date == null) return;
-    //   setState(() {
-    //     _date = date.add(Duration(seconds: 1));
-    //   });
-    // });
   }
 
   void _presentCurrencyPicker() {

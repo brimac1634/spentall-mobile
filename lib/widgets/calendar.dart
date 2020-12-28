@@ -16,12 +16,14 @@ class Calendar extends StatefulWidget {
   final DateTime endDate;
   final bool range;
   final Function(DateTime date) onSelect;
+  final Function(DateRange dateRange) onSelectRange;
 
   Calendar(
       {@required this.startDate,
       this.endDate,
       this.range = false,
-      @required this.onSelect});
+      this.onSelect,
+      this.onSelectRange});
 
   @override
   _CalendarState createState() => _CalendarState();
@@ -32,18 +34,23 @@ class _CalendarState extends State<Calendar> {
 
   DateTime _selectedDate;
   DateRange _selectedDateRange;
+  bool _isStart = true;
 
   @override
   void initState() {
     super.initState();
     _month = widget.startDate;
-    _selectedDate = widget.startDate;
+    if (widget.range) {
+      _selectedDateRange = DateRange(widget.startDate, widget.endDate);
+    } else {
+      _selectedDate = widget.startDate;
+    }
   }
 
   Widget _renderWeeks() {
     final _firstOfMonth = DateTime(_month.year, _month.month, 1);
-    var _startOfEachWeek =
-        _firstOfMonth.subtract(Duration(days: _firstOfMonth.weekday));
+    var _startOfEachWeek = _firstOfMonth.subtract(
+        Duration(days: _firstOfMonth.weekday < 7 ? _firstOfMonth.weekday : 0));
     var _done = false;
 
     List<Widget> _weeks = [];
@@ -66,20 +73,48 @@ class _CalendarState extends State<Calendar> {
 
     List<Widget> _days = [];
 
+    Color _getColor(DateTime date) {
+      if (widget.range) {
+        return _date.isAfter(
+                    _selectedDateRange.start.subtract(Duration(seconds: 1))) &&
+                _date.isBefore(_selectedDateRange.end.add(Duration(seconds: 1)))
+            ? AppTheme.pink
+            : Colors.transparent;
+      } else {
+        return _selectedDate.isSameDay(_date)
+            ? AppTheme.pink
+            : Colors.transparent;
+      }
+    }
+
     for (var i = 0; i < 7; i++) {
       final _currentDate = DateTime.parse(_date.toString());
       _days.add(Expanded(
         child: InkWell(
           splashColor: Colors.transparent,
           onTap: () {
-            setState(() {
-              _selectedDate = _currentDate;
-            });
+            if (widget.range && _isStart) {
+              setState(() {
+                _selectedDateRange = DateRange(_currentDate, _currentDate);
+              });
+              _isStart = false;
+            } else if (widget.range && !_isStart) {
+              setState(() {
+                _selectedDateRange =
+                    DateRange(_selectedDateRange.start, _currentDate);
+              });
+              _isStart = true;
+            } else {
+              setState(() {
+                _selectedDate = _currentDate;
+              });
+            }
           },
           child: Container(
-            color: _selectedDate.isSameDay(_date)
-                ? AppTheme.pink
-                : Colors.transparent,
+            decoration: BoxDecoration(
+              color: _getColor(_date),
+              border: Border.all(color: AppTheme.lightPurple),
+            ),
             padding: const EdgeInsets.symmetric(vertical: 12),
             child: Text(
               _date.day.toString(),
@@ -120,10 +155,35 @@ class _CalendarState extends State<Calendar> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Text(
-                    DateFormat('MMMM y').format(widget.startDate),
-                    style: AppTheme.headline5,
-                  ),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                            icon: Icon(
+                              Icons.arrow_back_outlined,
+                              color: AppTheme.offWhite,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _month = DateTime(_month.year, _month.month, 0);
+                              });
+                            }),
+                        Text(
+                          DateFormat('MMMM y').format(_month),
+                          style: AppTheme.headline5,
+                        ),
+                        IconButton(
+                            icon: Icon(
+                              Icons.arrow_forward_outlined,
+                              color: AppTheme.offWhite,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _month =
+                                    DateTime(_month.year, _month.month + 1, 1);
+                              });
+                            }),
+                      ]),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -169,7 +229,13 @@ class _CalendarState extends State<Calendar> {
                           ),
                         ),
                         onPressed: () {
-                          widget.onSelect(_selectedDate);
+                          if (!widget.range && widget.onSelect != null) {
+                            widget.onSelect(_selectedDate);
+                          } else if (widget.range &&
+                              widget.onSelectRange != null) {
+                            widget.onSelectRange(_selectedDateRange);
+                          }
+
                           Navigator.of(context).pop();
                         },
                       )

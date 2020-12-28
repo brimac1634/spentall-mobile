@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:spentall_mobile/models/date_range.dart';
 
 import '../providers/expenses.dart';
 
@@ -8,6 +9,7 @@ import './search_field.dart';
 import './expandable.dart';
 import './scale_icon_button.dart';
 import './custom_alert_dialog.dart';
+import './calendar.dart';
 
 import '../helpers/utils.dart' as utils;
 import '../app_theme.dart';
@@ -41,6 +43,22 @@ class _FilterBarState extends State<FilterBar> {
     }
   }
 
+  void _presentDatePicker(DateRange filterRange) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Calendar(
+          startDate: filterRange.start,
+          endDate: filterRange.end,
+          range: true,
+          onSelectRange: (dateRange) {
+            print(dateRange);
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final _expenseData = Provider.of<Expenses>(context);
@@ -66,7 +84,9 @@ class _FilterBarState extends State<FilterBar> {
                   children: <Widget>[
                     ScaleIconButton(
                       imageAsset: 'assets/icons/filter.png',
-                      onTap: () {},
+                      onTap: () {
+                        _presentDatePicker(_expenseData.filterRange);
+                      },
                     ),
                     SizedBox(
                       width: 16,
