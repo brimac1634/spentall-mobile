@@ -43,16 +43,20 @@ class _FilterBarState extends State<FilterBar> {
     }
   }
 
-  void _presentDatePicker(DateRange filterRange) {
+  void _presentDatePicker(Expenses expenses) {
     showDialog(
       context: context,
       builder: (context) {
         return Calendar(
-          startDate: filterRange.start,
-          endDate: filterRange.end,
+          startDate: expenses.filterRange.start,
+          endDate: expenses.filterRange.end,
           range: true,
           onSelectRange: (dateRange) {
-            print(dateRange);
+            if (dateRange.isWithinRange(expenses.cycleDateRange)) {
+              expenses.setTimeFilter(dateRange);
+            } else {
+              // make api call for new range of dates
+            }
           },
         );
       },
@@ -85,7 +89,7 @@ class _FilterBarState extends State<FilterBar> {
                     ScaleIconButton(
                       imageAsset: 'assets/icons/filter.png',
                       onTap: () {
-                        _presentDatePicker(_expenseData.filterRange);
+                        _presentDatePicker(_expenseData);
                       },
                     ),
                     SizedBox(

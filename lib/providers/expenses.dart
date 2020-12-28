@@ -67,7 +67,9 @@ class Expenses with ChangeNotifier {
 
     return {...expenses}..removeWhere((key, e) {
         if (e.timestamp.compareTo(start) >= 0 &&
-            e.timestamp.compareTo(end) <= 0) {
+            e.timestamp.compareTo(
+                    DateTime(end.year, end.month, end.day, 23, 59, 59, 59)) <=
+                0) {
           return false;
         }
         return true;
