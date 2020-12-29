@@ -147,7 +147,7 @@ class _PreferencesState extends State<Preferences> {
                 CustomRaisedButton(
                   child: Text(
                     _currency.id,
-                    style: AppTheme.headline3,
+                    style: AppTheme.label2,
                   ),
                   type: ButtonType.normal,
                   onPressed: _presentCurrencyPicker,
@@ -171,7 +171,7 @@ class _PreferencesState extends State<Preferences> {
                                 (option) => CustomRaisedButton(
                                   child: Text(
                                     option.capitalize(),
-                                    style: AppTheme.headline3,
+                                    style: AppTheme.label2,
                                   ),
                                   type: option == _cycle
                                       ? ButtonType.special
@@ -285,7 +285,7 @@ class _PreferencesState extends State<Preferences> {
                         .map((index) => Chip(
                               label: Text(
                                 _categories[index].capitalize(),
-                                style: AppTheme.headline3,
+                                style: AppTheme.label2,
                               ),
                               backgroundColor: AppTheme.lightPurple,
                               deleteIcon: Icon(

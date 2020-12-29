@@ -60,20 +60,20 @@ class AppTheme {
 
   static const TextStyle headline1 = TextStyle(
       color: pink,
-      fontSize: 22,
+      fontSize: 20,
       fontFamily: headingFont,
       fontWeight: FontWeight.normal);
 
   static const TextStyle headline2 = TextStyle(
     fontFamily: headingFont,
     fontWeight: FontWeight.bold,
-    fontSize: 24,
+    fontSize: 22,
     letterSpacing: 0.27,
     color: darkPurple,
   );
 
   static const TextStyle headline3 = TextStyle(
-      color: AppTheme.offWhite, fontSize: 22, fontWeight: FontWeight.bold);
+      color: AppTheme.offWhite, fontSize: 20, fontWeight: FontWeight.bold);
 
   static const TextStyle headline4 = TextStyle(
       fontFamily: headingFont,
