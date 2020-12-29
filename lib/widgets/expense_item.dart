@@ -154,6 +154,9 @@ class ExpenseItem extends StatelessWidget {
                                 '\$${utils.formatAmount(expense.amount)}',
                                 style: AppTheme.headline3,
                               ),
+                              SizedBox(
+                                height: 6,
+                              ),
                               Text(
                                 expense.notes ?? '',
                                 style: Theme.of(context).textTheme.subtitle2,
