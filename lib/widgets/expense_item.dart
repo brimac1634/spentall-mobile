@@ -129,6 +129,8 @@ class ExpenseItem extends StatelessWidget {
                         color: Theme.of(context).buttonColor,
                       ),
                       child: ListTile(
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 8, horizontal: 14),
                         onLongPress: () {
                           _showModalBottomSheet(context);
                         },
@@ -144,17 +146,33 @@ class ExpenseItem extends StatelessWidget {
                             )
                           ],
                         ),
-                        title: Text(
-                          '\$${utils.formatAmount(expense.amount)}',
-                          style: AppTheme.headline3,
-                        ),
-                        subtitle: Text(
-                          expense.type,
-                          style: Theme.of(context).textTheme.subtitle2,
-                        ),
-                        trailing: Text(
-                            DateFormat('d MMM').format(expense.timestamp),
-                            style: Theme.of(context).textTheme.subtitle2),
+                        title: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                '\$${utils.formatAmount(expense.amount)}',
+                                style: AppTheme.headline3,
+                              ),
+                              Text(
+                                expense.notes ?? '',
+                                style: Theme.of(context).textTheme.subtitle2,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              )
+                            ]),
+                        trailing: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                  DateFormat('d MMM').format(expense.timestamp),
+                                  style: Theme.of(context).textTheme.subtitle2),
+                              Text(
+                                expense.type,
+                                style: Theme.of(context).textTheme.subtitle2,
+                              ),
+                            ]),
                       ),
                     ),
                   ),
