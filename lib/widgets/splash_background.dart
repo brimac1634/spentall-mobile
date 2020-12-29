@@ -11,6 +11,7 @@ class SplashBackground extends StatelessWidget {
         Positioned(
           child: Image.asset(
             'assets/images/auth_background.png',
+            fit: BoxFit.cover,
           ),
           top: 0,
           right: 0,

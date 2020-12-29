@@ -281,10 +281,22 @@ class _AuthPageState extends State<AuthPage> {
                                   height: 20,
                                 ),
                                 CustomRaisedButton(
-                                  child: Text(
-                                    'Facebook Login',
-                                    style: AppTheme.headline3,
-                                  ),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          'assets/icons/facebook.png',
+                                          width: 22,
+                                        ),
+                                        SizedBox(
+                                          width: 8,
+                                        ),
+                                        Text(
+                                          'Facebook',
+                                          style: AppTheme.headline3,
+                                        )
+                                      ]),
                                   onPressed: _fbLogin,
                                   width: double.infinity,
                                 ),
