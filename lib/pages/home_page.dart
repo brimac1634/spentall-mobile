@@ -39,6 +39,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         onRefresh: () async {
           await _expenses.getExpenses();
         },
+        backgroundColor: AppTheme.offWhite,
+        color: AppTheme.darkPurple,
         child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             child: AnimatedBuilder(
@@ -49,31 +51,34 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   transform: Matrix4.translationValues(
                       0.0, 40 * (1.0 - _animation.value), 0.0),
                   child: SafeArea(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 30,
-                          ),
-                          PercentMeter(
-                              _expenses.cycleTotalTargetPercentage.ceil()),
-                          Container(
-                            height: 20,
-                          ),
-                          Text(
-                            '${_expenses.cycleTotalTargetPercentage.ceil()}% left of your ${auth.user.cycle} limit',
-                            style: AppTheme.headline3,
-                          ),
-                          Text(
-                            'or',
-                            style: AppTheme.headline3,
-                          ),
-                          Text(
-                            '\$${utils.formatAmount(_expenses.cycleFilteredTotalExpenses)} out of \$${auth.user.target}',
-                            style: AppTheme.headline3,
-                          ),
-                        ]),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 36,
+                            ),
+                            PercentMeter(
+                                _expenses.cycleTotalTargetPercentage.ceil()),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              '${_expenses.cycleTotalTargetPercentage.ceil()}% left of your ${auth.user.cycle} limit',
+                              style: AppTheme.headline3,
+                            ),
+                            Text(
+                              'or',
+                              style: AppTheme.headline3,
+                            ),
+                            Text(
+                              '\$${utils.formatAmount(_expenses.cycleFilteredTotalExpenses)} out of \$${auth.user.target}',
+                              style: AppTheme.headline3,
+                            ),
+                          ]),
+                    ),
                   ),
                 ),
               ),

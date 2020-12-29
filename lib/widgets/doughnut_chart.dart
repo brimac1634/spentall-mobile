@@ -12,8 +12,7 @@ class DoughnutChart extends StatelessWidget {
 
   DoughnutChart(this.categories, {this.arcWidth = 100});
 
-  /// Create one series with sample hard coded data.
-  static List<charts.Series<CategoryPercent, int>> _setCategoryData(
+  List<charts.Series<CategoryPercent, int>> _setCategoryData(
       List<CategoryPercent> data) {
     return [
       charts.Series<CategoryPercent, int>(
@@ -24,14 +23,10 @@ class DoughnutChart extends StatelessWidget {
         colorFn: (_, index) => index % 2 == 0
             ? charts.ColorUtil.fromDartColor(AppTheme.lightPurple)
             : charts.ColorUtil.fromDartColor(AppTheme.pink),
-        insideLabelStyleAccessorFn: (_, __) => charts.TextStyleSpec(
-            fontSize: 16,
-            color: charts.ColorUtil.fromDartColor(AppTheme.offWhite),
-            fontWeight: '500'),
-        outsideLabelStyleAccessorFn: (_, __) => charts.TextStyleSpec(
-            fontSize: 16,
-            color: charts.ColorUtil.fromDartColor(AppTheme.offWhite),
-            fontWeight: '500'),
+        // insideLabelStyleAccessorFn: (_, __) => charts.TextStyleSpec(
+        //     fontSize: 16,
+        //     color: charts.ColorUtil.fromDartColor(AppTheme.offWhite),
+        //     fontWeight: '500'),
         labelAccessorFn: (CategoryPercent item, _) =>
             item.category.capitalize(),
       )
@@ -40,11 +35,39 @@ class DoughnutChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return charts.PieChart(_setCategoryData(categories),
-        animate: true,
-        animationDuration: Duration(milliseconds: 600),
-        defaultRenderer: charts.ArcRendererConfig(
-            arcWidth: arcWidth,
-            arcRendererDecorators: [charts.ArcLabelDecorator()]));
+    return charts.PieChart(
+      _setCategoryData(categories),
+      animate: true,
+      animationDuration: Duration(milliseconds: 600),
+      defaultRenderer: charts.ArcRendererConfig(
+        arcWidth: arcWidth,
+        arcRendererDecorators: [
+          charts.ArcLabelDecorator(
+              showLeaderLines: false,
+              // leaderLineColor: charts.MaterialPalette.deepOrange.shadeDefault,
+              outsideLabelStyleSpec: charts.TextStyleSpec(
+                  fontSize: 14,
+                  color: charts.ColorUtil.fromDartColor(AppTheme.offWhite),
+                  fontWeight: '500',
+                  fontFamily: AppTheme.fontName),
+              insideLabelStyleSpec: charts.TextStyleSpec(
+                  fontSize: 14,
+                  color: charts.ColorUtil.fromDartColor(AppTheme.offWhite),
+                  fontWeight: '500',
+                  fontFamily: AppTheme.fontName),
+              labelPosition: charts.ArcLabelPosition.auto)
+        ],
+      ),
+      selectionModels: [
+        charts.SelectionModelConfig(changedListener: (selectionModel) {
+          final selectedData = selectionModel.selectedDatum;
+
+          if (selectedData.isNotEmpty) {
+            final category = selectedData.first.datum.category;
+            print(category);
+          }
+        }),
+      ],
+    );
   }
 }
