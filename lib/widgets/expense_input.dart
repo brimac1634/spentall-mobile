@@ -180,22 +180,27 @@ class _ExpenseInputState extends State<ExpenseInput> {
     final _auth = Provider.of<Auth>(context);
     return Form(
       key: _formKey,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppTheme.darkPurple,
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: AppTheme.darkerPurple,
-                offset: const Offset(1.1, 1.1),
-                blurRadius: 10.0),
-          ],
-        ),
-        padding: EdgeInsets.all(12),
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: SafeArea(
+      child: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+            color: AppTheme.darkPurple,
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0)),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: AppTheme.darkerPurple,
+                  offset: const Offset(1.1, 1.1),
+                  blurRadius: 10.0),
+            ],
+          ),
+          padding: EdgeInsets.only(
+              top: 12,
+              left: 12,
+              right: 12,
+              bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: SingleChildScrollView(
+            controller: _scrollController,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

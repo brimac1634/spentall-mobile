@@ -111,9 +111,11 @@ class Expenses with ChangeNotifier {
     List<Expense> _expenseList = [...rangeFilteredExpenses.values];
     if (_searchText.length >= 1) {
       _expenseList = _expenseList.where((exp) {
+        _searchText.toLowerCase();
         return exp.amount.toString().contains(_searchText) ||
             exp.type.contains(_searchText) ||
-            (exp.notes != null && exp.notes.contains(_searchText));
+            (exp.notes != null &&
+                exp.notes.toLowerCase().contains(_searchText));
       }).toList();
     }
     return _expenseList

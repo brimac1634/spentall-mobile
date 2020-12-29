@@ -67,7 +67,7 @@ class _AuthPageState extends State<AuthPage> {
     try {
       final facebookLogin = FacebookLogin();
       final result = await facebookLogin.logIn([]);
-      print(result);
+
       switch (result.status) {
         case FacebookLoginStatus.loggedIn:
           await Provider.of<Auth>(context, listen: false)
