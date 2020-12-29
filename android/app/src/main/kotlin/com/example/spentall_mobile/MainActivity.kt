@@ -1,4 +1,4 @@
-package com.example.spentall_mobile
+package com.bmacpherson.spentall_mobile
 
 import io.flutter.embedding.android.FlutterActivity
 
