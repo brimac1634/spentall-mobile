@@ -241,7 +241,7 @@ class Expenses with ChangeNotifier {
           'type': category,
           'amount': amount,
           'notes': notes,
-          'timestamp': timestamp.toIso8601String()
+          'timestamp': timestamp.toUtc().toIso8601String()
         }));
     final expense = json.decode(response.body) as Map<String, dynamic>;
     _expenses[expense['expenditure_id'].toString()] = _newExpense(expense);

@@ -43,7 +43,7 @@ class DoughnutChart extends StatelessWidget {
         arcWidth: arcWidth,
         arcRendererDecorators: [
           charts.ArcLabelDecorator(
-              showLeaderLines: false,
+              showLeaderLines: true,
               // leaderLineColor: charts.MaterialPalette.deepOrange.shadeDefault,
               outsideLabelStyleSpec: charts.TextStyleSpec(
                   fontSize: 14,

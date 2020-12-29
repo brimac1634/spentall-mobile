@@ -333,7 +333,9 @@ class _FilterBarState extends State<FilterBar> {
                     ),
                   ),
                   _isLoading
-                      ? CircularProgressIndicator()
+                      ? CircularProgressIndicator(
+                          backgroundColor: AppTheme.darkPurple,
+                        )
                       : InkWell(
                           splashColor: Colors.transparent,
                           onTap: () {
