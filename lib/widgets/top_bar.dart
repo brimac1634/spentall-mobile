@@ -32,50 +32,45 @@ class _TopBarState extends State<TopBar> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        AnimatedBuilder(
-          animation: widget.animationController,
-          builder: (BuildContext context, Widget child) {
-            return FadeTransition(
-              opacity: topBarAnimation,
-              child: Transform(
-                  transform: Matrix4.translationValues(
-                      0.0, 30 * (1.0 - topBarAnimation.value), 0.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color:
-                          AppTheme.offWhite.withOpacity(widget.topBarOpacity),
-                      borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(20.0),
-                          bottomRight: Radius.circular(20.0)),
-                      boxShadow: <BoxShadow>[
-                        BoxShadow(
-                            color: AppTheme.darkerPurple
-                                .withOpacity(0.4 * widget.topBarOpacity),
-                            offset: const Offset(1.1, 1.1),
-                            blurRadius: 10.0),
-                      ],
+    return AnimatedBuilder(
+      animation: widget.animationController,
+      builder: (BuildContext context, Widget child) {
+        return FadeTransition(
+          opacity: topBarAnimation,
+          child: Transform(
+              transform: Matrix4.translationValues(
+                  0.0, 30 * (1.0 - topBarAnimation.value), 0.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppTheme.offWhite.withOpacity(widget.topBarOpacity),
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(20.0),
+                      bottomRight: Radius.circular(20.0)),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                        color: AppTheme.darkerPurple
+                            .withOpacity(0.4 * widget.topBarOpacity),
+                        offset: const Offset(1.1, 1.1),
+                        blurRadius: 10.0),
+                  ],
+                ),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: MediaQuery.of(context).padding.top,
                     ),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: MediaQuery.of(context).padding.top,
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                left: 16,
-                                right: 16,
-                                top: 16 - 8.0 * widget.topBarOpacity,
-                                bottom: 12 - 8.0 * widget.topBarOpacity),
-                            child: widget.child)
-                      ],
-                    ),
-                  )),
-            );
-          },
-        )
-      ],
+                    Padding(
+                        padding: EdgeInsets.only(
+                            left: 16,
+                            right: 16,
+                            top: 16 - 8.0 * widget.topBarOpacity,
+                            bottom: 12 - 8.0 * widget.topBarOpacity),
+                        child: widget.child)
+                  ],
+                ),
+              )),
+        );
+      },
     );
   }
 }

@@ -43,7 +43,7 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
               backgroundColor: AppTheme.offWhite,
               color: AppTheme.darkPurple,
               child: ListView.builder(
-                padding: EdgeInsets.only(top: 8, bottom: 200),
+                padding: const EdgeInsets.only(top: 8, bottom: 200),
                 itemBuilder: (ctx, i) {
                   final Animation<double> _animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(

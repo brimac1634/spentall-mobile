@@ -7,6 +7,7 @@ import '../helpers/spentall_api.dart';
 import '../models/expense.dart';
 import '../models/user.dart';
 import '../models/date_range.dart';
+import '../models/category_percent.dart';
 
 import '../helpers/custom_exceptions.dart';
 import '../helpers/utils.dart' as utils;
@@ -134,6 +135,33 @@ class Expenses with ChangeNotifier {
 
   Map<String, bool> get selectedExpenses {
     return {..._selectedExpenses};
+  }
+
+  // ANALYTICS VIEW PAGE GETTERS
+
+  List<CategoryPercent> get categoryPercentages {
+    double _total = 0;
+    Map<String, double> _categoryMap =
+        filteredExpensesWithFiltersAndSorting.fold({}, (accum, expense) {
+      _total += expense.amount;
+      if (accum.containsKey(expense.type)) {
+        accum[expense.type] += expense.amount;
+      } else {
+        accum[expense.type] = expense.amount;
+      }
+      return accum;
+    });
+
+    List<CategoryPercent> _categoryPercentages = [];
+
+    _categoryMap.forEach((category, categoryTotal) {
+      _categoryPercentages.add(
+          CategoryPercent(category, categoryTotal / _total, categoryTotal));
+    });
+
+    _categoryPercentages.sort((a, b) => a.total.compareTo(b.total) * -1);
+
+    return _categoryPercentages;
   }
 
   // SETTERS
