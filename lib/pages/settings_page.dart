@@ -23,7 +23,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<String> _getPackageDetails() async {
     try {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      return '${packageInfo.appName} - Version ${packageInfo.version}';
+      return '${packageInfo.appName ?? 'SpentAll'} - Version ${packageInfo.version}';
     } catch (err) {
       print(err.toString());
       return 'Unable to get app details';

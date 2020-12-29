@@ -49,8 +49,8 @@ class _ScaleIconButtonState extends State<ScaleIconButton>
         },
         child: Image.asset(
           widget.imageAsset,
-          height: 36,
-          width: 36,
+          height: 32,
+          width: 32,
         ),
       ),
     );

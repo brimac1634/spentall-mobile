@@ -79,7 +79,6 @@ class _CalendarState extends State<Calendar> {
       if (date.isSameDay(DateTime.now())) {
         _color = AppTheme.lightPurple;
       }
-
       if ((!widget.range && _selectedDate.isSameDay(_date)) ||
           (widget.range &&
               _date.isAfter(

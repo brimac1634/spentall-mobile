@@ -199,202 +199,211 @@ class _ExpenseInputState extends State<ExpenseInput> {
               left: 12,
               right: 12,
               bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Add Expenditure',
-                  style: AppTheme.headline5,
-                ),
-                SizedBox(
-                  height: 18,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '1. Date',
-                        style: AppTheme.headline3,
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints(minWidth: 120),
-                        child: CustomRaisedButton(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text(
-                                _date.isSameDay(DateTime.now())
-                                    ? 'Today'
-                                    : DateFormat('d MMM yyyy').format(_date),
-                                style: AppTheme.label2),
-                          ),
-                          type: ButtonType.normal,
-                          onPressed: _presentDatePicker,
-                        ),
-                      ),
-                    ],
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onPanDown: (_) {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: SingleChildScrollView(
+              controller: _scrollController,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Add Expenditure',
+                    style: AppTheme.headline5,
                   ),
-                ),
-                Padding(
+                  SizedBox(
+                    height: 18,
+                  ),
+                  Padding(
                     padding: const EdgeInsets.symmetric(vertical: 18),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('2. Currency and Amount',
-                              style: AppTheme.headline3),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          Row(children: [
-                            CustomRaisedButton(
-                              child: Text(
-                                _currency.id,
-                                style: AppTheme.label2,
-                              ),
-                              type: ButtonType.normal,
-                              onPressed: _presentCurrencyPicker,
-                              width: 120,
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                cursorColor: AppTheme.darkPurple,
-                                style: AppTheme.input,
-                                decoration: InputDecoration(
-                                  labelText: 'Amount',
-                                  labelStyle: AppTheme.label,
-                                  errorStyle: AppTheme.inputError,
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.never,
-                                  prefixText: _currency.currencySymbol ?? '',
-                                  prefixStyle: AppTheme.label,
-                                ),
-                                controller: _amountController,
-                                keyboardType: TextInputType.numberWithOptions(
-                                    decimal: true),
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp(r'^\d+\.?\d*'))
-                                ],
-                                validator: (value) {
-                                  final val = double.parse(value);
-                                  if (val.isNaN || val < 1) {
-                                    return 'Invalid number';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  _amount = double.parse(value);
-                                },
-                              ),
-                            ),
-                          ]),
-                        ])),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('3. Category', style: AppTheme.headline3),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Wrap(
-                        runSpacing: 12,
-                        spacing: 12,
-                        alignment: WrapAlignment.center,
-                        children: Iterable<int>.generate(
-                                _auth.user.categories.length)
-                            .toList()
-                            .map((index) => InkWell(
-                                  splashColor: Colors.transparent,
-                                  onTap: () {
-                                    setState(() {
-                                      _category = _auth.user.categories[index];
-                                    });
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                        color: AppTheme.lightPurple,
-                                        borderRadius: BorderRadius.circular(25),
-                                        gradient: _category ==
-                                                _auth.user.categories[index]
-                                            ? AppTheme.linearGradient
-                                            : LinearGradient(colors: [
-                                                AppTheme.lightPurple,
-                                                AppTheme.lightPurple
-                                              ]),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: AppTheme.darkerPurple,
-                                            offset: Offset(0.0, 1.5),
-                                            blurRadius: 1.5,
-                                          ),
-                                        ]),
-                                    child: Text(
-                                      _auth.user.categories[index].capitalize(),
-                                      style: AppTheme.label2,
-                                    ),
-                                  ),
-                                ))
-                            .toList(),
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('4. Notes', style: AppTheme.headline3),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      TextFormField(
-                        cursorColor: AppTheme.darkPurple,
-                        style: AppTheme.input,
-                        controller: _notesController,
-                        decoration: InputDecoration(
-                          labelText: 'Notes',
-                          labelStyle: AppTheme.label,
-                          errorStyle: AppTheme.inputError,
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                        ),
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.done,
-                        maxLines: 2,
-                        minLines: 1,
-                        onSaved: (value) {
-                          _notes = value;
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                _isLoading
-                    ? CircularProgressIndicator()
-                    : CustomRaisedButton(
-                        child: Text(
-                          'Submit',
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '1. Date',
                           style: AppTheme.headline3,
                         ),
-                        onPressed: _submit,
-                      ),
-                SizedBox(
-                  height: 18,
-                )
-              ],
+                        ConstrainedBox(
+                          constraints: BoxConstraints(minWidth: 120),
+                          child: CustomRaisedButton(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                  _date.isSameDay(DateTime.now())
+                                      ? 'Today'
+                                      : DateFormat('d MMM yyyy').format(_date),
+                                  style: AppTheme.label2),
+                            ),
+                            type: ButtonType.normal,
+                            onPressed: _presentDatePicker,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('2. Currency and Amount',
+                                style: AppTheme.headline3),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Row(children: [
+                              CustomRaisedButton(
+                                child: Text(
+                                  _currency.id,
+                                  style: AppTheme.label2,
+                                ),
+                                type: ButtonType.normal,
+                                onPressed: _presentCurrencyPicker,
+                                width: 120,
+                              ),
+                              SizedBox(
+                                width: 12,
+                              ),
+                              Expanded(
+                                child: TextFormField(
+                                  cursorColor: AppTheme.darkPurple,
+                                  style: AppTheme.input,
+                                  decoration: InputDecoration(
+                                    labelText: 'Amount',
+                                    labelStyle: AppTheme.label,
+                                    errorStyle: AppTheme.inputError,
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    prefixText: _currency.currencySymbol ?? '',
+                                    prefixStyle: AppTheme.label,
+                                  ),
+                                  controller: _amountController,
+                                  keyboardType: TextInputType.numberWithOptions(
+                                      decimal: true),
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'^\d+\.?\d*'))
+                                  ],
+                                  validator: (value) {
+                                    final val = double.parse(value);
+                                    if (val.isNaN || val < 1) {
+                                      return 'Invalid number';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _amount = double.parse(value);
+                                  },
+                                ),
+                              ),
+                            ]),
+                          ])),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('3. Category', style: AppTheme.headline3),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        Wrap(
+                          runSpacing: 12,
+                          spacing: 12,
+                          alignment: WrapAlignment.center,
+                          children: Iterable<int>.generate(
+                                  _auth.user.categories.length)
+                              .toList()
+                              .map((index) => InkWell(
+                                    splashColor: Colors.transparent,
+                                    onTap: () {
+                                      setState(() {
+                                        _category =
+                                            _auth.user.categories[index];
+                                      });
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                          color: AppTheme.lightPurple,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          gradient: _category ==
+                                                  _auth.user.categories[index]
+                                              ? AppTheme.linearGradient
+                                              : LinearGradient(colors: [
+                                                  AppTheme.lightPurple,
+                                                  AppTheme.lightPurple
+                                                ]),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: AppTheme.darkerPurple,
+                                              offset: Offset(0.0, 1.5),
+                                              blurRadius: 1.5,
+                                            ),
+                                          ]),
+                                      child: Text(
+                                        _auth.user.categories[index]
+                                            .capitalize(),
+                                        style: AppTheme.label2,
+                                      ),
+                                    ),
+                                  ))
+                              .toList(),
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('4. Notes', style: AppTheme.headline3),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        TextFormField(
+                          cursorColor: AppTheme.darkPurple,
+                          style: AppTheme.input,
+                          controller: _notesController,
+                          decoration: InputDecoration(
+                            labelText: 'Notes',
+                            labelStyle: AppTheme.label,
+                            errorStyle: AppTheme.inputError,
+                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                          ),
+                          keyboardType: TextInputType.text,
+                          textInputAction: TextInputAction.done,
+                          maxLines: 2,
+                          minLines: 1,
+                          onSaved: (value) {
+                            _notes = value;
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  _isLoading
+                      ? CircularProgressIndicator()
+                      : CustomRaisedButton(
+                          child: Text(
+                            'Submit',
+                            style: AppTheme.headline3,
+                          ),
+                          onPressed: _submit,
+                        ),
+                  SizedBox(
+                    height: 18,
+                  )
+                ],
+              ),
             ),
           ),
         ),

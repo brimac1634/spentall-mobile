@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           return (snapshot.connectionState == ConnectionState.waiting)
               ? SplashBackground(
-                  child: CircularProgressIndicator(),
+                  child: Center(child: CircularProgressIndicator()),
                 )
               : AuthPage();
         },

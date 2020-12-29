@@ -52,7 +52,7 @@ class _FilterBarState extends State<FilterBar> {
     }
   }
 
-  void _updateTimeFilter(Expenses expenses, DateRange dateRange) async {
+  Future<void> _updateTimeFilter(Expenses expenses, DateRange dateRange) async {
     if (dateRange.isWithinRange(expenses.cycleDateRange)) {
       expenses.setTimeFilter(dateRange);
     } else {
@@ -98,7 +98,7 @@ class _FilterBarState extends State<FilterBar> {
                         ]),
                     child: Row(mainAxisSize: MainAxisSize.min, children: [
                       Text(
-                        '${DateFormat(_dateFilterFormat).format(_expenses.filterRange.start)} to ${DateFormat(_dateFilterFormat).format(_expenses.filterRange.end)}',
+                        utils.formatDateRange(_expenses.filterRange),
                         style: AppTheme.label2,
                       ),
                       SizedBox(
@@ -214,7 +214,7 @@ class _FilterBarState extends State<FilterBar> {
                             splashColor: Colors.transparent,
                             onTap: () async {
                               final dateRange = utils.getCycleDates(filter);
-                              _updateTimeFilter(expenses, dateRange);
+                              await _updateTimeFilter(expenses, dateRange);
                               Navigator.of(context).pop();
                             },
                             child: Chip(
@@ -260,7 +260,7 @@ class _FilterBarState extends State<FilterBar> {
                 style: Theme.of(context).textTheme.headline4,
               ),
               subtitle: Text(
-                '${DateFormat(_dateFilterFormat).format(_expenseData.filterRange.start)} to ${DateFormat(_dateFilterFormat).format(_expenseData.filterRange.end)}',
+                utils.formatDateRange(_expenseData.filterRange),
                 style: Theme.of(context).textTheme.bodyText2,
               ),
               trailing: Container(
@@ -297,7 +297,7 @@ class _FilterBarState extends State<FilterBar> {
           axisAlignment: -1.0,
           expand: _showSearch,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
+            padding: const EdgeInsets.only(top: 10.0, bottom: 9),
             child: SearchField(
               onSearch: (value) {
                 _expenseData.setSearchText(value);
