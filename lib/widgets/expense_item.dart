@@ -109,7 +109,7 @@ class ExpenseItem extends StatelessWidget {
           ),
           alignment: Alignment.centerRight,
           padding: EdgeInsets.only(right: 20),
-          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          margin: EdgeInsets.symmetric(vertical: 4),
         ),
         direction: DismissDirection.endToStart,
         key: ValueKey(expense.id),
@@ -123,10 +123,9 @@ class ExpenseItem extends StatelessWidget {
                   child: Card(
                     elevation: 5,
                     shadowColor: AppTheme.darkerPurple,
-                    margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    margin: EdgeInsets.symmetric(vertical: 4),
                     child: Container(
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(4),
                         color: Theme.of(context).buttonColor,
                       ),
                       child: ListTile(
