@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:package_info/package_info.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/dropdown.dart';
 import '../widgets/preferences.dart';
+import '../widgets/custom_alert_dialog.dart';
 
 import '../providers/auth.dart';
 
 import '../app_theme.dart';
-import '../helpers/extensions.dart';
 
 class SettingsPage extends StatefulWidget {
   final AnimationController animationController;
@@ -30,6 +31,35 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
+  void _launchURL() async {
+    const url = 'https://www.spentall.com/welcome/contact-us';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return CustomAlertDialog(
+              title: 'Uh Oh',
+              content: 'We were unable to launch an internet browser',
+              actions: [
+                FlatButton(
+                  child: Text(
+                    'okay',
+                    style: AppTheme.body1,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  textColor: AppTheme.darkPurple,
+                ),
+              ],
+            );
+          });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _auth = Provider.of<Auth>(context);
@@ -47,7 +77,8 @@ class _SettingsPageState extends State<SettingsPage> {
                       EdgeInsets.only(top: MediaQuery.of(context).padding.top),
                   title: 'User Preferences',
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.only(
+                        top: 16, right: 16, bottom: 32, left: 16),
                     child: Preferences(
                       target: _auth.user.target,
                       currency: _auth.user.currency,
@@ -67,22 +98,47 @@ class _SettingsPageState extends State<SettingsPage> {
                 height: 1,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 28),
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                child: FlatButton(
+                  child: Text(
+                    'Contact Us',
+                    style: AppTheme.headline3,
+                  ),
+                  onPressed: _launchURL,
+                  padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  textColor: Theme.of(context).accentColor,
+                ),
+              ),
+              Divider(
+                color: AppTheme.offWhite,
+                height: 1,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 child: FlatButton(
                   child: Text(
                     'Logout',
                     style: AppTheme.headline3,
                   ),
                   onPressed: _auth.logout,
-                  padding: EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30.0, vertical: 4),
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   textColor: Theme.of(context).accentColor,
                 ),
               ),
+              Divider(
+                color: AppTheme.offWhite,
+                height: 1,
+              ),
               if (snapshot.hasData)
-                Text(
-                  snapshot.data,
-                  style: AppTheme.label2,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 46),
+                  child: Text(
+                    snapshot.data,
+                    style: AppTheme.label2,
+                  ),
                 )
             ],
           ),

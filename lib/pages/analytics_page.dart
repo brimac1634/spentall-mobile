@@ -52,51 +52,58 @@ class _AnalyticsPageState extends State<AnalyticsPage>
                         builder: (context, constraints) => (_expenseData
                                     .categoryPercentages.length >
                                 0)
-                            ? Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0, vertical: 26),
-                                    child: Text(
-                                      'Amount spent per category (% of total)',
-                                      style: AppTheme.headline3,
+                            ? ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    minHeight:
+                                        MediaQuery.of(context).size.height),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0, vertical: 26),
+                                      child: Text(
+                                        'Amount spent per category (% of total)',
+                                        style: AppTheme.headline3,
+                                      ),
                                     ),
-                                  ),
-                                  Container(
-                                      width: constraints.maxWidth,
-                                      height: constraints.maxWidth * 0.8,
-                                      child: DoughnutChart(
-                                        _expenseData.categoryPercentages,
-                                        arcWidth: (constraints.maxWidth * 0.22)
-                                            .toInt(),
-                                      )),
-                                  SizedBox(
-                                    height: 16,
-                                  ),
-                                  ..._expenseData.categoryPercentages
-                                      .map(
-                                        (item) => ConstrainedBox(
-                                          constraints:
-                                              BoxConstraints(maxWidth: 300),
-                                          child: Row(
-                                            // mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                item.category.capitalize(),
-                                                style: AppTheme.label2,
-                                              ),
-                                              Text(
-                                                '${_expenseData.user.currency.currencySymbol ?? '\$'}${utils.formatAmount(item.total)} (${(item.percent * 100).floor()}%)',
-                                                style: AppTheme.label2,
-                                              )
-                                            ],
+                                    Container(
+                                        width: constraints.maxWidth,
+                                        height: constraints.maxWidth * 0.8,
+                                        child: DoughnutChart(
+                                          _expenseData.categoryPercentages,
+                                          arcWidth:
+                                              (constraints.maxWidth * 0.22)
+                                                  .toInt(),
+                                        )),
+                                    SizedBox(
+                                      height: 16,
+                                    ),
+                                    ..._expenseData.categoryPercentages
+                                        .map(
+                                          (item) => ConstrainedBox(
+                                            constraints:
+                                                BoxConstraints(maxWidth: 300),
+                                            child: Row(
+                                              // mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  item.category.capitalize(),
+                                                  style: AppTheme.label2,
+                                                ),
+                                                Text(
+                                                  '${_expenseData.user.currency.currencySymbol ?? '\$'}${utils.formatAmount(item.total)} (${(item.percent * 100).floor()}%)',
+                                                  style: AppTheme.label2,
+                                                )
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                      .toList()
-                                ],
+                                        )
+                                        .toList()
+                                  ],
+                                ),
                               )
                             : Container(
                                 height: MediaQuery.of(context).size.height,

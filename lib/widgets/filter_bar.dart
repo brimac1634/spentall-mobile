@@ -249,6 +249,7 @@ class _FilterBarState extends State<FilterBar> {
   Widget build(BuildContext context) {
     final _expenseData = Provider.of<Expenses>(context);
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Expandable(
           axis: Axis.horizontal,
