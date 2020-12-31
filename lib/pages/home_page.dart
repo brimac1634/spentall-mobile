@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/percent_meter.dart';
+import '../widgets/top_bar.dart';
 
 import '../providers/expenses.dart';
 import '../providers/auth.dart';
@@ -9,6 +10,7 @@ import '../providers/auth.dart';
 import '../app_theme.dart';
 
 import '../helpers/utils.dart' as utils;
+import '../helpers/extensions.dart';
 
 class HomePage extends StatefulWidget {
   final AnimationController animationController;
@@ -33,55 +35,132 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final _expenses = Provider.of<Expenses>(context);
-    final auth = Provider.of<Auth>(context);
+    final _auth = Provider.of<Auth>(context);
 
-    return RefreshIndicator(
-        onRefresh: () async {
-          await _expenses.getExpenses();
-        },
-        backgroundColor: AppTheme.offWhite,
-        color: AppTheme.darkPurple,
-        child: SingleChildScrollView(
-            physics: AlwaysScrollableScrollPhysics(),
-            child: AnimatedBuilder(
-              animation: widget.animationController,
-              builder: (context, _) => FadeTransition(
-                opacity: _animation,
-                child: Transform(
-                  transform: Matrix4.translationValues(
-                      0.0, 40 * (1.0 - _animation.value), 0.0),
-                  child: SafeArea(
-                    child: Container(
-                      height: MediaQuery.of(context).size.height,
+    return Column(children: [
+      TopBar(
+        topBarOpacity: 1,
+        animationController: widget.animationController,
+        child: Container(
+          width: double.infinity,
+          child: ListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(
+              '${_auth.cycleDescription}',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+            subtitle: Text(
+              utils.formatDateRange(_expenses.cycleDateRange),
+              style: Theme.of(context).textTheme.bodyText2,
+            ),
+          ),
+        ),
+      ),
+      Expanded(
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await _expenses.getExpenses();
+          },
+          backgroundColor: AppTheme.offWhite,
+          color: AppTheme.darkPurple,
+          child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: AnimatedBuilder(
+                animation: widget.animationController,
+                builder: (context, _) => FadeTransition(
+                  opacity: _animation,
+                  child: Transform(
+                    transform: Matrix4.translationValues(
+                        0.0, 40 * (1.0 - _animation.value), 0.0),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 200),
                       child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: 36,
-                            ),
-                            PercentMeter(
-                                _expenses.cycleTotalTargetPercentage.ceil()),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              '${_expenses.cycleTotalTargetPercentage.ceil()}% left of your ${auth.user.cycle} limit',
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 12,
+                          ),
+                          PercentMeter(
+                              _expenses.cycleTotalTargetPercentage.ceil()),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '${_expenses.cycleTotalTargetPercentage.ceil()}%',
+                                  style: AppTheme.display1,
+                                ),
+                                Text(
+                                  ' left of your ${_auth.user.cycle} limit',
+                                  style: AppTheme.headline3,
+                                ),
+                              ]),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            child: Text(
+                              'after spending',
                               style: AppTheme.headline3,
                             ),
-                            Text(
-                              'or',
-                              style: AppTheme.headline3,
+                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '\$${utils.formatAmount(_expenses.cycleFilteredTotalExpenses)}',
+                                  style: AppTheme.display1,
+                                ),
+                                Text(
+                                  ' out of ',
+                                  style: AppTheme.headline3,
+                                ),
+                                Text(
+                                  '\$${_auth.user.target}',
+                                  style: AppTheme.display1,
+                                ),
+                              ]),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            child: Divider(
+                              color: AppTheme.offWhite,
                             ),
-                            Text(
-                              '\$${utils.formatAmount(_expenses.cycleFilteredTotalExpenses)} out of \$${auth.user.target}',
-                              style: AppTheme.headline3,
+                          ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Category Most Spent',
+                                  style: AppTheme.headline3,
+                                ),
+                                Icon(
+                                  Icons.arrow_upward_outlined,
+                                  color: AppTheme.pink,
+                                )
+                              ]),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            _expenses.categoryMostSpent.capitalize(),
+                            style: AppTheme.display1,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12.0),
+                            child: Divider(
+                              color: AppTheme.offWhite,
                             ),
-                          ]),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )));
+              )),
+        ),
+      ),
+    ]);
   }
 }

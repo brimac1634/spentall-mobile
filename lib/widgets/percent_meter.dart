@@ -66,7 +66,7 @@ class _PercentMeterState extends State<PercentMeter>
                   style: TextStyle(
                       color: Theme.of(context).accentColor,
                       fontFamily: 'Karla',
-                      fontSize: 50),
+                      fontSize: 68),
                 ),
               ),
             ),

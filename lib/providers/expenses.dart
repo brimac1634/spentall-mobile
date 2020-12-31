@@ -51,20 +51,46 @@ class Expenses with ChangeNotifier {
     return utils.getCycleDates(user.cycle);
   }
 
-  double get cycleFilteredTotalExpenses {
+  List<Expense> get cycleFilteredExpenses {
     final start = cycleDateRange.start;
     final end = cycleDateRange.end;
-    return expenses.values.fold(0, (accum, e) {
-      if (e.timestamp.compareTo(start) >= 0 &&
-          e.timestamp.compareTo(end) <= 0) {
-        return accum + e.amount;
-      }
-      return accum;
+    return expenses.values.where((e) {
+      return (e.timestamp.compareTo(start) >= 0 &&
+          e.timestamp.compareTo(end) <= 0);
+    }).toList();
+  }
+
+  double get cycleFilteredTotalExpenses {
+    return cycleFilteredExpenses.fold(0, (accum, e) {
+      return accum + e.amount;
     });
   }
 
   double get cycleTotalTargetPercentage {
     return (user.target - cycleFilteredTotalExpenses) * 100 / user.target;
+  }
+
+  String get categoryMostSpent {
+    if (cycleFilteredExpenses.length < 1) return 'N/A';
+    Map<String, double> _categoryMap =
+        cycleFilteredExpenses.fold({}, (accum, expense) {
+      if (accum.containsKey(expense.type)) {
+        accum[expense.type] += expense.amount;
+      } else {
+        accum[expense.type] = expense.amount;
+      }
+      return accum;
+    });
+
+    String _category;
+    double _amount = 0;
+    _categoryMap.entries.forEach((e) {
+      if (e.value > _amount) {
+        _amount = e.value;
+        _category = e.key;
+      }
+    });
+    return _category;
   }
 
   // LIST VIEW PAGE GETTERS

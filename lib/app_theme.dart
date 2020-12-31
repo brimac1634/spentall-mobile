@@ -52,10 +52,10 @@ class AppTheme {
   static const TextStyle display1 = TextStyle(
     fontFamily: headingFont,
     fontWeight: FontWeight.normal,
-    fontSize: 36,
+    fontSize: 32,
     letterSpacing: 0.4,
     height: 0.9,
-    color: pink,
+    color: offWhite,
   );
 
   static const TextStyle headline1 = TextStyle(

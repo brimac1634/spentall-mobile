@@ -26,6 +26,20 @@ class Auth with ChangeNotifier {
     return _user;
   }
 
+  String get cycleDescription {
+    switch (_user.cycle) {
+      case 'daily':
+        return 'Today';
+      case 'weekly':
+        return 'This Week';
+      case 'yearly':
+        return 'This Year';
+      case 'monthly':
+      default:
+        return 'This Month';
+    }
+  }
+
   // API CALLS
 
   Future<String> register(String name, String email) async {

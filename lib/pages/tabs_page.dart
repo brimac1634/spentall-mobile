@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 import './analytics_page.dart';
 import './home_page.dart';
@@ -131,24 +132,27 @@ class _TabsPageState extends State<TabsPage>
       color: AppTheme.darkPurple,
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: FutureBuilder<bool>(
-          future: _getExpenses(),
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            return Stack(
-              children: <Widget>[
-                renderBody(_isFetching, snapshot.data, context),
-                BottomBarView(
-                  tabIconsList: tabIconsList,
-                  addClick: () {
-                    _showModalBottomSheet(context);
-                  },
-                  changeIndex: (int index) {
-                    _setPageIndex(index);
-                  },
-                ),
-              ],
-            );
-          },
+        body: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.dark,
+          child: FutureBuilder<bool>(
+            future: _getExpenses(),
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              return Stack(
+                children: <Widget>[
+                  renderBody(_isFetching, snapshot.data, context),
+                  BottomBarView(
+                    tabIconsList: tabIconsList,
+                    addClick: () {
+                      _showModalBottomSheet(context);
+                    },
+                    changeIndex: (int index) {
+                      _setPageIndex(index);
+                    },
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
