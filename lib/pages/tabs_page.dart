@@ -25,7 +25,8 @@ class TabsPage extends StatefulWidget {
 class _TabsPageState extends State<TabsPage>
     with SingleTickerProviderStateMixin {
   AnimationController _animationController;
-  bool _isFetching;
+  bool _isFetching = false;
+  bool _initialFetchComplete = false;
 
   List<TabIconData> tabIconsList = TabIconData.tabIconsList;
 
@@ -89,9 +90,11 @@ class _TabsPageState extends State<TabsPage>
   }
 
   Future<bool> _getExpenses() async {
+    if (_initialFetchComplete) return true;
     _isFetching = true;
     try {
       await Provider.of<Expenses>(context, listen: false).getExpenses();
+      _initialFetchComplete = true;
       return true;
     } catch (err) {
       return false;

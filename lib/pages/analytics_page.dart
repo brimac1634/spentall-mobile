@@ -96,7 +96,14 @@ class _AnalyticsPageState extends State<AnalyticsPage>
                                         ),
                                       ),
                                     )
-                                    .toList()
+                                    .toList(),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12.0),
+                                  child: Divider(
+                                    color: AppTheme.offWhite,
+                                  ),
+                                ),
                               ],
                             ),
                           )
