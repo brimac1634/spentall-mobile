@@ -8,12 +8,14 @@ class SearchField extends StatefulWidget {
   final String label;
   final bool canCancel;
   final Function onCancel;
+  final bool autoFocus;
 
   SearchField(
       {@required this.onSearch,
       this.label = '',
       this.canCancel = false,
-      this.onCancel});
+      this.onCancel,
+      this.autoFocus = false});
 
   @override
   _SearchFieldState createState() => _SearchFieldState();
@@ -41,6 +43,7 @@ class _SearchFieldState extends State<SearchField> {
   Widget build(BuildContext context) {
     return TextField(
       maxLines: 1,
+      autofocus: widget.autoFocus,
       controller: _searchController,
       cursorColor: AppTheme.darkPurple,
       style: AppTheme.input,

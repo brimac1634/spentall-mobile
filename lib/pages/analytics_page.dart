@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../widgets/doughnut_chart.dart';
 import '../widgets/top_bar.dart';
 import '../widgets/filter_bar.dart';
+import '../widgets/bar_chart.dart';
 
 import '../app_theme.dart';
 import '../providers/expenses.dart';
@@ -104,6 +105,20 @@ class _AnalyticsPageState extends State<AnalyticsPage>
                                     color: AppTheme.offWhite,
                                   ),
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0, vertical: 26),
+                                  child: Text(
+                                    'Total amount spent per day (${_expenseData.user.currency.currencySymbol ?? '\$'})',
+                                    style: AppTheme.headline3,
+                                  ),
+                                ),
+                                Container(
+                                    width: constraints.maxWidth,
+                                    height: constraints.maxWidth * 0.8,
+                                    child: BarChart(
+                                      _expenseData.barData,
+                                    )),
                               ],
                             ),
                           )

@@ -300,11 +300,13 @@ class _FilterBarState extends State<FilterBar> {
           child: Padding(
             padding: const EdgeInsets.only(top: 10.0, bottom: 9),
             child: SearchField(
+              autoFocus: true,
               onSearch: (value) {
                 _expenseData.setSearchText(value);
               },
               canCancel: true,
               onCancel: () {
+                _expenseData.setSearchText('');
                 setState(() {
                   _showSearch = !_showSearch;
                 });

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 import '../helpers/spentall_api.dart';
 
@@ -8,9 +9,11 @@ import '../models/expense.dart';
 import '../models/user.dart';
 import '../models/date_range.dart';
 import '../models/category_percent.dart';
+import '../models/bar_data.dart';
 
 import '../helpers/custom_exceptions.dart';
 import '../helpers/utils.dart' as utils;
+import '../helpers/extensions.dart';
 
 enum ExpenseQuery { cycle, dateRange }
 
@@ -188,6 +191,38 @@ class Expenses with ChangeNotifier {
     _categoryPercentages.sort((a, b) => a.total.compareTo(b.total) * -1);
 
     return _categoryPercentages;
+  }
+
+  List<BarData> get barData {
+    final _dateFormatter = DateFormat('dd MMM');
+
+    Map<String, double> _barMap =
+        filteredExpensesWithFiltersAndSorting.fold({}, (accum, expense) {
+      final _formattedDate = _dateFormatter.format(expense.timestamp);
+
+      if (accum.containsKey(_formattedDate)) {
+        accum[_formattedDate] += expense.amount;
+      } else {
+        accum[_formattedDate] = expense.amount;
+      }
+      return accum;
+    });
+
+    List<BarData> _barData = [];
+
+    DateTime _current = DateTime.parse(filterRange.start.toString());
+
+    while (!_current.isSameDay(filterRange.end)) {
+      final _formattedCurrent = _dateFormatter.format(_current);
+      if (_barMap.containsKey(_formattedCurrent)) {
+        _barData.add(BarData(_formattedCurrent, _barMap[_formattedCurrent]));
+      } else {
+        _barData.add(BarData(_formattedCurrent, 0));
+      }
+      _current = _current.add(Duration(days: 1));
+    }
+
+    return _barData;
   }
 
   // SETTERS
