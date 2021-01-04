@@ -319,12 +319,12 @@ class _FilterBarState extends State<FilterBar> {
         ),
         Expandable(
           expand: _expenseData.selectedExpenses.length >= 1,
-          child: Column(children: [
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
             Divider(
               color: AppTheme.darkPurple,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+              padding: const EdgeInsets.only(bottom: 8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[

@@ -180,50 +180,49 @@ class _ExpenseInputState extends State<ExpenseInput> {
     final _auth = Provider.of<Auth>(context);
     return Form(
       key: _formKey,
-      child: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppTheme.darkPurple,
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: AppTheme.darkerPurple,
-                  offset: const Offset(1.1, 1.1),
-                  blurRadius: 10.0),
-            ],
-          ),
-          padding: EdgeInsets.only(
-              top: 12,
-              left: 12,
-              right: 12,
-              bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onPanDown: (_) {
-              FocusScope.of(context).requestFocus(FocusNode());
-            },
-            child: SingleChildScrollView(
-              controller: _scrollController,
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppTheme.darkPurple,
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+                color: AppTheme.darkerPurple,
+                offset: const Offset(1.1, 1.1),
+                blurRadius: 10.0),
+          ],
+        ),
+        padding: EdgeInsets.only(
+            top: 12,
+            left: 12,
+            right: 12,
+            bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onPanDown: (_) {
+            FocusScope.of(context).requestFocus(FocusNode());
+          },
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            child: SafeArea(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     'Add Expenditure',
-                    style: AppTheme.headline5,
+                    style: AppTheme.headline3,
                   ),
                   SizedBox(
                     height: 18,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 18),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           '1. Date',
-                          style: AppTheme.headline3,
+                          style: AppTheme.label2,
                         ),
                         ConstrainedBox(
                           constraints: BoxConstraints(minWidth: 120),
@@ -245,12 +244,12 @@ class _ExpenseInputState extends State<ExpenseInput> {
                     ),
                   ),
                   Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('2. Currency and Amount',
-                                style: AppTheme.headline3),
+                                style: AppTheme.label2),
                             SizedBox(
                               height: 12,
                             ),
@@ -302,67 +301,70 @@ class _ExpenseInputState extends State<ExpenseInput> {
                             ]),
                           ])),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 18),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('3. Category', style: AppTheme.headline3),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Wrap(
-                          runSpacing: 12,
-                          spacing: 12,
-                          alignment: WrapAlignment.center,
-                          children: Iterable<int>.generate(
-                                  _auth.user.categories.length)
-                              .toList()
-                              .map((index) => InkWell(
-                                    splashColor: Colors.transparent,
-                                    onTap: () {
-                                      setState(() {
-                                        _category =
-                                            _auth.user.categories[index];
-                                      });
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                          color: AppTheme.lightPurple,
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          gradient: _category ==
-                                                  _auth.user.categories[index]
-                                              ? AppTheme.linearGradient
-                                              : LinearGradient(colors: [
-                                                  AppTheme.lightPurple,
-                                                  AppTheme.lightPurple
-                                                ]),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: AppTheme.darkerPurple,
-                                              offset: Offset(0.0, 1.5),
-                                              blurRadius: 1.5,
-                                            ),
-                                          ]),
-                                      child: Text(
-                                        _auth.user.categories[index]
-                                            .capitalize(),
-                                        style: AppTheme.label2,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('3. Category', style: AppTheme.label2),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Wrap(
+                            runSpacing: 8,
+                            spacing: 8,
+                            alignment: WrapAlignment.center,
+                            children: Iterable<int>.generate(
+                                    _auth.user.categories.length)
+                                .toList()
+                                .map((index) => InkWell(
+                                      splashColor: Colors.transparent,
+                                      onTap: () {
+                                        setState(() {
+                                          _category =
+                                              _auth.user.categories[index];
+                                        });
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                            color: AppTheme.lightPurple,
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                            gradient: _category ==
+                                                    _auth.user.categories[index]
+                                                ? AppTheme.linearGradient
+                                                : LinearGradient(colors: [
+                                                    AppTheme.lightPurple,
+                                                    AppTheme.lightPurple
+                                                  ]),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: AppTheme.darkerPurple,
+                                                offset: Offset(0.0, 1.5),
+                                                blurRadius: 1.5,
+                                              ),
+                                            ]),
+                                        child: Text(
+                                          _auth.user.categories[index]
+                                              .capitalize(),
+                                          style: AppTheme.label2,
+                                        ),
                                       ),
-                                    ),
-                                  ))
-                              .toList(),
-                        )
-                      ],
+                                    ))
+                                .toList(),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 18),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('4. Notes', style: AppTheme.headline3),
+                        Text('4. Notes', style: AppTheme.label2),
                         SizedBox(
                           height: 12,
                         ),
@@ -388,7 +390,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                     ),
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 16,
                   ),
                   _isLoading
                       ? CircularProgressIndicator()

@@ -61,10 +61,7 @@ class _TopBarState extends State<TopBar> with TickerProviderStateMixin {
                     ),
                     Padding(
                         padding: EdgeInsets.only(
-                            left: 16,
-                            right: 16,
-                            top: 0,
-                            bottom: 12 - 8.0 * widget.topBarOpacity),
+                            left: 16, right: 16, top: 0, bottom: 0),
                         child: widget.child)
                   ],
                 ),

@@ -21,8 +21,8 @@ class AppTheme {
 
   static const LinearGradient linearGradient = LinearGradient(
     colors: [
-      AppTheme.pink,
-      AppTheme.lightPurple,
+      pink,
+      lightPurple,
     ],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -30,8 +30,17 @@ class AppTheme {
 
   static const LinearGradient linearGradientReversed = LinearGradient(
     colors: [
-      AppTheme.lightPurple,
-      AppTheme.pink,
+      lightPurple,
+      pink,
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static const LinearGradient linearGradient2 = LinearGradient(
+    colors: [
+      offWhite,
+      pink,
     ],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
@@ -73,7 +82,10 @@ class AppTheme {
   );
 
   static const TextStyle headline3 = TextStyle(
-      color: AppTheme.offWhite, fontSize: 20, fontWeight: FontWeight.bold);
+      color: AppTheme.offWhite,
+      fontSize: 22,
+      fontWeight: FontWeight.bold,
+      letterSpacing: 0.4);
 
   static const TextStyle headline4 = TextStyle(
       fontFamily: headingFont,

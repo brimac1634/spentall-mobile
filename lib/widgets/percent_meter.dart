@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../models/circle_meter.dart';
+import '../app_theme.dart';
 
 class PercentMeter extends StatefulWidget {
   final int percentage;
@@ -58,17 +59,23 @@ class _PercentMeterState extends State<PercentMeter>
               foreColor: Theme.of(context).highlightColor),
           child: Center(
             child: Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.7,
+              height: MediaQuery.of(context).size.width * 0.7,
               child: Center(
+                  child: ShaderMask(
+                shaderCallback: (bounds) =>
+                    AppTheme.linearGradient2.createShader(
+                  Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                ),
                 child: Text(
                   '${_animation.value.toInt()}%',
                   style: TextStyle(
-                      color: Theme.of(context).accentColor,
-                      fontFamily: 'Karla',
-                      fontSize: 68),
+                    color: Colors.white,
+                    fontFamily: 'Karla',
+                    fontSize: 62,
+                  ),
                 ),
-              ),
+              )),
             ),
           ),
         );

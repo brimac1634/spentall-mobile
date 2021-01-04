@@ -91,18 +91,18 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               children: [
                                 Text(
                                   '${_expenses.cycleTotalTargetPercentage.ceil()}%',
-                                  style: AppTheme.display1,
+                                  style: AppTheme.headline3,
                                 ),
                                 Text(
                                   ' left of your ${_auth.user.cycle} limit',
-                                  style: AppTheme.headline3,
+                                  style: AppTheme.label2,
                                 ),
                               ]),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 12.0),
                             child: Text(
                               'after spending',
-                              style: AppTheme.headline3,
+                              style: AppTheme.label2,
                             ),
                           ),
                           Row(
@@ -111,15 +111,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               children: [
                                 Text(
                                   '\$${utils.formatAmount(_expenses.cycleFilteredTotalExpenses)}',
-                                  style: AppTheme.display1,
-                                ),
-                                Text(
-                                  ' out of ',
                                   style: AppTheme.headline3,
                                 ),
                                 Text(
+                                  ' out of ',
+                                  style: AppTheme.label2,
+                                ),
+                                Text(
                                   '\$${_auth.user.target}',
-                                  style: AppTheme.display1,
+                                  style: AppTheme.headline3,
                                 ),
                               ]),
                           Padding(
@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               children: [
                                 Text(
                                   'Category Most Spent',
-                                  style: AppTheme.headline3,
+                                  style: AppTheme.label2,
                                 ),
                                 Icon(
                                   Icons.arrow_upward_outlined,

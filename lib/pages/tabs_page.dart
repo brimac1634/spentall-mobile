@@ -83,8 +83,8 @@ class _TabsPageState extends State<TabsPage>
         backgroundColor: Colors.transparent,
         context: context,
         builder: (context) => Container(
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: ExpenseInput(),
+              // height: MediaQuery.of(context).size.height * 0.75,
+              child: Wrap(children: [ExpenseInput()]),
             ),
         isScrollControlled: true);
   }

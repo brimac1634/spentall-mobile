@@ -121,9 +121,9 @@ class ExpenseItem extends StatelessWidget {
                   transform: Matrix4.translationValues(
                       0.0, 30 * (1.0 - animation.value), 0.0),
                   child: Card(
-                    elevation: 5,
+                    // elevation: 5,
                     shadowColor: AppTheme.darkerPurple,
-                    margin: EdgeInsets.symmetric(vertical: 4),
+                    margin: EdgeInsets.symmetric(vertical: 1),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Theme.of(context).buttonColor,
