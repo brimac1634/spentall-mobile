@@ -52,8 +52,9 @@ class _SearchFieldState extends State<SearchField> {
         labelStyle: AppTheme.label,
         errorStyle: AppTheme.inputError,
         floatingLabelBehavior: FloatingLabelBehavior.never,
-        prefixIcon: Icon(
-          SpentAllIcons.search,
+        prefixIcon: Image.asset(
+          '/assets/icons/search.png',
+          width: 24,
         ),
         suffixIcon: widget.canCancel
             ? FlatButton(

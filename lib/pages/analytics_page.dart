@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../widgets/doughnut_chart.dart';
 import '../widgets/top_bar.dart';
 import '../widgets/filter_bar.dart';
-import '../widgets/bar_chart.dart';
+import '../widgets/expense_bar_chart.dart';
 
 import '../app_theme.dart';
 import '../providers/expenses.dart';
@@ -60,8 +60,9 @@ class _AnalyticsPageState extends State<AnalyticsPage>
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 8.0, vertical: 26),
                                   child: Text(
-                                    'Amount spent per category (% of total)',
+                                    'Amount spent per category \n(% of total)',
                                     style: AppTheme.headline3,
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                                 Container(
@@ -114,11 +115,13 @@ class _AnalyticsPageState extends State<AnalyticsPage>
                                   ),
                                 ),
                                 Container(
-                                    width: constraints.maxWidth,
+                                    width: constraints.maxWidth * 0.95,
                                     height: constraints.maxWidth * 0.8,
-                                    child: BarChart(
-                                      _expenseData.barData,
-                                    )),
+                                    child: ExpenseBarChart(
+                                        _expenseData.barData,
+                                        _expenseData
+                                                .user.currency.currencySymbol ??
+                                            '\$')),
                               ],
                             ),
                           )

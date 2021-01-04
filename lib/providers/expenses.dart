@@ -194,7 +194,7 @@ class Expenses with ChangeNotifier {
   }
 
   List<BarData> get barData {
-    final _dateFormatter = DateFormat('dd MMM');
+    final _dateFormatter = DateFormat('d MMM');
 
     Map<String, double> _barMap =
         filteredExpensesWithFiltersAndSorting.fold({}, (accum, expense) {
@@ -212,7 +212,7 @@ class Expenses with ChangeNotifier {
 
     DateTime _current = DateTime.parse(filterRange.start.toString());
 
-    while (!_current.isSameDay(filterRange.end)) {
+    while (!_current.isSameDay(filterRange.end.add(Duration(days: 1)))) {
       final _formattedCurrent = _dateFormatter.format(_current);
       if (_barMap.containsKey(_formattedCurrent)) {
         _barData.add(BarData(_formattedCurrent, _barMap[_formattedCurrent]));
