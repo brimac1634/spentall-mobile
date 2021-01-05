@@ -37,7 +37,8 @@ class _ExpenseDoughnutChartState extends State<ExpenseDoughnutChart> {
       final double _radius =
           _isTouched ? widget.width * 0.33 : widget.width * 0.28;
       final _category = widget.categories[i];
-      final _color = _colors[i % _colors.length];
+      final _color = _colors[i % _colors.length]
+          .darken(percent: (i / _colors.length).floor() * 10);
       return PieChartSectionData(
         color: _isTouched ? _color : _color.withAlpha(180),
         value: _category.percent,
@@ -90,7 +91,8 @@ class _ExpenseDoughnutChartState extends State<ExpenseDoughnutChart> {
                   Container(
                     width: 20,
                     height: 20,
-                    color: _colors[i % _colors.length],
+                    color: _colors[i % _colors.length]
+                        .darken(percent: (i / _colors.length).floor() * 10),
                   ),
                   SizedBox(
                     width: 4,
