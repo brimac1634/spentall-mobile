@@ -16,7 +16,6 @@ extension DateTimeExtension on DateTime {
 
 extension ColorExtension on Color {
   Color darken({int percent = 10}) {
-    print(percent);
     if (percent < 1 || percent > 100) return this;
     var f = 1 - percent / 100;
     return Color.fromARGB(this.alpha, (this.red * f).round(),

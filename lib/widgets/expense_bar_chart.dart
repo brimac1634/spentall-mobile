@@ -45,19 +45,35 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
       }
       return accum;
     });
+    final _intervals = _getInterval(_maxAmount);
     return BarChart(BarChartData(
+      gridData: FlGridData(
+        show: true,
+        horizontalInterval: _intervals,
+        getDrawingHorizontalLine: (value) => FlLine(
+          color: AppTheme.offWhite.withOpacity(_touchedIndex >= 0 ? 0.5 : 1),
+          strokeWidth: 1,
+        ),
+      ),
       alignment: BarChartAlignment.spaceAround,
       titlesData: FlTitlesData(
         show: true,
         bottomTitles: SideTitles(
           rotateAngle: 60,
           showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-              color: AppTheme.offWhite,
-              // fontWeight: FontWeight.bold,
-              fontSize: 12),
-          // margin: 20,
+          getTextStyles: (value) {
+            final _isSelected = value.toInt() == _touchedIndex;
+            return TextStyle(
+                color: AppTheme.offWhite,
+                fontWeight: _isSelected ? FontWeight.bold : FontWeight.normal,
+                fontSize: _isSelected ? 16 : 12);
+          },
           getTitles: (double value) {
+            if (_touchedIndex != -1) {
+              return _touchedIndex == value
+                  ? widget.data[value.toInt()].label
+                  : '';
+            }
             if (widget.data.length > 20) {
               return value % 2 == 0 ? widget.data[value.toInt()].label : '';
             }
@@ -65,42 +81,53 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
           },
         ),
         leftTitles: SideTitles(
-          interval: _getInterval(_maxAmount),
+          interval: _intervals,
           showTitles: true,
-          getTextStyles: (value) =>
-              const TextStyle(color: AppTheme.offWhite, fontSize: 12),
+          getTextStyles: (value) => TextStyle(
+              color:
+                  AppTheme.offWhite.withOpacity(_touchedIndex >= 0 ? 0.5 : 1),
+              fontSize: 12),
         ),
       ),
-      barGroups: dataIndexList
-          .map(
-            (i) => BarChartGroupData(
-              x: i,
-              barRods: [
-                BarChartRodData(
-                    y: widget.data[i].amount,
-                    colors: [AppTheme.lightPurple, AppTheme.pink])
-              ],
-              showingTooltipIndicators: [0],
-            ),
-          )
-          .toList(),
+      barGroups: dataIndexList.map((i) {
+        final _show = _touchedIndex == -1 || _touchedIndex == i;
+        final double _opacity = _show ? 1 : 0.3;
+        return BarChartGroupData(
+          x: i,
+          barRods: [
+            BarChartRodData(
+                y: widget.data[i].amount,
+                width: i == _touchedIndex ? 10 : 8,
+                colors: [
+                  AppTheme.lightPurple.withOpacity(_opacity),
+                  AppTheme.pink.withOpacity(_opacity)
+                ])
+          ],
+          showingTooltipIndicators: [0],
+        );
+      }).toList(),
       borderData: FlBorderData(
           // show: false,
           border: Border(
-              left: BorderSide(width: 1, color: AppTheme.offWhite),
-              bottom: BorderSide(width: 1, color: AppTheme.offWhite))),
+              left: BorderSide(
+                  width: 1,
+                  color: AppTheme.offWhite
+                      .withOpacity(_touchedIndex >= 0 ? 0.5 : 1)),
+              bottom: BorderSide(
+                  width: 1,
+                  color: AppTheme.offWhite
+                      .withOpacity(_touchedIndex >= 0 ? 0.5 : 1)))),
       barTouchData: BarTouchData(
         enabled: true,
         touchCallback: (response) {
-          if (response.spot == null) {
-            setState(() {
-              _touchedIndex = -1;
-            });
-            return;
-          }
-          final index = response.spot.touchedBarGroupIndex;
           setState(() {
-            _touchedIndex = index;
+            if (response.touchInput is FlLongPressEnd ||
+                response.touchInput is FlPanEnd ||
+                response.spot == null) {
+              _touchedIndex = -1;
+            } else {
+              _touchedIndex = response.spot.touchedBarGroupIndex;
+            }
           });
         },
         touchTooltipData: BarTouchTooltipData(
@@ -115,8 +142,11 @@ class _ExpenseBarChartState extends State<ExpenseBarChart> {
           ) {
             if (groupIndex == _touchedIndex) {
               return BarTooltipItem(
-                '${widget.data[groupIndex].label}: ${widget.currencySymbol}${rod.y.round().toString()}',
-                TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                '${widget.currencySymbol}${rod.y.round().toString()}',
+                TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
               );
             }
             return null;
