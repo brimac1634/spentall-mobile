@@ -142,7 +142,7 @@ class _PreferencesState extends State<Preferences> {
               children: [
                 Text(
                   'Currency',
-                  style: AppTheme.headline3,
+                  style: AppTheme.label2,
                 ),
                 CustomRaisedButton(
                   child: Text(
@@ -156,11 +156,11 @@ class _PreferencesState extends State<Preferences> {
               ],
             ),
             Padding(
-                padding: const EdgeInsets.symmetric(vertical: 36),
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Spending Cycle', style: AppTheme.headline3),
+                      Text('Spending Cycle', style: AppTheme.label2),
                       SizedBox(
                         height: 12,
                       ),
@@ -187,12 +187,12 @@ class _PreferencesState extends State<Preferences> {
                               .toList()),
                     ])),
             Padding(
-                padding: const EdgeInsets.symmetric(vertical: 28),
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('${_cycle.capitalize()} Target',
-                          style: AppTheme.headline3),
+                          style: AppTheme.label2),
                       SizedBox(
                         height: 12,
                       ),
@@ -226,12 +226,12 @@ class _PreferencesState extends State<Preferences> {
                       ),
                     ])),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 28),
+              padding: const EdgeInsets.symmetric(vertical: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Categories (${_categories.length} Total)',
-                      style: AppTheme.headline3),
+                      style: AppTheme.label2),
                   SizedBox(
                     height: 12,
                   ),
@@ -239,7 +239,7 @@ class _PreferencesState extends State<Preferences> {
                     cursorColor: AppTheme.darkPurple,
                     style: AppTheme.input,
                     decoration: InputDecoration(
-                        labelText: 'New Category',
+                        labelText: 'Type to add category',
                         labelStyle: AppTheme.label,
                         errorStyle: AppTheme.inputError,
                         floatingLabelBehavior: FloatingLabelBehavior.never,

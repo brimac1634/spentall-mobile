@@ -9,11 +9,12 @@ import './pages/tabs_page.dart';
 import './pages/auth_page.dart';
 import './pages/preferences_page.dart';
 
-import './widgets/custom_alert_dialog.dart';
 import './widgets/splash_background.dart';
+import './widgets/preferences.dart';
 
 import './app_theme.dart';
 import './helpers/utils.dart' as utils;
+import './constants/currencies.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +40,23 @@ class MyApp extends StatelessWidget {
       if (utils.userIsComplete(auth.user)) {
         return TabsPage();
       } else {
-        return PreferencesPage();
+        return PreferencesPage(Preferences(
+          currency: currencies['HKD'],
+          cycle: 'monthly',
+          target: 0,
+          categories: [
+            'food',
+            'housing',
+            'transportation',
+            'travel',
+            'entertainment',
+            'clothing',
+            'groceries',
+            'utilities',
+            'health',
+            'education'
+          ],
+        ));
       }
     } else {
       return FutureBuilder<bool>(

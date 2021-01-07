@@ -7,6 +7,11 @@ import '../app_theme.dart';
 import '../constants/currencies.dart';
 
 class PreferencesPage extends StatefulWidget {
+  final Preferences preferences;
+  final bool canGoBack;
+
+  PreferencesPage(this.preferences, {this.canGoBack = false});
+
   @override
   _PreferencesPageState createState() => _PreferencesPageState();
 }
@@ -43,30 +48,30 @@ class _PreferencesPageState extends State<PreferencesPage>
         SafeArea(
             child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 82),
-                child: Preferences(
-                  currency: currencies['HKD'],
-                  cycle: 'monthly',
-                  target: 0,
-                  categories: [
-                    'food',
-                    'housing',
-                    'transportation',
-                    'travel',
-                    'entertainment',
-                    'clothing',
-                    'groceries',
-                    'utilities',
-                    'health',
-                    'education'
-                  ],
-                ))),
+                child: widget.preferences)),
         TopBar(
           topBarOpacity: _animation.value,
           animationController: _animationController,
-          child: Text(
-            'User Preferences',
-            style: AppTheme.headline2,
-          ),
+          child: Padding(
+              padding: const EdgeInsets.only(bottom: 4.0),
+              child: Row(
+                children: [
+                  if (widget.canGoBack)
+                    IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_outlined,
+                          color: AppTheme.darkPurple,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        }),
+                  Text(
+                    'User Preferences',
+                    style: AppTheme.headline2,
+                    textAlign: TextAlign.left,
+                  ),
+                ],
+              )),
         )
       ]),
     );

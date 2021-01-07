@@ -63,6 +63,6 @@ class _ExpandableState extends State<Expandable>
         axis: widget.axis,
         axisAlignment: widget.axisAlignment,
         sizeFactor: _animation,
-        child: widget.expand ? widget.child : Container());
+        child: widget.child);
   }
 }
