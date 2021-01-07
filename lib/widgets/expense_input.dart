@@ -284,7 +284,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                                       decimal: true),
                                   inputFormatters: <TextInputFormatter>[
                                     FilteringTextInputFormatter.allow(
-                                        RegExp(r'^\d+\.?\d*'))
+                                        RegExp(r'^\d+\.?\d{0,2}'))
                                   ],
                                   validator: (value) {
                                     final val = double.parse(value);

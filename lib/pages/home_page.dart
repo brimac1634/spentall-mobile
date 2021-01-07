@@ -64,101 +64,99 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           backgroundColor: AppTheme.offWhite,
           color: AppTheme.darkPurple,
           child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              child: AnimatedBuilder(
-                animation: widget.animationController,
-                builder: (context, _) => FadeTransition(
-                  opacity: _animation,
-                  child: Transform(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: AnimatedBuilder(
+              animation: widget.animationController,
+              builder: (context, ch) => FadeTransition(
+                opacity: _animation,
+                child: Transform(
                     transform: Matrix4.translationValues(
                         0.0, 40 * (1.0 - _animation.value), 0.0),
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 200),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                    child: ch),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 200),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 12,
+                    ),
+                    PercentMeter(_expenses.cycleTotalTargetPercentage.ceil()),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          SizedBox(
-                            height: 12,
-                          ),
-                          PercentMeter(
-                              _expenses.cycleTotalTargetPercentage.ceil()),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  '${_expenses.cycleTotalTargetPercentage.ceil()}%',
-                                  style: AppTheme.headline3,
-                                ),
-                                Text(
-                                  ' left of your ${_auth.user.cycle} limit',
-                                  style: AppTheme.label2,
-                                ),
-                              ]),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Text(
-                              'after spending',
-                              style: AppTheme.label2,
-                            ),
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  '\$${utils.formatAmount(_expenses.cycleFilteredTotalExpenses)}',
-                                  style: AppTheme.headline3,
-                                ),
-                                Text(
-                                  ' out of ',
-                                  style: AppTheme.label2,
-                                ),
-                                Text(
-                                  '\$${_auth.user.target}',
-                                  style: AppTheme.headline3,
-                                ),
-                              ]),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Divider(
-                              color: AppTheme.offWhite,
-                            ),
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Category Most Spent',
-                                  style: AppTheme.label2,
-                                ),
-                                Icon(
-                                  Icons.arrow_upward_outlined,
-                                  color: AppTheme.pink,
-                                )
-                              ]),
-                          SizedBox(
-                            height: 20,
+                          Text(
+                            '${_expenses.cycleTotalTargetPercentage.ceil()}%',
+                            style: AppTheme.headline3,
                           ),
                           Text(
-                            _expenses.categoryMostSpent.capitalize(),
-                            style: AppTheme.display1,
+                            ' left of your ${_auth.user.cycle} limit',
+                            style: AppTheme.label2,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 12.0),
-                            child: Divider(
-                              color: AppTheme.offWhite,
-                            ),
-                          ),
-                        ],
+                        ]),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: Text(
+                        'after spending',
+                        style: AppTheme.label2,
                       ),
                     ),
-                  ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            '\$${utils.formatAmount(_expenses.cycleFilteredTotalExpenses)}',
+                            style: AppTheme.headline3,
+                          ),
+                          Text(
+                            ' out of ',
+                            style: AppTheme.label2,
+                          ),
+                          Text(
+                            '\$${_auth.user.target}',
+                            style: AppTheme.headline3,
+                          ),
+                        ]),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: Divider(
+                        color: AppTheme.offWhite,
+                      ),
+                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Text(
+                        'Category Most Spent',
+                        style: AppTheme.label2,
+                      ),
+                      Icon(
+                        Icons.arrow_upward_outlined,
+                        color: AppTheme.pink,
+                      )
+                    ]),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      _expenses.categoryMostSpent.capitalize(),
+                      style: AppTheme.display1,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: Divider(
+                        color: AppTheme.offWhite,
+                      ),
+                    ),
+                  ],
                 ),
-              )),
+              ),
+            ),
+          ),
         ),
       ),
     ]);

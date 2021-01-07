@@ -109,76 +109,75 @@ class ExpenseItem extends StatelessWidget {
           ),
           alignment: Alignment.centerRight,
           padding: EdgeInsets.only(right: 20),
-          margin: EdgeInsets.symmetric(vertical: 4),
+          margin: EdgeInsets.symmetric(vertical: 2),
         ),
         direction: DismissDirection.endToStart,
         key: ValueKey(expense.id),
         child: AnimatedBuilder(
-            animation: animationController,
-            builder: (context, child) => FadeTransition(
-                opacity: animation,
-                child: Transform(
+          animation: animationController,
+          builder: (context, ch) => FadeTransition(
+              opacity: animation,
+              child: Transform(
                   transform: Matrix4.translationValues(
                       0.0, 30 * (1.0 - animation.value), 0.0),
-                  child: Card(
-                    // elevation: 5,
-                    shadowColor: AppTheme.darkerPurple,
-                    margin: EdgeInsets.symmetric(vertical: 1),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).buttonColor,
+                  child: ch)),
+          child: Card(
+            shadowColor: AppTheme.darkerPurple,
+            margin: EdgeInsets.symmetric(vertical: 1),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).buttonColor,
+              ),
+              child: ListTile(
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 14),
+                onLongPress: () {
+                  _showModalBottomSheet(context);
+                },
+                leading: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: CustomRadio(
+                          isSelected: _expenseData.selectedExpenses
+                              .containsKey(expense.id),
+                          onTap: () {
+                            _expenseData.toggleSelected(expense.id);
+                          }),
+                    )
+                  ],
+                ),
+                title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        '\$${utils.formatAmount(expense.amount)}',
+                        style: AppTheme.headline3,
                       ),
-                      child: ListTile(
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 8, horizontal: 14),
-                        onLongPress: () {
-                          _showModalBottomSheet(context);
-                        },
-                        leading: Column(
-                          children: <Widget>[
-                            Expanded(
-                              child: CustomRadio(
-                                  isSelected: _expenseData.selectedExpenses
-                                      .containsKey(expense.id),
-                                  onTap: () {
-                                    _expenseData.toggleSelected(expense.id);
-                                  }),
-                            )
-                          ],
-                        ),
-                        title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text(
-                                '\$${utils.formatAmount(expense.amount)}',
-                                style: AppTheme.headline3,
-                              ),
-                              SizedBox(
-                                height: 6,
-                              ),
-                              Text(
-                                expense.notes ?? '',
-                                style: Theme.of(context).textTheme.subtitle2,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              )
-                            ]),
-                        trailing: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Text(
-                                  DateFormat('d MMM').format(expense.timestamp),
-                                  style: Theme.of(context).textTheme.subtitle2),
-                              Text(
-                                expense.type,
-                                style: Theme.of(context).textTheme.subtitle2,
-                              ),
-                            ]),
+                      SizedBox(
+                        height: 6,
                       ),
-                    ),
-                  ),
-                ))));
+                      Text(
+                        expense.notes ?? '',
+                        style: Theme.of(context).textTheme.subtitle2,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    ]),
+                trailing: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(DateFormat('d MMM').format(expense.timestamp),
+                          style: Theme.of(context).textTheme.subtitle2),
+                      Text(
+                        expense.type,
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                    ]),
+              ),
+            ),
+          ),
+        ));
   }
 }

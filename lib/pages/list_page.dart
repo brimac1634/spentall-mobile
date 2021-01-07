@@ -21,11 +21,9 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final _expenseData = Provider.of<Expenses>(context);
-    final int count =
-        _expenseData.filteredExpensesWithFiltersAndSorting.length > 10
-            ? 10
-            : _expenseData.filteredExpensesWithFiltersAndSorting.length;
-    if (count < 1) {
+    final _expenseLength =
+        _expenseData.filteredExpensesWithFiltersAndSorting.length;
+    if (_expenseLength < 1) {
       widget.animationController.forward();
     }
     return Column(
@@ -45,15 +43,16 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
                 },
                 backgroundColor: AppTheme.offWhite,
                 color: AppTheme.darkPurple,
-                child: count >= 1
+                child: _expenseLength >= 1
                     ? ListView.builder(
                         padding: const EdgeInsets.only(top: 8, bottom: 200),
                         itemBuilder: (ctx, i) {
+                          final double _begin = 0.1 * i > 1 ? 1.0 : 0.1 * i;
                           final Animation<double> _animation =
                               Tween<double>(begin: 0.0, end: 1.0).animate(
                                   CurvedAnimation(
                                       parent: widget.animationController,
-                                      curve: Interval((1 / count) * i, 1.0,
+                                      curve: Interval(_begin, 1.0,
                                           curve: Curves.fastOutSlowIn)));
                           widget.animationController.forward();
 

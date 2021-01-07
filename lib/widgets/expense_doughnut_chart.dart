@@ -76,6 +76,9 @@ class _ExpenseDoughnutChartState extends State<ExpenseDoughnutChart> {
             centerSpaceRadius: widget.width * 0.15,
             sections: showingSections()),
       ),
+      SizedBox(
+        height: 22,
+      ),
       ...List.generate(
         widget.categories.length,
         (i) => Padding(
@@ -84,7 +87,7 @@ class _ExpenseDoughnutChartState extends State<ExpenseDoughnutChart> {
             duration: Duration(milliseconds: 200),
             opacity: (_touchedIndex == -1 || i == _touchedIndex) ? 1 : 0.5,
             child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 300),
+              constraints: BoxConstraints(maxWidth: 350),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -100,11 +103,19 @@ class _ExpenseDoughnutChartState extends State<ExpenseDoughnutChart> {
                   Text(
                     widget.categories[i].category.capitalize(),
                     style: AppTheme.label2,
+                    textAlign: TextAlign.left,
                   ),
                   Spacer(),
                   Text(
-                    '${widget.currencySymbol ?? '\$'}${utils.formatAmount(widget.categories[i].total)} (${(widget.categories[i].percent * 100).round()}%)',
+                    '${widget.currencySymbol ?? '\$'}${utils.formatAmount(widget.categories[i].total)}',
                     style: AppTheme.label2,
+                    maxLines: 1,
+                    textAlign: TextAlign.right,
+                  ),
+                  Text(
+                    ' (${(widget.categories[i].percent * 100).round()}%)',
+                    style: AppTheme.label2,
+                    textAlign: TextAlign.right,
                   )
                 ],
               ),
