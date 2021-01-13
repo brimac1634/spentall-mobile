@@ -5,12 +5,14 @@ class Expandable extends StatefulWidget {
   final bool expand;
   final Axis axis;
   final double axisAlignment;
+  final bool alwaysRenderChild;
 
   Expandable(
       {this.expand = false,
       this.child,
       this.axis = Axis.vertical,
-      this.axisAlignment = 1.0});
+      this.axisAlignment = 1.0,
+      this.alwaysRenderChild = true});
 
   @override
   _ExpandableState createState() => _ExpandableState();
@@ -63,6 +65,8 @@ class _ExpandableState extends State<Expandable>
         axis: widget.axis,
         axisAlignment: widget.axisAlignment,
         sizeFactor: _animation,
-        child: widget.child);
+        child: (widget.expand || widget.alwaysRenderChild)
+            ? widget.child
+            : Container());
   }
 }

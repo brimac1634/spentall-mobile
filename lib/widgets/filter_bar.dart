@@ -242,6 +242,7 @@ class _FilterBarState extends State<FilterBar> {
       mainAxisSize: MainAxisSize.min,
       children: [
         Expandable(
+          alwaysRenderChild: false,
           axis: Axis.horizontal,
           expand: !_showSearch,
           child: ListTile(
@@ -297,6 +298,7 @@ class _FilterBarState extends State<FilterBar> {
               )),
         ),
         Expandable(
+          alwaysRenderChild: false,
           axis: Axis.horizontal,
           axisAlignment: -1.0,
           expand: _showSearch,
@@ -324,7 +326,7 @@ class _FilterBarState extends State<FilterBar> {
               color: AppTheme.darkPurple,
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.only(bottom: 12, top: 2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -339,12 +341,13 @@ class _FilterBarState extends State<FilterBar> {
                     ),
                   ),
                   _isLoading
-                      ? SizedBox(
-                          width: 32,
-                          height: 32,
+                      ? Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 8),
+                          width: 21,
+                          height: 21,
                           child: CircularProgressIndicator(
-                            valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.red),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                                AppTheme.darkPurple),
                           ),
                         )
                       : InkWell(

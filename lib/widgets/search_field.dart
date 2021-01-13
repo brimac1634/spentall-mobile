@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spentall_mobile/assets/spent_all_icons.dart';
 
 import '../app_theme.dart';
 
@@ -52,9 +51,13 @@ class _SearchFieldState extends State<SearchField> {
         labelStyle: AppTheme.label,
         errorStyle: AppTheme.inputError,
         floatingLabelBehavior: FloatingLabelBehavior.never,
-        prefixIcon: Image.asset(
-          '/assets/icons/search.png',
-          width: 24,
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Image.asset(
+            'assets/icons/search.png',
+            width: 12,
+            height: 12,
+          ),
         ),
         suffixIcon: widget.canCancel
             ? FlatButton(
