@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:spentall_mobile/assets/spent_all_icons.dart';
+import 'package:vibration/vibration.dart';
 
 import '../providers/expenses.dart';
 
@@ -18,26 +19,30 @@ class ExpenseItem extends StatelessWidget {
   final AnimationController animationController;
   final Animation<dynamic> animation;
   final Expense expense;
+  final bool hasVibrator;
 
   ExpenseItem(
       {@required this.animationController,
       @required this.animation,
-      @required this.expense});
+      @required this.expense,
+      this.hasVibrator = false});
 
   void _showModalBottomSheet(BuildContext context) {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
         context: context,
         builder: (context) => Container(
-            height: MediaQuery.of(context).size.height * 0.7,
-            child: ExpenseInput(
-              id: expense.id,
-              amount: expense.amount,
-              category: expense.type,
-              currency: currencies[expense.currency],
-              date: expense.timestamp,
-              notes: expense.notes,
-            )),
+                // height: MediaQuery.of(context).size.height * 0.7,
+                child: Wrap(children: [
+              ExpenseInput(
+                id: expense.id,
+                amount: expense.amount,
+                category: expense.type,
+                currency: currencies[expense.currency],
+                date: expense.timestamp,
+                notes: expense.notes,
+              ),
+            ])),
         isScrollControlled: true);
   }
 
@@ -132,6 +137,9 @@ class ExpenseItem extends StatelessWidget {
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 8, horizontal: 14),
                 onLongPress: () {
+                  if (hasVibrator) {
+                    Vibration.vibrate();
+                  }
                   _showModalBottomSheet(context);
                 },
                 leading: Column(

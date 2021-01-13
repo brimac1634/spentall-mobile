@@ -94,12 +94,12 @@ class _ExpenseInputState extends State<ExpenseInput> {
           notes: _notes,
           timestamp: _date);
 
-      // Scaffold.of(widget.context).showSnackBar(SnackBar(
-      //   content: Text(
-      //       widget.id != null ? 'Expenditure Updated!' : 'Expenditure Added!',
-      //       style: AppTheme.input),
-      //   backgroundColor: AppTheme.offWhite,
-      // ));
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text(
+            widget.id != null ? 'Expenditure Updated!' : 'Expenditure Added!',
+            style: AppTheme.input),
+        backgroundColor: AppTheme.offWhite,
+      ));
 
       if (widget.id != null) {
         Navigator.of(context).pop(true);

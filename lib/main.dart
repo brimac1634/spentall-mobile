@@ -64,7 +64,17 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           return (snapshot.connectionState == ConnectionState.waiting)
               ? SplashBackground(
-                  child: Center(child: CircularProgressIndicator()),
+                  child: Center(
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Image.asset(
+                      'assets/images/cloud.png',
+                      width: 120,
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    CircularProgressIndicator()
+                  ])),
                 )
               : AuthPage();
         },

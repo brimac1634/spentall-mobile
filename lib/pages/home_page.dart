@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 12,
+                      height: 22,
                     ),
                     PercentMeter(_expenses.cycleTotalTargetPercentage.ceil()),
                     SizedBox(

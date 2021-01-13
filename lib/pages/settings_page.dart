@@ -32,8 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
-  void _launchURL() async {
-    const url = 'https://www.spentall.com/welcome/contact-us';
+  void _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -128,7 +127,26 @@ class _SettingsPageState extends State<SettingsPage> {
                     Icons.arrow_forward_outlined,
                     color: AppTheme.offWhite,
                   ),
-                  onTap: _launchURL,
+                  onTap: () =>
+                      _launchURL('https://www.spentall.com/welcome/contact-us'),
+                ),
+                Divider(
+                  color: AppTheme.offWhite,
+                  height: 1,
+                ),
+                ListTile(
+                  contentPadding:
+                      const EdgeInsets.symmetric(horizontal: 28, vertical: 8),
+                  leading: Text(
+                    'Reset Password',
+                    style: AppTheme.headline3,
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_outlined,
+                    color: AppTheme.offWhite,
+                  ),
+                  onTap: () => _launchURL(
+                      'https://www.spentall.com/user/account/new-password'),
                 ),
                 Divider(
                   color: AppTheme.offWhite,

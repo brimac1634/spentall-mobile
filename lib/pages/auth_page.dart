@@ -164,102 +164,110 @@ class _AuthPageState extends State<AuthPage> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: <Widget>[
+                          Image.asset(
+                            'assets/images/cloud.png',
+                            width: 120,
+                          ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 26),
+                            padding: const EdgeInsets.only(bottom: 26),
                             child: Text('SpentAll',
                                 style: TextStyle(
-                                    fontSize: 56,
+                                    fontSize: 54,
                                     color: AppTheme.offWhite,
                                     fontFamily: 'Karla',
                                     letterSpacing: 3)),
-                          ),
-                          Expandable(
-                            expand: _authMode == AuthMode.Register,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: TextFormField(
-                                cursorColor: AppTheme.darkPurple,
-                                style: AppTheme.input,
-                                decoration: InputDecoration(
-                                    labelText: 'Name',
-                                    labelStyle: AppTheme.label,
-                                    errorStyle: AppTheme.inputError,
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.never,
-                                    prefixIcon: Icon(Icons.person_outline)),
-                                keyboardType: TextInputType.text,
-                                validator: (value) {
-                                  if (value.length <= 0) {
-                                    return 'Name cannot be empty!';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value) {
-                                  _authData['name'] = value;
-                                },
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4),
-                            child: TextFormField(
-                              cursorColor: AppTheme.darkPurple,
-                              style: AppTheme.input,
-                              decoration: InputDecoration(
-                                  labelText: 'E-Mail',
-                                  labelStyle: AppTheme.label,
-                                  errorStyle: AppTheme.inputError,
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.never,
-                                  prefixIcon: Icon(Icons.email_outlined)),
-                              keyboardType: TextInputType.emailAddress,
-                              validator: (value) {
-                                if (!RegExp(
-                                        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                                    .hasMatch(value)) {
-                                  return 'Invalid email';
-                                }
-                                return null;
-                              },
-                              onSaved: (value) {
-                                _authData['email'] = value;
-                              },
-                            ),
-                          ),
-                          Expandable(
-                            expand: _authMode == AuthMode.Login,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              child: TextFormField(
-                                cursorColor: AppTheme.darkPurple,
-                                style: AppTheme.input,
-                                decoration: InputDecoration(
-                                    labelText: 'Password',
-                                    labelStyle: AppTheme.label,
-                                    errorStyle: AppTheme.inputError,
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.never,
-                                    prefixIcon: Icon(Icons.lock_outline)),
-                                obscureText: true,
-                                validator: (value) {
-                                  if (value.isEmpty || value.length < 6) {
-                                    return 'Password must be at least 6 characters';
-                                  }
-                                },
-                                onSaved: (value) {
-                                  _authData['password'] = value;
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
                           ),
                           if (_isLoading)
                             CircularProgressIndicator()
                           else
                             Column(
                               children: [
+                                Expandable(
+                                  expand: _authMode == AuthMode.Register,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12),
+                                    child: TextFormField(
+                                      cursorColor: AppTheme.darkPurple,
+                                      style: AppTheme.input,
+                                      decoration: InputDecoration(
+                                          labelText: 'Name',
+                                          labelStyle: AppTheme.label,
+                                          errorStyle: AppTheme.inputError,
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          prefixIcon:
+                                              Icon(Icons.person_outline)),
+                                      keyboardType: TextInputType.text,
+                                      validator: (value) {
+                                        if (value.length <= 0) {
+                                          return 'Name cannot be empty!';
+                                        }
+                                        return null;
+                                      },
+                                      onSaved: (value) {
+                                        _authData['name'] = value;
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 4),
+                                  child: TextFormField(
+                                    cursorColor: AppTheme.darkPurple,
+                                    style: AppTheme.input,
+                                    decoration: InputDecoration(
+                                        labelText: 'E-Mail',
+                                        labelStyle: AppTheme.label,
+                                        errorStyle: AppTheme.inputError,
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.never,
+                                        prefixIcon: Icon(Icons.email_outlined)),
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (value) {
+                                      if (!RegExp(
+                                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                          .hasMatch(value)) {
+                                        return 'Invalid email';
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (value) {
+                                      _authData['email'] = value;
+                                    },
+                                  ),
+                                ),
+                                Expandable(
+                                  expand: _authMode == AuthMode.Login,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12),
+                                    child: TextFormField(
+                                      cursorColor: AppTheme.darkPurple,
+                                      style: AppTheme.input,
+                                      decoration: InputDecoration(
+                                          labelText: 'Password',
+                                          labelStyle: AppTheme.label,
+                                          errorStyle: AppTheme.inputError,
+                                          floatingLabelBehavior:
+                                              FloatingLabelBehavior.never,
+                                          prefixIcon: Icon(Icons.lock_outline)),
+                                      obscureText: true,
+                                      validator: (value) {
+                                        if (value.isEmpty || value.length < 6) {
+                                          return 'Password must be at least 6 characters';
+                                        }
+                                      },
+                                      onSaved: (value) {
+                                        _authData['password'] = value;
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 8,
+                                ),
                                 CustomRaisedButton(
                                   child: Text(
                                     _authMode == AuthMode.Login
@@ -271,14 +279,14 @@ class _AuthPageState extends State<AuthPage> {
                                   width: double.infinity,
                                 ),
                                 SizedBox(
-                                  height: 20,
+                                  height: 12,
                                 ),
                                 Text(
                                   'Or',
                                   style: Theme.of(context).textTheme.bodyText1,
                                 ),
                                 SizedBox(
-                                  height: 20,
+                                  height: 12,
                                 ),
                                 CustomRaisedButton(
                                   child: Row(

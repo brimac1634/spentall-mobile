@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vibration/vibration.dart';
 
 import '../providers/expenses.dart';
 
@@ -18,6 +19,18 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
+  bool _hasVibrator = false;
+
+  @override
+  void initState() async {
+    super.initState();
+    if (await Vibration.hasVibrator()) {
+      setState(() {
+        _hasVibrator = true;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final _expenseData = Provider.of<Expenses>(context);
