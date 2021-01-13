@@ -22,8 +22,12 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
   bool _hasVibrator = false;
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
+    _checkForVibrator();
+  }
+
+  Future<void> _checkForVibrator() async {
     if (await Vibration.hasVibrator()) {
       setState(() {
         _hasVibrator = true;
@@ -74,6 +78,7 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
                             animation: _animation,
                             expense: _expenseData
                                 .filteredExpensesWithFiltersAndSorting[i],
+                            hasVibrator: _hasVibrator,
                           );
                         },
                         itemCount: _expenseData
