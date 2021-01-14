@@ -78,11 +78,22 @@ class _TabsPageState extends State<TabsPage>
     });
   }
 
-  void _showModalBottomSheet(BuildContext context) {
+  void _showModalBottomSheet(BuildContext ctx) {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
-        context: context,
-        builder: (context) => ExpenseInput(),
+        context: ctx,
+        builder: (context) => ExpenseInput(
+              onSuccess: (id) {
+                // Scaffold.of(ctx).showSnackBar(SnackBar(
+                //   content: Text(
+                //       id != null
+                //           ? 'Expenditure Updated!'
+                //           : 'Expenditure Added!',
+                //       style: AppTheme.input),
+                //   backgroundColor: AppTheme.offWhite,
+                // ));
+              },
+            ),
         isScrollControlled: true);
   }
 

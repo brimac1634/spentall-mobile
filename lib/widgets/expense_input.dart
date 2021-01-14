@@ -8,13 +8,13 @@ import './custom_alert_dialog.dart';
 import './custom_raised_button.dart';
 import './calendar.dart';
 import './custom_dialog.dart';
+import './expandable.dart';
 
 import '../helpers/extensions.dart';
 import '../models/currency.dart';
 import '../providers/expenses.dart';
 import '../providers/auth.dart';
 
-import '../helpers/extensions.dart';
 import '../app_theme.dart';
 
 class ExpenseInput extends StatefulWidget {
@@ -24,15 +24,16 @@ class ExpenseInput extends StatefulWidget {
   final String category;
   final double amount;
   final String notes;
+  final Function(String id) onSuccess;
 
-  ExpenseInput({
-    this.id,
-    this.date,
-    this.category,
-    this.currency,
-    this.amount,
-    this.notes,
-  });
+  ExpenseInput(
+      {this.id,
+      this.date,
+      this.category,
+      this.currency,
+      this.amount,
+      this.notes,
+      this.onSuccess});
 
   @override
   _ExpenseInputState createState() => _ExpenseInputState();
@@ -51,6 +52,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
   String _notes;
 
   bool _isLoading = false;
+  bool _categoryIsNull = false;
 
   @override
   void initState() {
@@ -59,7 +61,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
     setState(() {
       _date = widget.date ?? DateTime.now();
       _currency = widget.currency ?? _user.currency;
-      _category = widget.category ?? '';
+      _category = widget.category;
       _amount = widget.amount;
       _notes = widget.notes ?? '';
     });
@@ -77,6 +79,12 @@ class _ExpenseInputState extends State<ExpenseInput> {
   }
 
   Future<void> _submit() async {
+    setState(() {
+      _categoryIsNull = (_category == null);
+    });
+
+    if (_category == null) return;
+
     if (!_formKey.currentState.validate()) {
       return;
     }
@@ -94,12 +102,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
           notes: _notes,
           timestamp: _date);
 
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text(
-            widget.id != null ? 'Expenditure Updated!' : 'Expenditure Added!',
-            style: AppTheme.input),
-        backgroundColor: AppTheme.offWhite,
-      ));
+      widget.onSuccess(widget.id);
 
       if (widget.id != null) {
         Navigator.of(context).pop(true);
@@ -116,6 +119,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
       _scrollController.animateTo(0.0,
           duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
     } catch (err) {
+      print(err);
       showDialog(
           context: context,
           builder: (context) => CustomAlertDialog(
@@ -287,6 +291,8 @@ class _ExpenseInputState extends State<ExpenseInput> {
                                         RegExp(r'^\d+\.?\d{0,2}'))
                                   ],
                                   validator: (value) {
+                                    if (value == null || value == '')
+                                      return 'Invalid amount';
                                     final val = double.parse(value);
                                     if (val.isNaN || val < 1) {
                                       return 'Invalid number';
@@ -308,6 +314,11 @@ class _ExpenseInputState extends State<ExpenseInput> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text('3. Category', style: AppTheme.label2),
+                          Expandable(
+                            expand: _categoryIsNull,
+                            child: Text('Please choose a category',
+                                style: AppTheme.inputError),
+                          ),
                           SizedBox(
                             height: 12,
                           ),

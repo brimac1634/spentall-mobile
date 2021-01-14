@@ -9,7 +9,7 @@ class Expandable extends StatefulWidget {
 
   Expandable(
       {this.expand = false,
-      this.child,
+      @required this.child,
       this.axis = Axis.vertical,
       this.axisAlignment = 1.0,
       this.alwaysRenderChild = true});
