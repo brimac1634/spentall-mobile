@@ -161,9 +161,12 @@ class _AuthPageState extends State<AuthPage> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: <Widget>[
-                        Image.asset(
-                          'assets/images/cloud.png',
-                          width: 120,
+                        Hero(
+                          tag: 'cloud',
+                          child: Image.asset(
+                            'assets/images/cloud.png',
+                            width: 120,
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 26),
