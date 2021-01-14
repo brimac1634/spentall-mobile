@@ -82,10 +82,7 @@ class _TabsPageState extends State<TabsPage>
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
         context: context,
-        builder: (context) => Container(
-              // height: MediaQuery.of(context).size.height * 0.75,
-              child: Wrap(children: [ExpenseInput()]),
-            ),
+        builder: (context) => ExpenseInput(),
         isScrollControlled: true);
   }
 

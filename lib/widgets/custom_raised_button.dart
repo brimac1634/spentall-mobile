@@ -22,7 +22,7 @@ class CustomRaisedButton extends StatelessWidget {
     return Container(
       width: width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(4),
         gradient: type == ButtonType.special
             ? AppTheme.linearGradient
             : LinearGradient(
@@ -42,7 +42,7 @@ class CustomRaisedButton extends StatelessWidget {
             child: Center(
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                    const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
                 child: child,
               ),
             )),

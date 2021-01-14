@@ -213,10 +213,10 @@ class _ExpenseInputState extends State<ExpenseInput> {
                     style: AppTheme.headline3,
                   ),
                   SizedBox(
-                    height: 18,
+                    height: 10,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.symmetric(vertical: 6),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -244,7 +244,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                     ),
                   ),
                   Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.symmetric(vertical: 6),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -301,7 +301,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                             ]),
                           ])),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.symmetric(vertical: 6),
                     child: SizedBox(
                       width: double.infinity,
                       child: Column(
@@ -360,7 +360,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    padding: const EdgeInsets.symmetric(vertical: 6),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

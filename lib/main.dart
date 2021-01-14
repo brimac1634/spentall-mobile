@@ -9,7 +9,6 @@ import './pages/tabs_page.dart';
 import './pages/auth_page.dart';
 import './pages/preferences_page.dart';
 
-import './widgets/splash_background.dart';
 import './widgets/preferences.dart';
 
 import './app_theme.dart';
@@ -63,19 +62,16 @@ class MyApp extends StatelessWidget {
         future: _tryAutoLogin(auth),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           return (snapshot.connectionState == ConnectionState.waiting)
-              ? SplashBackground(
-                  child: Center(
-                      child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Image.asset(
-                      'assets/images/cloud.png',
-                      width: 120,
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    CircularProgressIndicator()
-                  ])),
-                )
+              ? Center(
+                  child: Stack(children: [
+                  Image.asset(
+                    'assets/images/cloud.png',
+                    width: 120,
+                  ),
+                  Transform(
+                      transform: Matrix4.translationValues(0, 200, 0),
+                      child: CircularProgressIndicator())
+                ]))
               : AuthPage();
         },
       );

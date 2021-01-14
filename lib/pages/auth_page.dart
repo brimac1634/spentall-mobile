@@ -4,7 +4,6 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 import '../widgets/custom_raised_button.dart';
 import '../widgets/expandable.dart';
-import '../widgets/splash_background.dart';
 import '../widgets/custom_alert_dialog.dart';
 
 import '../providers/auth.dart';
@@ -152,187 +151,182 @@ class _AuthPageState extends State<AuthPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      SplashBackground(),
-      Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Center(
-            child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                    key: _formKey,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          Image.asset(
-                            'assets/images/cloud.png',
-                            width: 120,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 26),
-                            child: Text('SpentAll',
-                                style: TextStyle(
-                                    fontSize: 54,
-                                    color: AppTheme.offWhite,
-                                    fontFamily: 'Karla',
-                                    letterSpacing: 3)),
-                          ),
-                          if (_isLoading)
-                            CircularProgressIndicator()
-                          else
-                            Column(
-                              children: [
-                                Expandable(
-                                  expand: _authMode == AuthMode.Register,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 12),
-                                    child: TextFormField(
-                                      cursorColor: AppTheme.darkPurple,
-                                      style: AppTheme.input,
-                                      decoration: InputDecoration(
-                                          labelText: 'Name',
-                                          labelStyle: AppTheme.label,
-                                          errorStyle: AppTheme.inputError,
-                                          floatingLabelBehavior:
-                                              FloatingLabelBehavior.never,
-                                          prefixIcon:
-                                              Icon(Icons.person_outline)),
-                                      keyboardType: TextInputType.text,
-                                      validator: (value) {
-                                        if (value.length <= 0) {
-                                          return 'Name cannot be empty!';
-                                        }
-                                        return null;
-                                      },
-                                      onSaved: (value) {
-                                        _authData['name'] = value;
-                                      },
-                                    ),
-                                  ),
-                                ),
-                                Padding(
+    return Scaffold(
+        backgroundColor: AppTheme.darkPurple,
+        body: Center(
+          child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/images/cloud.png',
+                          width: 120,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 26),
+                          child: Text('SpentAll',
+                              style: TextStyle(
+                                  fontSize: 54,
+                                  color: AppTheme.offWhite,
+                                  fontFamily: 'Karla',
+                                  letterSpacing: 3)),
+                        ),
+                        if (_isLoading)
+                          CircularProgressIndicator()
+                        else
+                          Column(
+                            children: [
+                              Expandable(
+                                expand: _authMode == AuthMode.Register,
+                                child: Padding(
                                   padding:
-                                      const EdgeInsets.symmetric(vertical: 4),
+                                      const EdgeInsets.symmetric(vertical: 12),
                                   child: TextFormField(
                                     cursorColor: AppTheme.darkPurple,
                                     style: AppTheme.input,
                                     decoration: InputDecoration(
-                                        labelText: 'E-Mail',
+                                        labelText: 'Name',
                                         labelStyle: AppTheme.label,
                                         errorStyle: AppTheme.inputError,
                                         floatingLabelBehavior:
                                             FloatingLabelBehavior.never,
-                                        prefixIcon: Icon(Icons.email_outlined)),
-                                    keyboardType: TextInputType.emailAddress,
+                                        prefixIcon: Icon(Icons.person_outline)),
+                                    keyboardType: TextInputType.text,
                                     validator: (value) {
-                                      if (!RegExp(
-                                              r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                                          .hasMatch(value)) {
-                                        return 'Invalid email';
+                                      if (value.length <= 0) {
+                                        return 'Name cannot be empty!';
                                       }
                                       return null;
                                     },
                                     onSaved: (value) {
-                                      _authData['email'] = value;
+                                      _authData['name'] = value;
                                     },
                                   ),
                                 ),
-                                Expandable(
-                                  expand: _authMode == AuthMode.Login,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 12),
-                                    child: TextFormField(
-                                      cursorColor: AppTheme.darkPurple,
-                                      style: AppTheme.input,
-                                      decoration: InputDecoration(
-                                          labelText: 'Password',
-                                          labelStyle: AppTheme.label,
-                                          errorStyle: AppTheme.inputError,
-                                          floatingLabelBehavior:
-                                              FloatingLabelBehavior.never,
-                                          prefixIcon: Icon(Icons.lock_outline)),
-                                      obscureText: true,
-                                      validator: (value) {
-                                        if (value.isEmpty || value.length < 6) {
-                                          return 'Password must be at least 6 characters';
-                                        }
-                                      },
-                                      onSaved: (value) {
-                                        _authData['password'] = value;
-                                      },
-                                    ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4),
+                                child: TextFormField(
+                                  cursorColor: AppTheme.darkPurple,
+                                  style: AppTheme.input,
+                                  decoration: InputDecoration(
+                                      labelText: 'E-Mail',
+                                      labelStyle: AppTheme.label,
+                                      errorStyle: AppTheme.inputError,
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.never,
+                                      prefixIcon: Icon(Icons.email_outlined)),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (!RegExp(
+                                            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+                                        .hasMatch(value)) {
+                                      return 'Invalid email';
+                                    }
+                                    return null;
+                                  },
+                                  onSaved: (value) {
+                                    _authData['email'] = value;
+                                  },
+                                ),
+                              ),
+                              Expandable(
+                                expand: _authMode == AuthMode.Login,
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 12),
+                                  child: TextFormField(
+                                    cursorColor: AppTheme.darkPurple,
+                                    style: AppTheme.input,
+                                    decoration: InputDecoration(
+                                        labelText: 'Password',
+                                        labelStyle: AppTheme.label,
+                                        errorStyle: AppTheme.inputError,
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.never,
+                                        prefixIcon: Icon(Icons.lock_outline)),
+                                    obscureText: true,
+                                    validator: (value) {
+                                      if (value.isEmpty || value.length < 6) {
+                                        return 'Password must be at least 6 characters';
+                                      }
+                                    },
+                                    onSaved: (value) {
+                                      _authData['password'] = value;
+                                    },
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 8,
+                              ),
+                              SizedBox(
+                                height: 8,
+                              ),
+                              CustomRaisedButton(
+                                child: Text(
+                                  _authMode == AuthMode.Login
+                                      ? 'Login'
+                                      : 'Register',
+                                  style: AppTheme.headline3,
                                 ),
-                                CustomRaisedButton(
+                                onPressed: _submit,
+                                width: double.infinity,
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              Text(
+                                'Or',
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              CustomRaisedButton(
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/facebook.png',
+                                        width: 22,
+                                      ),
+                                      SizedBox(
+                                        width: 8,
+                                      ),
+                                      Text(
+                                        'Facebook',
+                                        style: AppTheme.headline3,
+                                      )
+                                    ]),
+                                onPressed: _fbLogin,
+                                width: double.infinity,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 18),
+                                child: FlatButton(
                                   child: Text(
                                     _authMode == AuthMode.Login
-                                        ? 'Login'
-                                        : 'Register',
-                                    style: AppTheme.headline3,
+                                        ? 'Not registered? register now.'
+                                        : 'Already registered? login now.',
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1,
                                   ),
-                                  onPressed: _submit,
-                                  width: double.infinity,
+                                  onPressed: _switchAuthMode,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 30.0, vertical: 4),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.shrinkWrap,
+                                  textColor: Theme.of(context).accentColor,
                                 ),
-                                SizedBox(
-                                  height: 12,
-                                ),
-                                Text(
-                                  'Or',
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                                SizedBox(
-                                  height: 12,
-                                ),
-                                CustomRaisedButton(
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          'assets/icons/facebook.png',
-                                          width: 22,
-                                        ),
-                                        SizedBox(
-                                          width: 8,
-                                        ),
-                                        Text(
-                                          'Facebook',
-                                          style: AppTheme.headline3,
-                                        )
-                                      ]),
-                                  onPressed: _fbLogin,
-                                  width: double.infinity,
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 18),
-                                  child: FlatButton(
-                                    child: Text(
-                                      _authMode == AuthMode.Login
-                                          ? 'Not registered? register now.'
-                                          : 'Already registered? login now.',
-                                      style:
-                                          Theme.of(context).textTheme.bodyText1,
-                                    ),
-                                    onPressed: _switchAuthMode,
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 30.0, vertical: 4),
-                                    materialTapTargetSize:
-                                        MaterialTapTargetSize.shrinkWrap,
-                                    textColor: Theme.of(context).accentColor,
-                                  ),
-                                ),
-                              ],
-                            )
-                        ],
-                      ),
-                    ))),
-          )),
-    ]);
+                              ),
+                            ],
+                          )
+                      ],
+                    ),
+                  ))),
+        ));
   }
 }

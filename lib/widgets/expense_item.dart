@@ -31,18 +31,14 @@ class ExpenseItem extends StatelessWidget {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
         context: context,
-        builder: (context) => Container(
-                // height: MediaQuery.of(context).size.height * 0.7,
-                child: Wrap(children: [
-              ExpenseInput(
-                id: expense.id,
-                amount: expense.amount,
-                category: expense.type,
-                currency: currencies[expense.currency],
-                date: expense.timestamp,
-                notes: expense.notes,
-              ),
-            ])),
+        builder: (context) => ExpenseInput(
+              id: expense.id,
+              amount: expense.amount,
+              category: expense.type,
+              currency: currencies[expense.currency],
+              date: expense.timestamp,
+              notes: expense.notes,
+            ),
         isScrollControlled: true);
   }
 
@@ -138,7 +134,7 @@ class ExpenseItem extends StatelessWidget {
                     EdgeInsets.symmetric(vertical: 8, horizontal: 14),
                 onLongPress: () {
                   if (hasVibrator) {
-                    Vibration.vibrate();
+                    Vibration.vibrate(duration: 200);
                   }
                   _showModalBottomSheet(context);
                 },

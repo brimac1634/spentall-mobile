@@ -7,6 +7,7 @@ import './preferences_page.dart';
 
 import '../widgets/preferences.dart';
 import '../widgets/custom_alert_dialog.dart';
+import '../widgets/top_bar.dart';
 
 import '../providers/auth.dart';
 
@@ -22,6 +23,15 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  @override
+  void initState() {
+    super.initState();
+    // _animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+    //     parent: widget.animationController, curve: Curves.fastOutSlowIn));
+
+    widget.animationController.forward();
+  }
+
   Future<String> _getPackageDetails() async {
     try {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
@@ -69,116 +79,126 @@ class _SettingsPageState extends State<SettingsPage> {
         width: double.infinity,
         child: SingleChildScrollView(
           padding: const EdgeInsets.only(top: 0, left: 0, right: 0, bottom: 92),
-          child: SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Divider(
-                  color: AppTheme.offWhite,
-                  height: 1,
-                ),
-                ListTile(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 28, vertical: 8),
-                  leading: Text(
-                    'User Preferences',
-                    style: AppTheme.headline3,
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_outlined,
-                    color: AppTheme.offWhite,
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PreferencesPage(
-                                  Preferences(
-                                    target: _auth.user.target,
-                                    currency: _auth.user.currency,
-                                    cycle: _auth.user.cycle,
-                                    categories: _auth.user.categories,
-                                    onComplete: () {
-                                      Scaffold.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: Text(
-                                            'User Preferences Updated!',
-                                            style: AppTheme.input),
-                                        backgroundColor: AppTheme.offWhite,
-                                      ));
-                                    },
-                                  ),
-                                  canGoBack: true,
-                                )));
-                  },
-                ),
-                Divider(
-                  color: AppTheme.offWhite,
-                  height: 1,
-                ),
-                ListTile(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 28, vertical: 8),
-                  leading: Text(
-                    'Contact Us',
-                    style: AppTheme.headline3,
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_outlined,
-                    color: AppTheme.offWhite,
-                  ),
-                  onTap: () =>
-                      _launchURL('https://www.spentall.com/welcome/contact-us'),
-                ),
-                Divider(
-                  color: AppTheme.offWhite,
-                  height: 1,
-                ),
-                ListTile(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 28, vertical: 8),
-                  leading: Text(
-                    'Reset Password',
-                    style: AppTheme.headline3,
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_outlined,
-                    color: AppTheme.offWhite,
-                  ),
-                  onTap: () => _launchURL(
-                      'https://www.spentall.com/user/account/new-password'),
-                ),
-                Divider(
-                  color: AppTheme.offWhite,
-                  height: 1,
-                ),
-                ListTile(
-                  contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 28, vertical: 8),
-                  leading: Text(
-                    'Logout',
-                    style: AppTheme.headline3,
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_outlined,
-                    color: AppTheme.offWhite,
-                  ),
-                  onTap: _auth.logout,
-                ),
-                Divider(
-                  color: AppTheme.offWhite,
-                  height: 1,
-                ),
-                if (snapshot.hasData)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 46),
-                    child: Text(
-                      snapshot.data,
-                      style: AppTheme.label2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TopBar(
+                topBarOpacity: 1,
+                animationController: widget.animationController,
+                child: Container(
+                  width: double.infinity,
+                  child: ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      'Settings',
+                      style: Theme.of(context).textTheme.headline4,
                     ),
-                  )
-              ],
-            ),
+                    subtitle: Text(
+                      _auth.user.name,
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                  ),
+                ),
+              ),
+              ListTile(
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 28, vertical: 4),
+                leading: Text(
+                  'User Preferences',
+                  style: AppTheme.label2,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_outlined,
+                  color: AppTheme.offWhite,
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PreferencesPage(
+                                Preferences(
+                                  target: _auth.user.target,
+                                  currency: _auth.user.currency,
+                                  cycle: _auth.user.cycle,
+                                  categories: _auth.user.categories,
+                                  onComplete: () {
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                      content: Text('User Preferences Updated!',
+                                          style: AppTheme.input),
+                                      backgroundColor: AppTheme.offWhite,
+                                    ));
+                                  },
+                                ),
+                                canGoBack: true,
+                              )));
+                },
+              ),
+              Divider(
+                color: AppTheme.offWhite,
+                height: 1,
+              ),
+              ListTile(
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 28, vertical: 4),
+                leading: Text(
+                  'Contact Us',
+                  style: AppTheme.label2,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_outlined,
+                  color: AppTheme.offWhite,
+                ),
+                onTap: () =>
+                    _launchURL('https://www.spentall.com/welcome/contact-us'),
+              ),
+              Divider(
+                color: AppTheme.offWhite,
+                height: 1,
+              ),
+              ListTile(
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 28, vertical: 4),
+                leading: Text(
+                  'Reset Password',
+                  style: AppTheme.label2,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_outlined,
+                  color: AppTheme.offWhite,
+                ),
+                onTap: () => _launchURL(
+                    'https://www.spentall.com/user/account/new-password'),
+              ),
+              Divider(
+                color: AppTheme.offWhite,
+                height: 1,
+              ),
+              ListTile(
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 28, vertical: 4),
+                leading: Text(
+                  'Logout',
+                  style: AppTheme.label2,
+                ),
+                trailing: Icon(
+                  Icons.arrow_forward_outlined,
+                  color: AppTheme.offWhite,
+                ),
+                onTap: _auth.logout,
+              ),
+              Divider(
+                color: AppTheme.offWhite,
+                height: 1,
+              ),
+              if (snapshot.hasData)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 46),
+                  child: Text(
+                    snapshot.data,
+                    style: AppTheme.label2,
+                  ),
+                )
+            ],
           ),
         ),
       ),
