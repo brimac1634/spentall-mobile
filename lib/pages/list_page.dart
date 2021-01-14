@@ -19,12 +19,19 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
+  final ScrollController _scrollController = ScrollController();
   bool _hasVibrator = false;
 
   @override
   void initState() {
     super.initState();
     _checkForVibrator();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> _checkForVibrator() async {
@@ -61,28 +68,31 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
                 backgroundColor: AppTheme.offWhite,
                 color: AppTheme.darkPurple,
                 child: _expenseLength >= 1
-                    ? ListView.builder(
-                        padding: const EdgeInsets.only(top: 8, bottom: 200),
-                        itemBuilder: (ctx, i) {
-                          final double _begin = 0.1 * i > 1 ? 1.0 : 0.1 * i;
-                          final Animation<double> _animation =
-                              Tween<double>(begin: 0.0, end: 1.0).animate(
-                                  CurvedAnimation(
-                                      parent: widget.animationController,
-                                      curve: Interval(_begin, 1.0,
-                                          curve: Curves.fastOutSlowIn)));
-                          widget.animationController.forward();
+                    ? Scrollbar(
+                        controller: _scrollController,
+                        child: ListView.builder(
+                          padding: const EdgeInsets.only(top: 8, bottom: 100),
+                          itemBuilder: (ctx, i) {
+                            final double _begin = 0.1 * i > 1 ? 1.0 : 0.1 * i;
+                            final Animation<double> _animation =
+                                Tween<double>(begin: 0.0, end: 1.0).animate(
+                                    CurvedAnimation(
+                                        parent: widget.animationController,
+                                        curve: Interval(_begin, 1.0,
+                                            curve: Curves.fastOutSlowIn)));
+                            widget.animationController.forward();
 
-                          return ExpenseItem(
-                            animationController: widget.animationController,
-                            animation: _animation,
-                            expense: _expenseData
-                                .filteredExpensesWithFiltersAndSorting[i],
-                            hasVibrator: _hasVibrator,
-                          );
-                        },
-                        itemCount: _expenseData
-                            .filteredExpensesWithFiltersAndSorting.length,
+                            return ExpenseItem(
+                              animationController: widget.animationController,
+                              animation: _animation,
+                              expense: _expenseData
+                                  .filteredExpensesWithFiltersAndSorting[i],
+                              hasVibrator: _hasVibrator,
+                            );
+                          },
+                          itemCount: _expenseData
+                              .filteredExpensesWithFiltersAndSorting.length,
+                        ),
                       )
                     : SingleChildScrollView(
                         physics: AlwaysScrollableScrollPhysics(),

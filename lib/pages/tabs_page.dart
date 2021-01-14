@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+import 'dart:async';
 
 import './analytics_page.dart';
 import './home_page.dart';
@@ -78,23 +79,28 @@ class _TabsPageState extends State<TabsPage>
     });
   }
 
-  void _showModalBottomSheet(BuildContext ctx) {
-    showModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        context: ctx,
-        builder: (context) => ExpenseInput(
-              onSuccess: (id) {
-                // Scaffold.of(ctx).showSnackBar(SnackBar(
-                //   content: Text(
-                //       id != null
-                //           ? 'Expenditure Updated!'
-                //           : 'Expenditure Added!',
-                //       style: AppTheme.input),
-                //   backgroundColor: AppTheme.offWhite,
-                // ));
-              },
-            ),
-        isScrollControlled: true);
+  void _showModalBottomSheet(BuildContext ctx) async {
+    try {
+      await showModalBottomSheet(
+          backgroundColor: Colors.transparent,
+          context: ctx,
+          builder: (context) => ExpenseInput(),
+          isScrollControlled: true);
+
+      Timer(Duration(milliseconds: 600), () {
+        Scaffold.of(ctx).showSnackBar(SnackBar(
+          content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Expenditure Added!', style: AppTheme.label2),
+                Icon(Icons.attach_money)
+              ]),
+          backgroundColor: AppTheme.darkPurple,
+        ));
+      });
+    } catch (err) {
+      print(err);
+    }
   }
 
   Future<bool> _getExpenses() async {

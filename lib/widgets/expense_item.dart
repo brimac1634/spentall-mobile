@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:spentall_mobile/assets/spent_all_icons.dart';
 import 'package:vibration/vibration.dart';
+import 'dart:async';
 
 import '../providers/expenses.dart';
 
@@ -27,19 +28,35 @@ class ExpenseItem extends StatelessWidget {
       @required this.expense,
       this.hasVibrator = false});
 
-  void _showModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (context) => ExpenseInput(
-              id: expense.id,
-              amount: expense.amount,
-              category: expense.type,
-              currency: currencies[expense.currency],
-              date: expense.timestamp,
-              notes: expense.notes,
-            ),
-        isScrollControlled: true);
+  void _showModalBottomSheet(BuildContext ctx) async {
+    try {
+      await showModalBottomSheet(
+          backgroundColor: Colors.transparent,
+          context: ctx,
+          builder: (context) => ExpenseInput(
+                id: expense.id,
+                amount: expense.amount,
+                category: expense.type,
+                currency: currencies[expense.currency],
+                date: expense.timestamp,
+                notes: expense.notes,
+              ),
+          isScrollControlled: true);
+
+      Timer(Duration(milliseconds: 600), () {
+        Scaffold.of(ctx).showSnackBar(SnackBar(
+          content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Expenditure Updated!', style: AppTheme.label2),
+                Icon(Icons.attach_money)
+              ]),
+          backgroundColor: AppTheme.darkPurple,
+        ));
+      });
+    } catch (err) {
+      print(err);
+    }
   }
 
   @override

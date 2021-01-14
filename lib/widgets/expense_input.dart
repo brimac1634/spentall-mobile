@@ -24,16 +24,15 @@ class ExpenseInput extends StatefulWidget {
   final String category;
   final double amount;
   final String notes;
-  final Function(String id) onSuccess;
 
-  ExpenseInput(
-      {this.id,
-      this.date,
-      this.category,
-      this.currency,
-      this.amount,
-      this.notes,
-      this.onSuccess});
+  ExpenseInput({
+    this.id,
+    this.date,
+    this.category,
+    this.currency,
+    this.amount,
+    this.notes,
+  });
 
   @override
   _ExpenseInputState createState() => _ExpenseInputState();
@@ -102,22 +101,20 @@ class _ExpenseInputState extends State<ExpenseInput> {
           notes: _notes,
           timestamp: _date);
 
-      widget.onSuccess(widget.id);
+      // if (widget.id != null) {
+      Navigator.of(context).pop();
+      // }
 
-      if (widget.id != null) {
-        Navigator.of(context).pop(true);
-      }
+      // setState(() {
+      //   _amount = null;
+      //   _category = '';
+      //   _notes = '';
+      // });
+      // _amountController.clear();
+      // _notesController.clear();
 
-      setState(() {
-        _amount = null;
-        _category = '';
-        _notes = '';
-      });
-      _amountController.clear();
-      _notesController.clear();
-
-      _scrollController.animateTo(0.0,
-          duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
+      // _scrollController.animateTo(0.0,
+      //     duration: Duration(milliseconds: 400), curve: Curves.easeInOut);
     } catch (err) {
       print(err);
       showDialog(
