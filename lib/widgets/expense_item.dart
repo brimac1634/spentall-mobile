@@ -30,7 +30,7 @@ class ExpenseItem extends StatelessWidget {
 
   void _showModalBottomSheet(BuildContext ctx) async {
     try {
-      await showModalBottomSheet(
+      final _didSpend = await showModalBottomSheet(
           backgroundColor: Colors.transparent,
           context: ctx,
           builder: (context) => ExpenseInput(
@@ -43,6 +43,8 @@ class ExpenseItem extends StatelessWidget {
               ),
           isScrollControlled: true);
 
+      if (!_didSpend) return;
+
       Timer(Duration(milliseconds: 600), () {
         Scaffold.of(ctx).showSnackBar(SnackBar(
           content: Row(
@@ -51,7 +53,8 @@ class ExpenseItem extends StatelessWidget {
                 Text('Expenditure Updated!', style: AppTheme.label2),
                 Icon(Icons.attach_money)
               ]),
-          backgroundColor: AppTheme.darkPurple,
+          elevation: 10,
+          backgroundColor: AppTheme.lightPurple,
         ));
       });
     } catch (err) {

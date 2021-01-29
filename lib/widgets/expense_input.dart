@@ -102,7 +102,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
           timestamp: _date);
 
       // if (widget.id != null) {
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(true);
       // }
 
       // setState(() {
