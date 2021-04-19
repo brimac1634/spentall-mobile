@@ -50,6 +50,7 @@ class _AuthPageState extends State<AuthPage> {
         _showAlertDialog(context, registeredEmail);
       }
     } catch (err) {
+      print(err);
       _showErrorDialog(err.toString());
     }
 
@@ -119,15 +120,17 @@ class _AuthPageState extends State<AuthPage> {
             content:
                 'We have sent a confirmation email to $email. If you\'re having trouble finding it, be sure to check your spam folder!',
             actions: [
-              CustomRaisedButton(
+              FlatButton(
                 child: Text(
-                  'Okay',
-                  style: AppTheme.headline3,
+                  'okay',
+                  style: AppTheme.body1,
                 ),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(true);
                 },
-              )
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                textColor: AppTheme.darkPurple,
+              ),
             ],
           );
         }).then((_) {
@@ -154,7 +157,8 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
         backgroundColor: AppTheme.darkPurple,
         body: Center(
-          child: Padding(
+          child: Container(
+              constraints: BoxConstraints(maxWidth: 500),
               padding: const EdgeInsets.all(16.0),
               child: Form(
                   key: _formKey,
@@ -199,7 +203,8 @@ class _AuthPageState extends State<AuthPage> {
                                         prefixIcon: Icon(Icons.person_outline)),
                                     keyboardType: TextInputType.text,
                                     validator: (value) {
-                                      if (value.length <= 0) {
+                                      if (_authMode == AuthMode.Register &&
+                                          value.length <= 0) {
                                         return 'Name cannot be empty!';
                                       }
                                       return null;
@@ -254,9 +259,11 @@ class _AuthPageState extends State<AuthPage> {
                                         prefixIcon: Icon(Icons.lock_outline)),
                                     obscureText: true,
                                     validator: (value) {
-                                      if (value.isEmpty || value.length < 6) {
+                                      if (_authMode == AuthMode.Login &&
+                                          (value.isEmpty || value.length < 6)) {
                                         return 'Password must be at least 6 characters';
                                       }
+                                      return null;
                                     },
                                     onSaved: (value) {
                                       _authData['password'] = value;

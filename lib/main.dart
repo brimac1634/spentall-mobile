@@ -66,24 +66,7 @@ class MyApp extends StatelessWidget {
                   color: AppTheme.darkPurple,
                   width: double.infinity,
                   height: double.infinity,
-                  child: Center(
-                      child: Stack(children: [
-                    Hero(
-                      tag: 'cloud',
-                      child: Image.asset(
-                        'assets/images/cloud.png',
-                        width: 160,
-                      ),
-                    ),
-                    Transform(
-                      transform: Matrix4.translationValues(0, 60, 0),
-                      child: Container(
-                          width: 120,
-                          height: 120,
-                          padding: const EdgeInsets.all(44),
-                          child: CircularProgressIndicator()),
-                    )
-                  ])),
+                  child: Center(child: CircularProgressIndicator()),
                 )
               : AuthPage();
         },

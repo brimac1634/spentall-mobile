@@ -98,7 +98,8 @@ class _ListPageState extends State<ListPage> with TickerProviderStateMixin {
                         physics: AlwaysScrollableScrollPhysics(),
                         child: Container(
                           height: MediaQuery.of(context).size.height,
-                          padding: const EdgeInsets.symmetric(vertical: 36.0),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 36.0, horizontal: 12),
                           child: Text(
                             'You don\'t have any expenses logged for this time frame, so we don\' have any analytics for you.',
                             style: AppTheme.label2,

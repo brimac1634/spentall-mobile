@@ -111,13 +111,23 @@ class Auth with ChangeNotifier {
   }
 
   void handleLogin(Map<String, dynamic> data) {
-    _user = User(
+    if (data['target'] != null &&
+        data['cycle'] != null &&
+        data['currency'] != null &&
+        data['categories'] != null) {
+      _user = User(
+          name: data['userName'],
+          email: data['userEmail'],
+          target: int.parse(data['target'].toString()),
+          cycle: data['cycle'],
+          currency: currencies[data['currency']],
+          categories: data['categories'].toString().split(','));
+    } else {
+      _user = User(
         name: data['userName'],
         email: data['userEmail'],
-        target: int.parse(data['target'].toString()),
-        cycle: data['cycle'],
-        currency: currencies[data['currency']],
-        categories: data['categories'].toString().split(','));
+      );
+    }
   }
 
   Future<void> updatePreferences(

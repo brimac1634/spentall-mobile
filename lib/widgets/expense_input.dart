@@ -193,11 +193,7 @@ class _ExpenseInputState extends State<ExpenseInput> {
                 blurRadius: 10.0),
           ],
         ),
-        padding: EdgeInsets.only(
-            top: 12,
-            left: 12,
-            right: 12,
-            bottom: MediaQuery.of(context).viewInsets.bottom),
+        padding: EdgeInsets.only(top: 12, left: 12, right: 12, bottom: 12),
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onPanDown: (_) {

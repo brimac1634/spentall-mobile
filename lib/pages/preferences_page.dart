@@ -52,9 +52,11 @@ class _PreferencesPageState extends State<PreferencesPage>
         TopBar(
           topBarOpacity: _animation.value,
           animationController: _animationController,
-          child: Padding(
-              padding: const EdgeInsets.only(bottom: 4.0),
-              child: Row(
+          child: Container(
+            width: double.infinity,
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Row(
                 children: [
                   if (widget.canGoBack)
                     IconButton(
@@ -71,7 +73,9 @@ class _PreferencesPageState extends State<PreferencesPage>
                     textAlign: TextAlign.left,
                   ),
                 ],
-              )),
+              ),
+            ),
+          ),
         )
       ]),
     );

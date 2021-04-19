@@ -52,30 +52,33 @@ class _PercentMeterState extends State<PercentMeter>
     return AnimatedBuilder(
       animation: _percentController,
       builder: (ctx, _) {
-        return CustomPaint(
-          foregroundPainter: CircleMeter(
-              currentPercent: _animation.value,
-              backColor: Theme.of(context).buttonColor,
-              foreColor: Theme.of(context).highlightColor),
-          child: Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.7,
-              height: MediaQuery.of(context).size.width * 0.7,
-              child: Center(
-                  child: ShaderMask(
-                shaderCallback: (bounds) =>
-                    AppTheme.linearGradient2.createShader(
-                  Rect.fromLTWH(0, 0, bounds.width, bounds.height),
-                ),
-                child: Text(
-                  '${_animation.value.toInt()}%',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Karla',
-                    fontSize: 62,
+        return ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 400),
+          child: CustomPaint(
+            foregroundPainter: CircleMeter(
+                currentPercent: _animation.value,
+                backColor: Theme.of(context).buttonColor,
+                foreColor: Theme.of(context).highlightColor),
+            child: Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.7,
+                height: MediaQuery.of(context).size.width * 0.7,
+                child: Center(
+                    child: ShaderMask(
+                  shaderCallback: (bounds) =>
+                      AppTheme.linearGradient2.createShader(
+                    Rect.fromLTWH(0, 0, bounds.width, bounds.height),
                   ),
-                ),
-              )),
+                  child: Text(
+                    '${_animation.value.toInt()}%',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Karla',
+                      fontSize: 62,
+                    ),
+                  ),
+                )),
+              ),
             ),
           ),
         );
