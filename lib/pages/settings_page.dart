@@ -149,7 +149,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   color: AppTheme.offWhite,
                 ),
                 onTap: () =>
-                    _launchURL('https://www.spentall.com/welcome/contact-us'),
+                    _launchURL('https://www.spentall.com/pub/contact-us'),
               ),
               Divider(
                 color: AppTheme.offWhite,
@@ -166,8 +166,8 @@ class _SettingsPageState extends State<SettingsPage> {
                   Icons.arrow_forward_outlined,
                   color: AppTheme.offWhite,
                 ),
-                onTap: () => _launchURL(
-                    'https://www.spentall.com/user/account/new-password'),
+                onTap: () =>
+                    _launchURL('https://www.spentall.com/account/new-password'),
               ),
               Divider(
                 color: AppTheme.offWhite,

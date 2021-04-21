@@ -18,6 +18,8 @@ PODS:
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
+  - sign_in_with_apple (0.0.1):
+    - Flutter
   - url_launcher (0.0.1):
     - Flutter
   - vibration (1.7.3):
@@ -28,6 +30,7 @@ DEPENDENCIES:
   - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - vibration (from `.symlinks/plugins/vibration/ios`)
 
@@ -45,6 +48,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/package_info/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  sign_in_with_apple:
+    :path: ".symlinks/plugins/sign_in_with_apple/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
   vibration:
@@ -57,6 +62,7 @@ SPEC CHECKSUMS:
   flutter_facebook_login: cfb5659f686b1c575ef205c6b6fd20db9679d3c4
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  sign_in_with_apple: 34f3f5456a45fd7ac5fb42905e2ad31dae061b4a
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   vibration: b5a33e764c3f609a975b9dca73dce20fdde627dc
 

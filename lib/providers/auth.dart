@@ -80,6 +80,23 @@ class Auth with ChangeNotifier {
     preferences.setString('token', _token);
   }
 
+  Future<void> appleLogin(String authorizationCode, String firstName) async {
+    final response = await SpentAllApi().post(
+        endPoint: '/auth/apple',
+        body: json.encode({
+          'useBundleId': true,
+          'authorizationCode': authorizationCode,
+          'firstName': firstName
+        }));
+    final userData = json.decode(response.body) as Map<String, dynamic>;
+    handleLogin(userData['user']);
+    _token = userData['token'];
+    notifyListeners();
+
+    final preferences = await SharedPreferences.getInstance();
+    preferences.setString('token', _token);
+  }
+
   Future<bool> tryAutoLogin() async {
     final preferences = await SharedPreferences.getInstance();
 

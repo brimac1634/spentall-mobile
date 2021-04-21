@@ -1,6 +1,8 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+import 'dart:io' show Platform;
 
 import '../widgets/custom_raised_button.dart';
 import '../widgets/expandable.dart';
@@ -86,6 +88,23 @@ class _AuthPageState extends State<AuthPage> {
       setState(() {
         _isLoading = false;
       });
+    }
+  }
+
+  Future<void> _appleLogin() async {
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+      );
+      print(credential);
+
+      await Provider.of<Auth>(context, listen: false)
+          .appleLogin(credential.authorizationCode, credential.givenName);
+    } catch (err) {
+      print(err);
     }
   }
 
@@ -313,6 +332,15 @@ class _AuthPageState extends State<AuthPage> {
                                 onPressed: _fbLogin,
                                 width: double.infinity,
                               ),
+                              SizedBox(
+                                height: 18,
+                              ),
+                              if (Platform.isIOS)
+                                SignInWithAppleButton(
+                                  height: 56,
+                                  borderRadius: BorderRadius.circular(4),
+                                  onPressed: _appleLogin,
+                                ),
                               Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 18),
